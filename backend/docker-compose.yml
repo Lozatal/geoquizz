@@ -25,7 +25,7 @@ services:
     container_name: backoffice.geoquizz.local
     environment:
       - VHOST_HOSTNAME=backoffice.geoquizz.local
-      - VHOST_DOCROOT=/var/www/api
+      - VHOST_DOCROOT=/var/www/backoffice
 #     - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128/
 #     - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128/
     ports:
