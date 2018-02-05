@@ -2,7 +2,7 @@
 
 namespace geoquizz\model;
 
-class Item extends \Illuminate\Database\Eloquent\Model {
+class Photos extends \Illuminate\Database\Eloquent\Model {
 
   protected $table = 'photo';
   protected $primaryKey = 'id';
