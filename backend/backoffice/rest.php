@@ -107,12 +107,19 @@
 //======================================================
 
 //Lite de series
-  $app->get('/series[/]',
-    function(Request $req, Response $resp, $args){
-      $ctrl=new Series($this);
-      return $ctrl->getSeries($req,$resp,$args);
-    }
-  )->setName("seriesListe");
+$app->get('/series[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeries($req,$resp,$args);
+  }
+)->setName("seriesGet");
+
+$app->get('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeriesID($req,$resp,$args);
+  }
+)->setName("seriesGetID");
 
   $app->run();
 ?>
