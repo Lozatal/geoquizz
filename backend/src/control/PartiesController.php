@@ -26,6 +26,7 @@
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write('toto');
       */
+      $resp->getBody()->write("coucou");
       return $resp;
     }
 
