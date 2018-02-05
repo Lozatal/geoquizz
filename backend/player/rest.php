@@ -53,7 +53,7 @@
   $app->get('/parties[/]',
     function(Request $req, Response $resp, $args){
       $ctrl=new Parties($this);
-      //return $ctrl->getParties($req,$resp,$args);
+      return $ctrl->getParties($req,$resp,$args);
     }
   )->setName("partiesListe");
 

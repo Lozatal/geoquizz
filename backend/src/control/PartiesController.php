@@ -9,7 +9,7 @@
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class PartiesControlleur{
+  class PartiesController{
     public $conteneur=null;
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
@@ -26,6 +26,7 @@
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write('toto');
       */
+      $resp->getBody()->write("coucou");
       return $resp;
     }
 
