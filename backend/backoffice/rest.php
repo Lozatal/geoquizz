@@ -57,12 +57,12 @@
 
   //Comptes
 
-  // $app->post('/compte[/]',
-  //   function(Request $req, Response $resp, $args){
-  //     $ctrl=new Photos($this);
-  //     return $ctrl->postCompte($req,$resp,$args);
-  //   }
-  // )->setName("creer_compte");
+  $app->post('/compte[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Comptes($this);
+      return $ctrl->postCompte($req,$resp,$args);
+    }
+  );
 
   //Photos
 

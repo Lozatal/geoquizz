@@ -3,6 +3,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteRule ^ slim-exemple.php [QSA,L]
 RewriteRule ^ rest.php [QSA,L]
-DirectoryIndex rest.php
 
 #CGIPassAuth On

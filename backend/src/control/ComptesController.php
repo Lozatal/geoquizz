@@ -7,6 +7,8 @@
 
   use geoquizz\model\Compte as compte;
 
+  use Ramsey\Uuid\Uuid;
+
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
   class ComptesController{
@@ -17,18 +19,19 @@
       $this->conteneur=$conteneur;
     }
 
-    public function postCompte(Request $req,Response $resp,array $args){
-       $data = $request->getParsedBody();
-       //var_dump($data);
+    public function postCompte(Request $req, Response $resp, array $args){
+       $data = $req->getParsedBody();
 
+       if (!isset($data['nom'])) return $resp->withStatus(400);
+       if (!isset($data['email'])) return $resp->withStatus(400);
+       if (!isset($data['password'])) return $resp->withStatus(400);
 
-       if (!isset($data['nom'])) return $response->withStatus(400);
-       if (!isset($data['description'])) return $response->withStatus(400);
-
-       $myCategorie = new lbs\models\Categorie();
-       $myCategorie->nom = filter_var($data['nom'], FILTER_SANITIZE_SPECIAL_CHARS);
-       $myCategorie->description = filter_var($data['description'], FILTER_SANITIZE_SPECIAL_CHARS);
-       $myCategorie->save();
+       $compte = compte();
+       $compte->id = Uuid::uuid4();
+       $compte->nom = filter_var($data['nom'], FILTER_SANITIZE_SPECIAL_CHARS);
+       $compte->email = filter_var($data['email'], FILTER_SANITIZE_SPECIAL_CHARS);
+       $compte->password = filter_var($data['password'], FILTER_SANITIZE_SPECIAL_CHARS);
+       $compte->save();
 
        return $response->withStatus(201);
       return $resp;
