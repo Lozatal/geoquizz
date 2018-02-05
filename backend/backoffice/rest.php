@@ -11,6 +11,7 @@
 
   use \geoquizz\control\PhotosController as Photos;
   use \geoquizz\control\ComptesController as Comptes;
+  use \geoquizz\control\SeriesController as Series;
 
   /* Appel des utilitaires */
 
