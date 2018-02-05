@@ -1,0 +1,90 @@
+#
+# docker-compose file pour le déploiement initial de l'application geoquizz
+# Documentation complète : https://bitbucket.org/canals5/docker-things
+#
+# ajouter les vhosts des services web dans le fichier /etc/vhosts
+# de la machine hôte :
+# exemple pour le service api.public :
+# 127.0.0.1   backoffice.geoquizz.local
+# pour accéder à ce service : https://backoffice.geoquizz.local:10443
+#                      ou   :  http://backoffice.geoquizz.local:10080
+# accès au service adminer : http://localhost:8080
+# accès au service mysql depuis le container backoffice.public : utiliser le hostname "db"
+
+version: "3"
+networks:
+  geoquizz_network:
+    driver: bridge
+
+services:
+#############################
+# Application publique
+#############################
+  api.public:
+    image: canals/php
+    container_name: backoffice.geoquizz.local
+    environment:
+      - VHOST_HOSTNAME=backoffice.geoquizz.local
+      - VHOST_DOCROOT=/var/www/api
+#     - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128/
+#     - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128/
+    ports:
+      - "10080:80"
+      - "10443:443"
+    volumes :
+      - ./backoffice:/var/www/backoffice
+      - ./src:/var/www/src
+    networks:
+      - geoquizz_network
+    links :
+      - mysql:db
+
+#############################
+# Application privée
+#############################
+  api.private:
+    image: canals/php
+    container_name: player.geoquizz.local
+    environment:
+      - VHOST_HOSTNAME=player.geoquizz.local
+      - VHOST_DOCROOT=/var/www/player
+#     - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128/
+#     - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128/
+    ports:
+      - "10081:80"
+      - "10444:443"
+    volumes :
+      - ./player:/var/www/player
+      - ./src:/var/www/src
+    networks:
+      - geoquizz_network
+    links :
+      - mysql:db
+
+#############################
+# Base de donnée
+#############################
+  mysql:
+    image: mariadb:latest
+    container_name: maria.geoquizz.local
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_USER=geoquizz
+      - MYSQL_PASSWORD=geoquizz
+      - MYSQL_DATABASE=geoquizz
+    ports:
+      - "3603:3306"
+    networks:
+      - geoquizz_network
+    volumes :
+      - ./sql:/var/sql
+
+  adminer:
+     image: adminer
+     container_name: admin.geoquizz.local
+     ports:
+       - "8080:8080"
+     networks:
+      - geoquizz_network
+     links:
+       - mysql:db
