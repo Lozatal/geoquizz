@@ -11,6 +11,7 @@
 
   use \geoquizz\control\PhotosController as Photos;
   use \geoquizz\control\ComptesController as Comptes;
+  use \geoquizz\control\SeriesController as Series;
 
   /* Appel des utilitaires */
 
@@ -67,6 +68,19 @@
       return $ctrl->getPhotos($req,$resp,$args);
     }
   )->setName("photosListe");
+
+
+//======================================================
+//Series
+//======================================================
+
+//Lite de series
+  $app->get('/series[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Series($this);
+      return $ctrl->getSeries($req,$resp,$args);
+    }
+  )->setName("seriesListe");
 
   $app->run();
 ?>
