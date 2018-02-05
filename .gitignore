@@ -1,2 +1,2 @@
-src/config/geoquizz.db.conf.ini
-src/vendor
+backend/src/config/geoquizz.db.conf.ini
+backend/src/vendor
