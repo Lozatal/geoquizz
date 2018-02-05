@@ -23,7 +23,6 @@
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
-
     public function getPhotos(Request $req,Response $resp,array $args){
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
@@ -120,7 +119,7 @@
     }
 
     /*
-    * Ajoute un Photos
+    * Ajoute une Photo
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
@@ -128,13 +127,14 @@
       $postVar=$req->getParsedBody();
       $Photos = new Photos();
       //Création du Photos
-      if (!is_null($postVar['description']) && !is_null($postVar['url']) && !is_null($postVar['position_long']) && !is_null($postVar['position_lat'])){
+      if (!is_null($postVar['description']) && !is_null($postVar['url']) && !is_null($postVar['position_long']) && !is_null($postVar['position_lat']) && !is_null($postVar['id_partie']) && !is_null($postVar['id_serie'])){
         $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
         $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
         $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
         $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
+        $Photos->id_partie=filter_var($postVar['id_partie'],FILTER_SANITIZE_STRING);
+        $Photos->id_serie=filter_var($postVar['id_serie'],FILTER_SANITIZE_STRING);
         $Photos->save();
-
         $resp=$resp->withStatus(201);
         $resp->getBody()->write('Created');
       }

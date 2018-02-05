@@ -99,7 +99,7 @@
       $ctrl=new Photos($this);
       return $ctrl->postPhotos($req,$resp,$args);
     }
-  )->setName("photosPut");
+  )->setName("photosPost");
 
 
 //======================================================
