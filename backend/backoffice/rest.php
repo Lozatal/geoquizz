@@ -138,5 +138,13 @@ $app->put('/series/{id}',
   }
 )->setName("seriesPut");
 
+//Ajouter une serie
+$app->post('/serie[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->postSeries($req,$resp,$args);
+  }
+)->setName("seriesPost");
+
   $app->run();
 ?>
