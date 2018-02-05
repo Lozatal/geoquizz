@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 05, 2018 at 11:36 AM
+-- Generation Time: Feb 05, 2018 at 12:30 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -62,6 +62,19 @@ CREATE TABLE `serie` (
   `ville` varchar(120) NOT NULL,
   `map_refs` varchar(120) NOT NULL,
   `dist` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `utilisateur`
+--
+
+CREATE TABLE `utilisateur` (
+  `id` varchar(255) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
