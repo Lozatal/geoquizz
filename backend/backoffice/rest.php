@@ -8,7 +8,6 @@
 
   /* Appel des contrôleurs */
 
-
   use \geoquizz\control\publique\PhotosController as Photos;
   use \geoquizz\control\publique\ComptesController as Comptes;
 
@@ -66,6 +65,15 @@
   	$resp->getBody()->write(json_encode($errors));
   	return $resp;
   }
+
+  //Comptes
+
+  $app->post('/compte[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Photos($this);
+      return $ctrl->getPhotos($req,$resp,$args);
+    }
+  )->setName("creer_compte");
 
   //Photos
 
