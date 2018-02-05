@@ -1,5 +1,6 @@
 <?php
   require_once __DIR__ . '/../src/vendor/autoload.php';
+
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
   use \DavidePastore\Slim\Validation\Validation as Validation;
@@ -7,7 +8,6 @@
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
   /* Appel des contrôleurs */
-
 
   use \geoquizz\control\PhotosController as Photos;
   use \geoquizz\control\ComptesController as Comptes;
@@ -59,10 +59,10 @@
 
   $app->post('/compte[/]',
     function(Request $req, Response $resp, $args){
-      $ctrl=new Photos($this);
-      return $ctrl->getPhotos($req,$resp,$args);
+      $ctrl=new Comptes($this);
+      return $ctrl->postCompte($req,$resp,$args);
     }
-  )->setName("creer_compte");
+  );
 
   //Photos
 
@@ -107,12 +107,27 @@
 //======================================================
 
 //Lite de series
-  $app->get('/series[/]',
-    function(Request $req, Response $resp, $args){
-      $ctrl=new Series($this);
-      return $ctrl->getSeries($req,$resp,$args);
-    }
-  )->setName("seriesListe");
+$app->get('/series[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeries($req,$resp,$args);
+  }
+)->setName("seriesGet");
+
+$app->get('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeriesID($req,$resp,$args);
+  }
+)->setName("seriesGetID");
+
+// Supprimer une Serie
+$app->delete('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->deleteSeries($req,$resp,$args);
+  }
+)->setName("seriessDelete");
 
   $app->run();
 ?>
