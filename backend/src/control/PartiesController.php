@@ -5,7 +5,7 @@
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
 
-  use geoquizz\model\Parties as parties;
+  //use geoquizz\model\Parties as parties;
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
@@ -21,10 +21,11 @@
     * Return Response $resp contenant la page complète
     */
     public function getParties(Request $req,Response $resp,array $args){
-      $photos=parties::get();
-
+      //$photos=parties::get();
+        /*
       $resp=$resp->withHeader('Content-Type','application/json');
-      $resp->getBody()->write($photos);
+      $resp->getBody()->write('toto');
+      */
       return $resp;
     }
 
