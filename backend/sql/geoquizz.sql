@@ -61,7 +61,7 @@ CREATE TABLE `serie` (
   `id` varchar(255) NOT NULL,
   `ville` varchar(120) NOT NULL,
   `map_refs` varchar(120) NOT NULL,
-  `dist` double NOT NULL
+  `dist` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
