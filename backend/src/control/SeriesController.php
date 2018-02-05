@@ -44,6 +44,26 @@
     }
 
     /*
+    * Retourne une Series par son id
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesID(Request $req,Response $resp,array $args){
+      $id=$args['id'];
+      $postVar=$req->getParsedBody();
+      $Series = Series::find($id);
+
+      if($Series){
+        $resp=$resp->withHeader('Content-Type','application/json');
+        $resp->getBody()->write(json_encode($Series));
+      }else{
+          $resp=$resp->withStatus(404);
+          $resp->getBody()->write('not found');
+      }
+      return $resp;
+    }
+
+    /*
     * Supprime une Serie par son ID
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
