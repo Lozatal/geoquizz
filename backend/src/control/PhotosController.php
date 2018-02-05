@@ -18,14 +18,11 @@
       $this->conteneur=$conteneur;
     }
 
-<<<<<<< HEAD
-=======
     /*
     * Retourne la liste en json des Photos
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
->>>>>>> 7d5c28335247afa3463de320489ec09796ce884b
     public function getPhotos(Request $req,Response $resp,array $args){
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
