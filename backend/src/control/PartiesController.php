@@ -5,11 +5,11 @@
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
 
-  use geoquizz\model\Photos as photos;
+  use geoquizz\model\Parties as parties;
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class SandwichControlleur{
+  class PartiesControlleur{
     public $conteneur=null;
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
@@ -20,11 +20,11 @@
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
-    public function getPhotos(Request $req,Response $resp,array $args){
-      $photos=photos::get();
-      $json=['coucou'];
+    public function getParties(Request $req,Response $resp,array $args){
+      $photos=parties::get();
+
       $resp=$resp->withHeader('Content-Type','application/json');
-      $resp->getBody()->write($json);
+      $resp->getBody()->write($photos);
       return $resp;
     }
 
