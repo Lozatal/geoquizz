@@ -22,7 +22,7 @@
     */
     public function getPhotos(Request $req,Response $resp,array $args){
       $photos=photos::get();
-
+      $json=$photos;
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write($json);
       return $resp;
