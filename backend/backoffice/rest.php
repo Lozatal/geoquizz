@@ -9,8 +9,8 @@
   /* Appel des contrôleurs */
 
 
-  use \geoquizz\control\publique\PhotosController as Photos;
-  use \geoquizz\control\publique\ComptesController as Comptes;
+  use \geoquizz\control\PhotosController as Photos;
+  use \geoquizz\control\ComptesController as Comptes;
 
   /* Appel des utilitaires */
 
@@ -42,23 +42,6 @@
 
   //Application
 
-  function checkToken(Request $rq, Response $rs, callable $next){
-    // récupérer l'identifiant de commde dans la route et le token
-    $id = $rq->getAttribute('route')->getArgument( 'id');
-    $token = $rq->getQueryParam('token', null);
-    // vérifier que le token correspond à la commande
-    try
-    {
-        ModelCommande::where('id', '=', $id)->where('token', '=',$token)->firstOrFail();
-    } catch (ModelNotFoundException $e) {
-        $rs= $rs->withStatus(404);
-        $temp = array("type" => "error", "error" => '404', "message" => "Le token n'est pas valide");
-        $rs->getBody()->write(json_encode($temp));
-        return $rs;
-    };
-    return $next($rq, $rs);
-  };
-
   function afficheError(Response $resp, $location, $errors){
   	$resp=$resp->withHeader('Content-Type','application/json')
   	->withStatus(400)
@@ -66,6 +49,15 @@
   	$resp->getBody()->write(json_encode($errors));
   	return $resp;
   }
+
+  //Comptes
+
+  $app->post('/compte[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Photos($this);
+      return $ctrl->getPhotos($req,$resp,$args);
+    }
+  )->setName("creer_compte");
 
   //Photos
 

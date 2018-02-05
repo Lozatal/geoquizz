@@ -1,6 +1,6 @@
 <?php
 
-  namespace lbs\utils;
+  namespace geoquizz\utils;
 
   class Writer{
     public static $conteneur=null;
@@ -42,7 +42,7 @@
       if (isset($tabRendu)) {
         return $tabRendu;
       }
-      
+
     }
 
     public static function addLinks($pathfor,$id){
