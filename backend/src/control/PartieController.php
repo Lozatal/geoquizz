@@ -25,7 +25,6 @@
         
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write(json_encode($parties));
-      
       return $resp;
     }
 
