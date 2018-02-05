@@ -9,22 +9,15 @@
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class SandwichControlleur{
+  class PhotosController{
     public $conteneur=null;
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
     }
 
-    /*
-    * Retourne la page de modification d'un sandwich
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
     public function getPhotos(Request $req,Response $resp,array $args){
-      $photos=photos::get();
-      $json=['coucou'];
-      $resp=$resp->withHeader('Content-Type','application/json');
-      $resp->getBody()->write($json);
+      $categories=photos::get();
+      $resp->getBody()->write("coucou");
       return $resp;
     }
 

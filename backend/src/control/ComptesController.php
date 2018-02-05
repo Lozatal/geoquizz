@@ -9,7 +9,7 @@
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class ComptesControlleur{
+  class ComptesController{
 
     public $conteneur=null;
 
