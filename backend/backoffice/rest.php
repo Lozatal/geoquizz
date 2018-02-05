@@ -106,7 +106,7 @@
       $ctrl=new Photos($this);
       return $ctrl->postPhotos($req,$resp,$args);
     }
-  )->setName("photosPut");
+  )->setName("photosPost");
 
 
 //======================================================
@@ -114,12 +114,44 @@
 //======================================================
 
 //Lite de series
-  $app->get('/series[/]',
-    function(Request $req, Response $resp, $args){
-      $ctrl=new Series($this);
-      return $ctrl->getSeries($req,$resp,$args);
-    }
-  )->setName("seriesListe");
+$app->get('/series[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeries($req,$resp,$args);
+  }
+)->setName("seriesGet");
+
+//Afficher une serie par son ID
+$app->get('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeriesID($req,$resp,$args);
+  }
+)->setName("seriesGetID");
+
+// Supprimer une Serie
+$app->delete('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->deleteSeries($req,$resp,$args);
+  }
+)->setName("seriessDelete");
+
+//Modifier une serie
+$app->put('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->putSeriesID($req,$resp,$args);
+  }
+)->setName("seriesPut");
+
+//Ajouter une serie
+$app->post('/serie[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->postSeries($req,$resp,$args);
+  }
+)->setName("seriesPost");
 
   $app->run();
 ?>
