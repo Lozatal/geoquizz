@@ -71,7 +71,35 @@
       $ctrl=new Photos($this);
       return $ctrl->getPhotos($req,$resp,$args);
     }
-  )->setName("photosListe");
+  )->setName("photosGet");
+
+  $app->get('/photos/{id}',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Photos($this);
+      return $ctrl->getPhotosID($req,$resp,$args);
+    }
+  )->setName("photosGetID");
+
+  $app->delete('/photos/{id}',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Photos($this);
+      return $ctrl->deletePhotos($req,$resp,$args);
+    }
+  )->setName("photosDelete");
+
+  $app->put('/photos/{id}',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Photos($this);
+      return $ctrl->putPhotosID($req,$resp,$args);
+    }
+  )->setName("photosPut");
+
+  $app->post('/photos[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Photos($this);
+      return $ctrl->postPhotos($req,$resp,$args);
+    }
+  )->setName("photosPut");
 
 
 //======================================================
