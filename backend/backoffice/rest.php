@@ -57,12 +57,19 @@
 
   //Comptes
 
-  $app->post('/compte[/]',
+  $app->post('/comptes[/]',
     function(Request $req, Response $resp, $args){
       $ctrl=new Comptes($this);
       return $ctrl->postCompte($req,$resp,$args);
     }
-  );
+  )->setName("comptesPut");
+
+  $app->get('/comptes[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Comptes($this);
+      return $ctrl->getComptes($req,$resp,$args);
+    }
+  )->setName("comptesGet");
 
   //Photos
 

@@ -5,7 +5,10 @@
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
 
-  use geoquizz\model\Compte as compte;
+  use geoquizz\model\Compte as Comptes;
+
+  use geoquizz\utils\Writer as writer;
+  use geoquizz\utils\Pagination as pagination;
 
   use Ramsey\Uuid\Uuid;
 
@@ -19,21 +22,50 @@
       $this->conteneur=$conteneur;
     }
 
+    public function getComptes(Request $req,Response $resp,array $args){
+      $size = $req->getQueryParam('size',10);
+      $page = $req->getQueryParam('page',1);
+
+      $q = comptes::select('id','nom','email');
+
+      //Récupération du total d'élement de la recherche
+      $total = sizeof($q->get());
+
+      $returnPag=pagination::page($q,$size,$page,$total);
+      $listeComptes = $returnPag["request"]->get();
+
+      $tab = writer::addLink($listeComptes, 'Comptes', '');
+      $json = writer::jsonFormatCollection("Comptes",$tab,$total,$size,$returnPag["page"]);
+
+      $resp=$resp->withHeader('Content-Type','application/json');
+      $resp->getBody()->write($json);
+      return $resp;
+    }
+
     public function postCompte(Request $req, Response $resp, array $args){
-       $data = $req->getParsedBody();
+      $postVar=$req->getParsedBody();
+      //var_dump($postVar);
+      //$comptes = new comptes();
 
-       if (!isset($data['nom'])) return $resp->withStatus(400);
-       if (!isset($data['email'])) return $resp->withStatus(400);
-       if (!isset($data['password'])) return $resp->withStatus(400);
+      if (!is_null($postVar['nom']) && !is_null($postVar['email']) && !is_null($postVar['password']) && !is_null($postVar['password_rep'])){
 
-       $compte = compte();
-       $compte->id = Uuid::uuid4();
-       $compte->nom = filter_var($data['nom'], FILTER_SANITIZE_SPECIAL_CHARS);
-       $compte->email = filter_var($data['email'], FILTER_SANITIZE_SPECIAL_CHARS);
-       $compte->password = filter_var($data['password'], FILTER_SANITIZE_SPECIAL_CHARS);
-       $compte->save();
+        $id= Uuid::uuid4();
+        $nom=filter_var($postVar['nom'],FILTER_SANITIZE_STRING);
+        $email=filter_var($postVar['email'],FILTER_SANITIZE_STRING);
+        $password=filter_var($postVar['password'],FILTER_SANITIZE_STRING);
+        $password2=filter_var($postVar['password_rep'],FILTER_SANITIZE_STRING);
 
-       return $response->withStatus(201);
+        $verifier= new \geoquizz\utils\GeoquizzAuthentification();
+        $verifier->createUser($id, $nom, $email, $password, $password2);
+
+        $resp=$resp->withStatus(201);
+        $resp->getBody()->write('Created');
+     }
+      else{
+        $resp=$resp->withStatus(400);
+        $resp->getBody()->write('Bad request');
+     }
+
       return $resp;
     }
   }
