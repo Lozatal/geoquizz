@@ -121,5 +121,13 @@ $app->get('/series/{id}',
   }
 )->setName("seriesGetID");
 
+// Supprimer une Serie
+$app->delete('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->deleteSeries($req,$resp,$args);
+  }
+)->setName("seriessDelete");
+
   $app->run();
 ?>

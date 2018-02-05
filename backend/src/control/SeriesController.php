@@ -43,4 +43,25 @@
       return $resp;
     }
 
+    /*
+    * Supprime une Serie par son ID
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function deleteSeries(Request $req,Response $resp,array $args){
+      $id=$args['id'];
+      $postVar=$req->getParsedBody();
+      $Series = Series::find($id);
+      if($Series){
+        $Series->delete();
+        $resp=$resp->withStatus(200);
+        $resp->getBody()->write('Delete Complete');
+      }
+      else{
+        $resp=$resp->withStatus(404);
+        $resp->getBody()->write('not found');
+      }
+      return $resp;
+    }
+
   }
