@@ -8,7 +8,7 @@
 
   /* Appel des contrôleurs */
 
-  use \geoquizz\control\PartiesController as Parties;
+  use \geoquizz\control\PartieController as Partie;
 
   /* Appel des utilitaires */
 
@@ -52,7 +52,7 @@
 
   $app->get('/parties[/]',
     function(Request $req, Response $resp, $args){
-      $ctrl=new Parties($this);
+      $ctrl=new Partie($this);
       return $ctrl->getParties($req,$resp,$args);
     }
   )->setName("partiesListe");

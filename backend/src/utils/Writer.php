@@ -23,7 +23,7 @@
       return json_encode($tabRendu);
     }
 
-    public static function jsonFormatRessource($ressource,$tabRessource,$link){
+    public static function jsonFormatRessource($ressource,$tabRessource,$link=null){
       $tabRendu["type"]="ressource";
       $tabRendu[$ressource]=$tabRessource;
       if($link!=null){

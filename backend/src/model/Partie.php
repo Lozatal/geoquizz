@@ -2,9 +2,9 @@
 
 namespace geoquizz\model;
 
-class Serie extends \Illuminate\Database\Eloquent\Model {
+class Partie extends \Illuminate\Database\Eloquent\Model {
 
-  protected $table = 'serie';
+  protected $table = 'partie';
   protected $primaryKey = 'id';
   public $timestamps = false;
 }
