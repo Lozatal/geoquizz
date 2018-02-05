@@ -114,6 +114,7 @@ $app->get('/series[/]',
   }
 )->setName("seriesGet");
 
+//Afficher une serie par son ID
 $app->get('/series/{id}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
@@ -128,6 +129,14 @@ $app->delete('/series/{id}',
     return $ctrl->deleteSeries($req,$resp,$args);
   }
 )->setName("seriessDelete");
+
+//Modifier une serie
+$app->put('/series/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->putSeriesID($req,$resp,$args);
+  }
+)->setName("seriesPut");
 
   $app->run();
 ?>

@@ -64,4 +64,38 @@
       return $resp;
     }
 
+    /*
+    * Modifie une Serie via son ID
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function putSeriesID(Request $req,Response $resp,array $args){
+      $id=$args['id'];
+
+      $postVar=$req->getParsedBody();
+
+      $Series = Series::find($id);
+      if($Series){
+        if (!is_null($postVar['ville'])
+        && !is_null($postVar['map_refs'])
+        && !is_null($postVar['dist'])){
+          $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+          $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+          $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+          $Series->save();
+          $resp=$resp->withStatus(200);
+          $resp->getBody()->write('Modification complete');
+        }
+        else{
+          $resp=$resp->withStatus(400);
+          $resp->getBody()->write('Bad request');
+        }
+      }
+      else{
+        $resp=$resp->withStatus(404);
+        $resp->getBody()->write('not found');
+      }
+      return $resp;
+    }
+
   }
