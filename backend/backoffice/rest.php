@@ -68,5 +68,18 @@
     }
   )->setName("photosListe");
 
+
+//======================================================
+//Series
+//======================================================
+
+//Lite de series
+  $app->get('/series[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Series($this);
+      return $ctrl->getSeries($req,$resp,$args);
+    }
+  )->setName("seriesListe");
+
   $app->run();
 ?>
