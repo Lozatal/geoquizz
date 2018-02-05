@@ -9,8 +9,8 @@
   /* Appel des contrôleurs */
 
 
-  use \geoquizz\control\publique\PhotosController as Photos;
-  use \geoquizz\control\publique\ComptesController as Comptes;
+  use \geoquizz\control\PhotosController as Photos;
+  use \geoquizz\control\ComptesController as Comptes;
 
   /* Appel des utilitaires */
 
