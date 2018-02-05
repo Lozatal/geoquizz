@@ -152,7 +152,11 @@
                 "singularize",
                 "string"
             ],
+<<<<<<< HEAD
+            "time": "2017-07-22T12:18:28+00:00"
+=======
             "time": "2018-01-09T20:05:19+00:00"
+>>>>>>> cf427bf78e71682ce1a617a2aa3c3e4bd77c518e
         },
         {
             "name": "firebase/php-jwt",

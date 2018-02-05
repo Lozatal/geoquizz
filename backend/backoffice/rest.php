@@ -1,5 +1,6 @@
 <?php
   require_once __DIR__ . '/../src/vendor/autoload.php';
+
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
   use \DavidePastore\Slim\Validation\Validation as Validation;
@@ -7,7 +8,6 @@
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
   /* Appel des contrôleurs */
-
 
   use \geoquizz\control\PhotosController as Photos;
   use \geoquizz\control\ComptesController as Comptes;
@@ -59,10 +59,10 @@
 
   $app->post('/compte[/]',
     function(Request $req, Response $resp, $args){
-      $ctrl=new Photos($this);
-      return $ctrl->getPhotos($req,$resp,$args);
+      $ctrl=new Comptes($this);
+      return $ctrl->postCompte($req,$resp,$args);
     }
-  )->setName("creer_compte");
+  );
 
   //Photos
 
