@@ -10,6 +10,10 @@
 
   use \geoquizz\control\PartieController as Partie;
 
+  /* Appel des modèles */
+
+  use \geoquizz\model\Partie as partieModel;
+
   /* Appel des utilitaires */
 
   use \geoquizz\utils\Writer as writer;
@@ -40,6 +44,23 @@
 
   //Application
 
+  function checkToken(Request $rq, Response $rs, callable $next){
+    // récupérer l'identifiant de commde dans la route et le token
+    $id = $rq->getAttribute('route')->getArgument( 'id');
+    $token = $rq->getQueryParam('token', null);
+    // vérifier que le token correspond à la commande
+    try
+    {
+        partieModel::where('id', '=', $id)->where('token', '=',$token)->firstOrFail();
+    } catch (ModelNotFoundException $e) {
+        $rs= $rs->withStatus(404);
+        $temp = array("type" => "error", "error" => '404', "message" => "Le token n'est pas valide");
+        $rs->getBody()->write(json_encode($temp));
+        return $rs;
+    };
+    return $next($rq, $rs);
+  };
+
   function afficheError(Response $resp, $location, $errors){
     $resp=$resp->withHeader('Content-Type','application/json')
     ->withStatus(400)
@@ -50,6 +71,15 @@
 
   //Parties
 
+  //On recherche une partie en particulier
+  $app->get('/parties/{id}[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Partie($this);
+      return $ctrl->getPartie($resp,$args);
+    }
+  )->setName("partieListe")->add('checkToken');;
+
+  //on souhaite l'historique des 10 meilleurs parties
   $app->get('/parties[/]',
     function(Request $req, Response $resp, $args){
       $ctrl=new Partie($this);
@@ -57,6 +87,7 @@
     }
   )->setName("partiesListe");
 
+  //On va créer une partie
   $validators= [
       'nb_photos' => Validator::numeric()->positive(),
       'joueur' => Validator::StringType()->alnum(),

@@ -17,8 +17,29 @@
     }
 
     /*
-    * Retourne la page de modification d'un sandwich
-    * @param : Request $req, Response $resp, array $args[]
+    * Retourne un object contenant une partie spécifique
+    * @param : Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getPartie(Response $resp,array $args){
+
+      $id=$args['id'];
+      try{
+        $partie=partie::where('id', '=', $id)->firstOrFail();
+          
+        $resp=$resp->withHeader('Content-Type','application/json')
+              ->withStatus(200);
+        $resp->getBody()->write(json_encode($partie));
+      }catch(ModelNotFoundException $ex){
+        $resp=$resp->withStatus(404);
+        $resp->getBody()->write('Not found');
+      }
+      return $resp;
+    }
+
+    /*
+    * Retourne l'historique des 10 meilleurs score
+    * @param : Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
     public function getParties(Response $resp,array $args){
