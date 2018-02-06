@@ -42,8 +42,6 @@
       return $resp;
     }
 
-
-
     public function postCompte(Request $req, Response $resp, array $args){
       $postVar=$req->getParsedBody();
 

@@ -57,6 +57,7 @@
 
   //Comptes
 
+
   $app->post('/comptes[/]',
     function(Request $req, Response $resp, $args){
       $ctrl=new Comptes($this);
@@ -70,6 +71,13 @@
       return $ctrl->putComptesID($req,$resp,$args);
     }
   )->setName("ComptesPut");
+
+  $app->delete('/comptes[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Comptes($this);
+      return $ctrl->deleteCompte($req,$resp,$args);
+    }
+  )->setName("comptesDelete");
 
   $app->get('/comptes[/]',
     function(Request $req, Response $resp, $args){
