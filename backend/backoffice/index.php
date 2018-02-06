@@ -302,7 +302,7 @@ $app->get('/supprimerSerie/{id}',
     $ctrl=new Photos($this);
     return $ctrl->getSerieSuppression($req,$resp,$args);
   }
-)->setName("serieSupprimerGet");
+)->setName("serieSuppressionGet");
 
   $app->run();
 ?>

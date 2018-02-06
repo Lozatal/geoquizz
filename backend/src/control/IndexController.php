@@ -32,17 +32,22 @@
       foreach($tabPhoto as $photo){
         $id=$photo['id'];
         $photo['modif']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
-        $photo['suppr']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
+        $photo['suppr']=$this->conteneur->get('router')->pathFor('photoSuppressionGet',['id'=>$id]);
       }
 
       $tabSerie=Serie::select('ville','id')->get();
       foreach($tabSerie as $serie){
         $id=$serie['id'];
         $serie['modif']=$this->conteneur->get('router')->pathFor('serieModificationGet',['id'=>$id]);
-        $photo['suppr']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
+        $photo['suppr']=$this->conteneur->get('router')->pathFor('serieSuppressionGet',['id'=>$id]);
       }
 
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
-      return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,'serie'=>$serie,'tabSerie'=>$tabSerie,'tabPhoto'=>$tabPhoto,'compte'=>$compte,'style'=>$style]);
+      return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
+                                                                'serie'=>$serie,
+                                                                'tabSerie'=>$tabSerie,
+                                                                'tabPhoto'=>$tabPhoto,
+                                                                'compte'=>$compte,
+                                                                'style'=>$style]);
     }
   }
