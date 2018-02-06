@@ -1178,10 +1178,6 @@ h1 {
   text-align: center;
   margin: 30px; }
 
-.centrer {
-  display: flex;
-  justify-content: space-around; }
-
 .navbar {
   overflow: hidden;
   background-color: #34495e;
