@@ -26,7 +26,7 @@
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
 
-      $q = comptes::select('id','nom','email');
+      $q = Comptes::select('id','nom','email');
 
       //Récupération du total d'élement de la recherche
       $total = sizeof($q->get());
@@ -42,10 +42,10 @@
       return $resp;
     }
 
+
+
     public function postCompte(Request $req, Response $resp, array $args){
       $postVar=$req->getParsedBody();
-      //var_dump($postVar);
-      //$comptes = new comptes();
 
       if (!is_null($postVar['nom']) && !is_null($postVar['email']) && !is_null($postVar['password']) && !is_null($postVar['password_rep'])){
 
@@ -66,6 +66,38 @@
         $resp->getBody()->write('Bad request');
      }
 
+      return $resp;
+    }
+
+    public function putComptesID(Request $req, Response $resp, array $args){
+      $id=$args['id'];
+
+      $postVar=$req->getParsedBody();
+
+      $comptes = comptes::find($id);
+      //var_dump($postVar);
+      if($comptes){
+        if (!is_null($postVar['nom']) && !is_null($postVar['email']) && !is_null($postVar['password']) && !is_null($postVar['password_rep'])){
+
+            $comptes->nom=filter_var($postVar['nom'],FILTER_SANITIZE_STRING);
+            $comptes->email=filter_var($postVar['email'],FILTER_SANITIZE_STRING);
+            $comptes->password=filter_var($postVar['password'],FILTER_SANITIZE_STRING);
+
+            $comptes->save();
+
+            $resp=$resp->withStatus(200);
+            $resp->getBody()->write('Modification complete');
+
+        }
+        else{
+          $resp=$resp->withStatus(400);
+          $resp->getBody()->write('Bad request');
+        }
+      }
+      else{
+        $resp=$resp->withStatus(404);
+        $resp->getBody()->write('not found');
+      }
       return $resp;
     }
   }

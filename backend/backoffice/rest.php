@@ -62,7 +62,14 @@
       $ctrl=new Comptes($this);
       return $ctrl->postCompte($req,$resp,$args);
     }
-  )->setName("comptesPut");
+  )->setName("comptesPost");
+
+  $app->put('/comptes/{id}',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Comptes($this);
+      return $ctrl->putComptesID($req,$resp,$args);
+    }
+  )->setName("ComptesPut");
 
   $app->get('/comptes[/]',
     function(Request $req, Response $resp, $args){
