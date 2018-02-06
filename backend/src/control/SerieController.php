@@ -7,6 +7,7 @@
   use Ramsey\Uuid\Uuid as Uuid;
 
   use geoquizz\model\Serie as Series;
+  use geoquizz\model\Photo as Photos;
 
   use geoquizz\utils\Writer as writer;
   use geoquizz\utils\Pagination as pagination;
@@ -45,6 +46,36 @@
 
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write($json);
+      return $resp;
+    }
+
+        /*
+    * Retourne la liste en json des Series sans la pagination
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesEtImages(Request $req,Response $resp,array $args){
+      $series = Series::get();
+
+      $resultat = [];
+
+      //Pour chaque serie, on va rechercher le nombre d'images
+      foreach($series as $serie){
+        $nbImage = Photos::where('id_serie', '=', $serie->id)->count();
+        //$nbImage = $serie->photos;
+
+        if($nbImage = null){
+          $nbImage = 0;
+        }
+
+        $resultat[] = (array)[
+          'serie'=>$serie,
+          'nb_images'=>$nbImages
+        ];
+      }
+
+      $resp=$resp->withHeader('Content-Type','application/json');
+      $resp->getBody()->write(json_encode($resultat));
       return $resp;
     }
 
