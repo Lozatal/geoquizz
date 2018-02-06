@@ -14,7 +14,7 @@
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class ComptesController{
+  class CompteController{
 
     public $conteneur=null;
 
@@ -31,11 +31,15 @@
       //Récupération du total d'élement de la recherche
       $total = sizeof($q->get());
 
-      $returnPag=pagination::page($q,$size,$page,$total);
-      $listeComptes = $returnPag["request"]->get();
+      if($total!=0){
+        $returnPag=pagination::page($q,$size,$page,$total);
+        $listeComptes = $returnPag["request"]->get();
 
-      $tab = writer::addLink($listeComptes, 'Comptes', '');
-      $json = writer::jsonFormatCollection("Comptes",$tab,$total,$size,$returnPag["page"]);
+        $tab = writer::addLink($listeComptes, 'Comptes', 'ComptesGetID');
+        $json = writer::jsonFormatCollection("Comptes",$tab,$total,$size,$returnPag["page"]);
+      }else{
+        $json = writer::jsonFormatCollection("Comptes",[],0,0);
+      }
 
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write($json);

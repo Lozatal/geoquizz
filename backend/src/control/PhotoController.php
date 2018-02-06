@@ -5,14 +5,14 @@
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
 
-  use geoquizz\model\Photos as Photos;
+  use geoquizz\model\Photo as Photos;
 
   use geoquizz\utils\Writer as writer;
   use geoquizz\utils\Pagination as pagination;
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class PhotosController{
+  class PhotoController{
     public $conteneur=null;
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
@@ -28,16 +28,20 @@
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
 
-      $q = Photos::select('id','description','url');
+      $q = Photos::select('id','description');
 
       //Récupération du total d'élement de la recherche
       $total = sizeof($q->get());
 
-      $returnPag=pagination::page($q,$size,$page,$total);
-      $listePhotos = $returnPag["request"]->get();
+      if($total!=0){
+        $returnPag=pagination::page($q,$size,$page,$total);
+        $listePhotos = $returnPag["request"]->get();
 
-      $tab = writer::addLink($listePhotos, 'Photos', 'photosGetID');
-      $json = writer::jsonFormatCollection("Photos",$tab,$total,$size,$returnPag["page"]);
+        $tab = writer::addLink($listePhotos, 'Photos', 'photosGetID');
+        $json = writer::jsonFormatCollection("Photos",$tab,$total,$size,$returnPag["page"]);
+      }else{
+        $json = writer::jsonFormatCollection("Photos",[],0,0);
+      }
 
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write($json);
