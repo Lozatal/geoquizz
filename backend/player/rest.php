@@ -9,6 +9,7 @@
   /* Appel des contrôleurs */
 
   use \geoquizz\control\PartieController as Partie;
+  use \geoquizz\control\SerieController as Serie;
 
   /* Appel des modèles */
 
@@ -68,6 +69,17 @@
     $resp->getBody()->write(json_encode($errors));
     return $resp;
   }
+
+  //Series
+
+  //On récupère la liste des series
+  $app->get('/series[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Serie($this);
+      return $ctrl->getSeries($resp,$args);
+    }
+  )->setName("getSeries");
+
 
   //Parties
 
