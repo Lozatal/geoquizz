@@ -100,20 +100,12 @@
 
       $Series = Series::find($id);
       if($Series){
-        if (!is_null($postVar['ville'])
-        && !is_null($postVar['map_refs'])
-        && !is_null($postVar['dist'])){
-          $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-          $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
-          $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-          $Series->save();
-          $resp=$resp->withStatus(200);
-          $resp->getBody()->write('Modification complete');
-        }
-        else{
-          $resp=$resp->withStatus(400);
-          $resp->getBody()->write('Bad request');
-        }
+        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+        $Series->save();
+        $resp=$resp->withStatus(200);
+        $resp->getBody()->write('Modification complete');
       }
       else{
         $resp=$resp->withStatus(404);
@@ -131,22 +123,13 @@
       $postVar=$req->getParsedBody();
       $Series = new Series();
       //Création du Series
-      if (!is_null($postVar['ville'])
-      && !is_null($postVar['id'])
-      && !is_null($postVar['map_refs'])
-      && !is_null($postVar['dist'])){
-        $Series->id=filter_var($postVar['id'],FILTER_SANITIZE_STRING);
-        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
-        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-        $Series->save();
-        $resp=$resp->withStatus(201);
-        $resp->getBody()->write('Created');
-      }
-      else{
-        $resp=$resp->withStatus(400);
-        $resp->getBody()->write('Bad request');
-      }
+      $Series->id=filter_var($postVar['id'],FILTER_SANITIZE_STRING);
+      $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+      $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+      $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+      $Series->save();
+      $resp=$resp->withStatus(201);
+      $resp->getBody()->write('Created');
 
       return $resp;
     }
