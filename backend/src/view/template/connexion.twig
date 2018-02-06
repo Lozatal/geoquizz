@@ -10,11 +10,13 @@
 <body>
   <header class="navbar">
     <div class="nav_element">
-        <a href="#home"><img src="img/logo_chico.png" class="logo"></a>
+        <a href="/"><img src="{{style}}/img/logo_chico.png" class="logo"></a>
     </div>
-    <nav class="nav_element">
-      <a href="#news">Connection</a>
-      <a href="#contact">S'inregistrer</a>
+    <nav class="fondo">
+      <nav class="nav_element">
+        <a href="/">Connexion</a>
+        <a href="{{creation}}">S'enregistrer</a>
+      </nav>
     </nav>
   </header>
 
@@ -35,12 +37,12 @@
          </div>
        </div>
        <div class="form-group">
-         <div class="col-sm-offset-2 col-sm-10">
+         <div class="col-sm-offset-2 col-sm-10 dividir">
            <button type="submit" class="btn btn-default">Connecter</button>
+           <a href="{{creation}}" class="btn btn-info" role="button">Créer un compte</a>
          </div>
        </div>
      </form>
-     <a href="{{creation}}">Créer un compte</a>
     </div>
    </article>
     <footer>
