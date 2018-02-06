@@ -17,20 +17,13 @@
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 55b26afb97539d2e4cebf4bad5bc77636d75227a
     /*
     * Retourne la liste en json des Photos
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
-<<<<<<< HEAD
 
-=======
->>>>>>> 55b26afb97539d2e4cebf4bad5bc77636d75227a
     public function getPhotos(Request $req,Response $resp,array $args){
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
