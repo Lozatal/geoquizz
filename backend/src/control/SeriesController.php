@@ -13,7 +13,7 @@
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class SerieController{
+  class SeriesController{
     public $conteneur=null;
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
@@ -28,20 +28,16 @@
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
 
-      $q = Series::select('id','ville');
+      $q = Series::select('*');
 
       //Récupération du total d'élement de la recherche
       $total = sizeof($q->get());
 
-      if($total!=0){
-        $returnPag=pagination::page($q,$size,$page,$total);
-        $listeSeries = $returnPag["request"]->get();
+      $returnPag=pagination::page($q,$size,$page,$total);
+      $listeSeries = $returnPag["request"]->get();
 
-        $tab = writer::addLink($listeSeries, 'Series', 'seriesGetID');
-        $json = writer::jsonFormatCollection("Series",$tab,$total,$size,$returnPag["page"]);
-      }else{
-        $json = writer::jsonFormatCollection("Series",[],0,0);
-      }
+      $tab = writer::addLink($listeSeries, 'Series', 'seriesGetID');
+      $json = writer::jsonFormatCollection("Series",$tab,$total,$size,$returnPag["page"]);
 
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write($json);
@@ -101,12 +97,20 @@
 
       $Series = Series::find($id);
       if($Series){
-        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
-        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-        $Series->save();
-        $resp=$resp->withStatus(200);
-        $resp->getBody()->write('Modification complete');
+        if (!is_null($postVar['ville'])
+        && !is_null($postVar['map_refs'])
+        && !is_null($postVar['dist'])){
+          $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+          $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+          $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+          $Series->save();
+          $resp=$resp->withStatus(200);
+          $resp->getBody()->write('Modification complete');
+        }
+        else{
+          $resp=$resp->withStatus(400);
+          $resp->getBody()->write('Bad request');
+        }
       }
       else{
         $resp=$resp->withStatus(404);
@@ -124,13 +128,21 @@
       $postVar=$req->getParsedBody();
       $Series = new Series();
       //Création du Series
-      $Series->id= Uuid::uuid4();
-      $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-      $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
-      $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-      $Series->save();
-      $resp=$resp->withStatus(201);
-      $resp->getBody()->write('Created');
+      if (!is_null($postVar['ville'])
+      && !is_null($postVar['map_refs'])
+      && !is_null($postVar['dist'])){
+        $Series->id= Uuid::uuid4();
+        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+        $Series->save();
+        $resp=$resp->withStatus(201);
+        $resp->getBody()->write('Created');
+      }
+      else{
+        $resp=$resp->withStatus(400);
+        $resp->getBody()->write('Bad request');
+      }
 
       return $resp;
     }
