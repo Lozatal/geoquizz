@@ -1,25 +1,64 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <title>API Geoquizz - Backend</title>
+  <title>Geoquizz</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="{{style}}/css/input.css">
+  <style media="screen">
+  body{
+    background-image: url('http://backoffice.geoquizz.local:10080/style/img/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  </style>
 </head>
 
 <body>
-    <header>
-      <h1>Backend - Création de compte</h1>
-    </header>
-    <article>
-      <form method="post" action="{{ creation }}">
-        <input type="text" placeholder="nom" name="nom">
-        <input type="email" placeholder="email" name="email">
-        <input type="password" placeholder="mot de passe" name="password">
-        <input type="password" placeholder="mot de passe" name="password_rep">
-        <input type="submit" value="Connexion">
-      </form>
-      <a href="{{ connexion }}">Se connecter</a>
-    </article>
+  <header class="navbar">
+    <div class="nav_element">
+        <a href="#home"><img src="{{style}}/img/logo_chico.png" class="logo"></a>
+    </div>
+    <nav class="nav_element">
+      <a href="#news">Connection</a>
+      <a href="#contact">S'inregistrer</a>
+    </nav>
+  </header>
+  <article class="container">
+    <div class="jumbotron">
+      <h1>Creer une compte</h1>
+      <form class="form-horizontal" action="{{connexion}}">
+        <div class="form-group">
+          <div class="col-sm-10">
+            <input type="text" class="form-control" placeholder="Nom" name="nom">
+          </div>
+        </div>
+       <div class="form-group">
+         <div class="col-sm-10">
+           <input type="email" class="form-control" placeholder="Email" name="email">
+         </div>
+       </div>
+       <div class="form-group">
+         <div class="col-sm-10">
+           <input type="password" class="form-control" placeholder="Mot de passe" name="password">
+         </div>
+       </div>
+       <div class="form-group">
+         <div class="col-sm-10">
+           <input type="password" class="form-control" placeholder="Mot de passe" name="password_rep">
+         </div>
+       </div>
+       <div class="form-group">
+         <div class="col-sm-offset-2 col-sm-10 dividir">
+           <button type="submit" class="btn btn-default">Connecter</button>
+           <a href="{{creation}}">Créer un compte</a>
+         </div>
+       </div>
+     </form>
+    </div>
+   </article>
+
     <footer>
       <p>Fin de la page</p>
     </footer>
