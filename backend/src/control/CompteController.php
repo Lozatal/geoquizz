@@ -22,6 +22,10 @@
       $this->conteneur=$conteneur;
     }
 
+    //======================================================
+    //Fonctions principales
+    //======================================================
+
     public function getComptes(Request $req,Response $resp,array $args){
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
@@ -63,6 +67,10 @@
 
       return $resp;
     }
+
+    //======================================================
+    // Fonctions pour twig
+    //======================================================
 
     public function getComptesConnexion(Request $req, Response $resp, array $args){
       $ajouter=$this->conteneur->get('router')->pathFor('comptesCreationGet');

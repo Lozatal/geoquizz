@@ -87,13 +87,6 @@
     }
   )->setName("comptesPost")->add(new Validation($validators));
 
-  $app->get('/comptes[/]',
-    function(Request $req, Response $resp, $args){
-      $ctrl=new Comptes($this);
-      return $ctrl->getComptes($req,$resp,$args);
-    }
-  )->setName("comptesGet");
-
   //======================================================
   //Photos
   //======================================================
@@ -245,6 +238,21 @@ $app->get('/creerCompte[/]',
     return $ctrl->getComptesCreation($req,$resp,$args);
   }
 )->setName("comptesCreationGet");
+
+// Page de création de compte
+$app->get('/[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Comptes($this);
+    return $ctrl->getComptesCreation($req,$resp,$args);
+  }
+)->setName("comptesCreationGet");
+
+$app->get('/compte/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Comptes($this);
+    return $ctrl->getComptes($req,$resp,$args);
+  }
+)->setName("compteGet");
 
   $app->run();
 ?>
