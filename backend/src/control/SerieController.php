@@ -64,14 +64,13 @@
         $nbImage = Photos::where('id_serie', '=', $serie->id)->count();
         //$nbImage = $serie->photos;
 
-        if($nbImage = null){
+        if($nbImage == null){
           $nbImage = 0;
         }
 
-        $resultat[] = (array)[
-          'serie'=>$serie,
-          'nb_images'=>$nbImages
-        ];
+        $serie->nb_images = $nbImage;
+
+        $resultat[] = $serie;
       }
 
       $resp=$resp->withHeader('Content-Type','application/json');
