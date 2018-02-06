@@ -30,7 +30,8 @@
   $configuration=[
     'settings'=>[
       'displayErrorDetails'=>true,
-      'production' => false
+      'production' => false,
+      "determineRouteBeforeAppMiddleware" => true
     ]
   ];
 
@@ -39,6 +40,19 @@
   $c=new \Slim\Container(array_merge( $configuration, $errors) );
   $app=new \Slim\App($c);
   $c = $app->getContainer();
+
+  $app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+  });
+
+  $app->add(function ($req, $res, $next) {
+      $response = $next($req, $res);
+      return $response
+              ->withHeader('Access-Control-Allow-Origin', $req->getHeader('Origin')[0])
+              ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+              ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  });
+
 
   //Initialisation du conteneur pour le writer
   new writer($c);
@@ -76,9 +90,9 @@
   $app->get('/series[/]',
     function(Request $req, Response $resp, $args){
       $ctrl=new Serie($this);
-      return $ctrl->getSeries($resp,$args);
+      return $ctrl->getSeriesEtImages($req,$resp,$args);
     }
-  )->setName("getSeries");
+  )->setName("getSeriesEtImages");
 
 
   //Parties

@@ -32,15 +32,11 @@
       $total = sizeof($q->get());
 
       if($total!=0){
-        if($size != null and $page != null){
-          $returnPag=pagination::page($q,$size,$page,$total);
-          $listeComptes = $returnPag["request"]->get();
+        $returnPag=pagination::page($q,$size,$page,$total);
+        $listeComptes = $returnPag["request"]->get();
 
-          $tab = writer::addLink($listeComptes, 'Comptes', 'ComptesGetID');
-          $json = writer::jsonFormatCollection("Comptes",$tab,$total,$size,$returnPag["page"]);
-        }else{
-          $json = $q;
-        }
+        $tab = writer::addLink($listeComptes, 'Comptes', 'ComptesGetID');
+        $json = writer::jsonFormatCollection("Comptes",$tab,$total,$size,$returnPag["page"]);
       }else{
         $json = writer::jsonFormatCollection("Comptes",[],0,0);
       }

@@ -4,8 +4,10 @@
 
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
+  use Ramsey\Uuid\Uuid as Uuid;
 
   use geoquizz\model\Serie as Series;
+  use geoquizz\model\Photo as Photos;
 
   use geoquizz\utils\Writer as writer;
   use geoquizz\utils\Pagination as pagination;
@@ -44,6 +46,36 @@
 
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write($json);
+      return $resp;
+    }
+
+        /*
+    * Retourne la liste en json des Series sans la pagination
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesEtImages(Request $req,Response $resp,array $args){
+      $series = Series::get();
+
+      $resultat = [];
+
+      //Pour chaque serie, on va rechercher le nombre d'images
+      foreach($series as $serie){
+        $nbImage = Photos::where('id_serie', '=', $serie->id)->count();
+        //$nbImage = $serie->photos;
+
+        if($nbImage = null){
+          $nbImage = 0;
+        }
+
+        $resultat[] = (array)[
+          'serie'=>$serie,
+          'nb_images'=>$nbImages
+        ];
+      }
+
+      $resp=$resp->withHeader('Content-Type','application/json');
+      $resp->getBody()->write(json_encode($resultat));
       return $resp;
     }
 
@@ -123,7 +155,7 @@
       $postVar=$req->getParsedBody();
       $Series = new Series();
       //Création du Series
-      $Series->id=filter_var($postVar['id'],FILTER_SANITIZE_STRING);
+      $Series->id=Uuid::uuid4();;
       $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
       $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
       $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
