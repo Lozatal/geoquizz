@@ -125,7 +125,7 @@
   $validators= [
       'nb_photos' => Validator::numeric()->positive(),
       'joueur' => Validator::StringType()->alnum(),
-      'id_serie' => Validator::numeric()
+      'id_serie' => Validator::StringType()
   ];
 
   $app->post('/parties[/]',
