@@ -53,9 +53,27 @@
   $app->get('/parties[/]',
     function(Request $req, Response $resp, $args){
       $ctrl=new Partie($this);
-      return $ctrl->getParties($req,$resp,$args);
+      return $ctrl->getParties($resp,$args);
     }
   )->setName("partiesListe");
 
+  $validators= [
+      'nb_photos' => Validator::numeric()->positive(),
+      'joueur' => Validator::StringType()->alnum(),
+      'id_serie' => Validator::numeric()
+  ];
+
+  $app->post('/parties[/]',
+      function(Request $req, Response $resp, $args){
+        if($req->getAttribute('has_errors')){
+          $errors = $req->getAttribute('errors');
+          return afficheError($resp, '/parties/nouvelle', $errors);
+        }else{
+          $ctrl=new Partie($this);
+          return $ctrl->createPartie($req,$resp,$args);
+        }
+      }
+  )->setName('createPartie')->add(new Validation($validators));
+  
   $app->run();
 ?>
