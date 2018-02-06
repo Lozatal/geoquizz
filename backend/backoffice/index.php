@@ -225,7 +225,7 @@ $app->post('/serie[/]',
 //======================================================
 
 // Page d'index
-$app->get('/backoffice/{userid}',
+$app->get('/backoffice[/]',
   function(Request $req, Response $resp, $args){
     $ctrl=new Index($this);
     return $ctrl->getIndex($req,$resp,$args);
@@ -249,7 +249,7 @@ $app->get('/',
 )->setName("comptesConnexionGet");
 
 // Page de visualisation du compte
-$app->get('/compte/{userid}',
+$app->get('/compte[/]',
   function(Request $req, Response $resp, $args){
     $ctrl=new Comptes($this);
     return $ctrl->getComptes($req,$resp,$args);
@@ -257,7 +257,7 @@ $app->get('/compte/{userid}',
 )->setName("compteGet");
 
 // Page de création de série
-$app->get('/creerSerie/{userid}',
+$app->get('/creerSerie[/]',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
     return $ctrl->getSerieCreation($req,$resp,$args);
@@ -265,7 +265,7 @@ $app->get('/creerSerie/{userid}',
 )->setName("serieCreationGet");
 
 // Page de création de photo
-$app->get('/creerPhoto/{userid}',
+$app->get('/creerPhoto[/]',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
     return $ctrl->getPhotoCreation($req,$resp,$args);
@@ -273,12 +273,36 @@ $app->get('/creerPhoto/{userid}',
 )->setName("photoCreationGet");
 
 // Page de modification de photo
-$app->get('/modifierPhoto/{id}/{userid}',
+$app->get('/modifierPhoto/{id}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
     return $ctrl->getPhotoModification($req,$resp,$args);
   }
 )->setName("photoModificationGet");
+
+// Page de modification de photo
+$app->get('/modifierSerie/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Photos($this);
+    return $ctrl->getSerieModification($req,$resp,$args);
+  }
+)->setName("serieModificationGet");
+
+// Page de modification de photo
+$app->get('/supprimerPhoto/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Photos($this);
+    return $ctrl->getPhotoSuppresion($req,$resp,$args);
+  }
+)->setName("photoSuppressionGet");
+
+// Page de modification de photo
+$app->get('/supprimerSerie/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Photos($this);
+    return $ctrl->getSerieSuppression($req,$resp,$args);
+  }
+)->setName("serieSupprimerGet");
 
   $app->run();
 ?>

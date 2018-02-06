@@ -24,18 +24,24 @@
     //======================================================
 
     public function getIndex(Request $req, Response $resp, array $args){
-      $userid=$args['userid'];
-      $serie=$this->conteneur->get('router')->pathFor('serieCreationGet',['userid'=>$userid]);
-      $photo=$this->conteneur->get('router')->pathFor('photoCreationGet',['userid'=>$userid]);
-      $compte=$this->conteneur->get('router')->pathFor('compteGet',['userid'=>$userid]);
+      $serie=$this->conteneur->get('router')->pathFor('serieCreationGet');
+      $photo=$this->conteneur->get('router')->pathFor('photoCreationGet');
+      $compte=$this->conteneur->get('router')->pathFor('compteGet');
+
       $tabPhoto=Photo::select('description','id')->get();
       foreach($tabPhoto as $photo){
-        $photo['url']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$photo['id'],'userid'=>$userid]);
+        $id=$photo['id'];
+        $photo['modif']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
+        $photo['suppr']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
       }
+
       $tabSerie=Serie::select('ville','id')->get();
       foreach($tabSerie as $serie){
-        $serie['url']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$serie['id'],'userid'=>$userid]);
+        $id=$serie['id'];
+        $serie['modif']=$this->conteneur->get('router')->pathFor('serieModificationGet',['id'=>$id]);
+        $photo['suppr']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
       }
+
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,'serie'=>$serie,'tabSerie'=>$tabSerie,'tabPhoto'=>$tabPhoto,'compte'=>$compte,'style'=>$style]);
     }

@@ -137,4 +137,15 @@
       return $resp;
     }
 
+    public function getPhotoSuppresion(Request $req,Response $resp,array $args){
+      $id=$args['id'];
+      $postVar=$req->getParsedBody();
+      $Photos = Photos::find($id);
+      if($Photos){
+        $Photos->delete();
+      }
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+      return $resp;
+    }
   }

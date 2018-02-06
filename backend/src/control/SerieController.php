@@ -165,4 +165,16 @@
 
       return $resp;
     }
+
+    public function getSerieSuppression(Request $req,Response $resp,array $args){
+      $id=$args['id'];
+      $postVar=$req->getParsedBody();
+      $Series = Series::find($id);
+      if($Series){
+        $Series->delete();
+      }
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+      return $resp;
+    }
   }
