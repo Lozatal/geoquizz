@@ -1,0 +1,60 @@
+//BOOTSTRAP
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/code";
+@import "../node_modules/bootstrap/scss/grid";
+
+//VARAIBLES
+
+$logo: 40px;
+$color_nav: #34495e;
+$color_nav_hover: #212f3c;
+
+//GENERAL
+
+.container{
+  margin-top: 80px;
+}
+
+.jumbotron{
+  border-radius: 5px;
+  background-color: rgba(234, 236, 238, 0.8);
+  padding: 30px;
+  display: block;
+  vertical-align: middle;
+}
+
+// MENU
+
+.navbar {
+  overflow: hidden;
+  background-color:  $color_nav;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
+}
+
+.navbar a:hover {
+  background: $color_nav_hover;
+}
+
+.logo{
+  width: $logo;
+}
