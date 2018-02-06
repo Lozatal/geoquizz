@@ -8,15 +8,15 @@
 
 <body>
     <header>
-      <h1>Backend</h1>
+      <h1>Backend - Se connecter</h1>
     </header>
     <article>
-      <form method="post" action="{{ ajouter }}">
+      <form method="post" action="{{ connexion }}">
         <input type="email" placeholder="email" name="email">
         <input type="password" placeholder="mot de passe" name="password">
         <input type="submit" value="Connexion">
-        <button type="button">Créer un compte</button>
       </form>
+      <a href="{{ajouter}}">Créer un compte</a>
     </article>
     <footer>
       <p>Fin de la page</p>

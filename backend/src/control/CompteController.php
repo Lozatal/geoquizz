@@ -58,13 +58,20 @@
       $verifier= new \geoquizz\utils\GeoquizzAuthentification();
       $verifier->createUser($id, $nom, $email, $password, $password2);
 
-      $resp=$resp->withStatus(201);
-      $resp->getBody()->write('Created');
+      $redirect=$this->conteneur->get('router')->pathFor('comptesConnexionGet');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
 
       return $resp;
     }
 
     public function getComptesConnexion(Request $req, Response $resp, array $args){
-      return $this->conteneur->view->render($resp,'connexion.twig',[]);    
+      $ajouter=$this->conteneur->get('router')->pathFor('comptesCreationGet');
+      return $this->conteneur->view->render($resp,'connexion.twig',['ajouter'=>$ajouter]);
+    }
+
+    public function getComptesCreation(Request $req, Response $resp, array $args){
+      $login=$this->conteneur->get('router')->pathFor('comptesConnexionGet');
+      $creation=$this->conteneur->get('router')->pathFor('comptesPost');
+      return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['login'=>$login, 'creation' =>$creation]);
     }
   }
