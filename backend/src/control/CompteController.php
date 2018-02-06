@@ -66,12 +66,12 @@
 
     public function getComptesConnexion(Request $req, Response $resp, array $args){
       $ajouter=$this->conteneur->get('router')->pathFor('comptesCreationGet');
-      return $this->conteneur->view->render($resp,'connexion.twig',['ajouter'=>$ajouter]);
+      return $this->conteneur->view->render($resp,'connexion.twig',['creation'=>$ajouter]);
     }
 
     public function getComptesCreation(Request $req, Response $resp, array $args){
       $login=$this->conteneur->get('router')->pathFor('comptesConnexionGet');
       $creation=$this->conteneur->get('router')->pathFor('comptesPost');
-      return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['login'=>$login, 'creation' =>$creation]);
+      return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['connexion'=>$login, 'creation' =>$creation]);
     }
   }
