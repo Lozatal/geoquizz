@@ -52,27 +52,18 @@
 
     public function postCompte(Request $req, Response $resp, array $args){
       $postVar=$req->getParsedBody();
-      //var_dump($postVar);
-      //$comptes = new comptes();
 
-      if (!is_null($postVar['nom']) && !is_null($postVar['email']) && !is_null($postVar['password']) && !is_null($postVar['password_rep'])){
+      $id= Uuid::uuid4();
+      $nom=filter_var($postVar['nom'],FILTER_SANITIZE_STRING);
+      $email=filter_var($postVar['email'],FILTER_SANITIZE_STRING);
+      $password=filter_var($postVar['password'],FILTER_SANITIZE_STRING);
+      $password2=filter_var($postVar['password_rep'],FILTER_SANITIZE_STRING);
 
-        $id= Uuid::uuid4();
-        $nom=filter_var($postVar['nom'],FILTER_SANITIZE_STRING);
-        $email=filter_var($postVar['email'],FILTER_SANITIZE_STRING);
-        $password=filter_var($postVar['password'],FILTER_SANITIZE_STRING);
-        $password2=filter_var($postVar['password_rep'],FILTER_SANITIZE_STRING);
+      $verifier= new \geoquizz\utils\GeoquizzAuthentification();
+      $verifier->createUser($id, $nom, $email, $password, $password2);
 
-        $verifier= new \geoquizz\utils\GeoquizzAuthentification();
-        $verifier->createUser($id, $nom, $email, $password, $password2);
-
-        $resp=$resp->withStatus(201);
-        $resp->getBody()->write('Created');
-     }
-      else{
-        $resp=$resp->withStatus(400);
-        $resp->getBody()->write('Bad request');
-     }
+      $resp=$resp->withStatus(201);
+      $resp->getBody()->write('Created');
 
       return $resp;
     }
