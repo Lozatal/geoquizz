@@ -77,7 +77,7 @@
       $ctrl=new Partie($this);
       return $ctrl->getPartie($resp,$args);
     }
-  )->setName("partieListe")->add('checkToken');;
+  )->setName("getPartie")->add('checkToken');
 
   //on souhaite l'historique des 10 meilleurs parties
   $app->get('/parties[/]',
@@ -86,6 +86,14 @@
       return $ctrl->getParties($resp,$args);
     }
   )->setName("partiesListe");
+
+  //On recherche les parties d'un joueur
+  $app->get('/parties/player/{player}[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Partie($this);
+      return $ctrl->getPartiesPlayer($resp,$args);
+    }
+  )->setName("partiesListePlayer");
 
   //On va créer une partie
   $validators= [
