@@ -22,7 +22,7 @@
     * Return Response $resp contenant la page complète
     */
     public function getParties(Response $resp,array $args){
-      $parties=partie::get();
+      $parties=partie::where('score', '!=', null)->take(10)->orderBy('score', 'DESC')->get();
         
       $resp=$resp->withHeader('Content-Type','application/json')
             ->withStatus(200);
