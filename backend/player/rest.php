@@ -105,6 +105,23 @@
         }
       }
   )->setName('createPartie')->add(new Validation($validators));
+
+  //on va modifier le score d'une partie
+  $validators= [
+      'score' => Validator::numeric()->positive()
+  ];
+  
+  $app->put('/parties/{id}[/]',
+      function(Request $req, Response $resp, $args){
+        if($req->getAttribute('has_errors')){
+          $errors = $req->getAttribute('errors');
+          return afficheError($resp, '/parties/update', $errors);
+        }else{
+          $ctrl=new Partie($this);
+          return $ctrl->updateScorePartie($req,$resp,$args);
+        }
+      }
+      )->setName('updateScorePartie')->add(new Validation($validators))->add('checkToken');
   
   $app->run();
 ?>

@@ -80,4 +80,36 @@
       }
       return $resp;
     }
+
+    /*
+     * Mettre à jour le score d'une partie grace a une requete PUT
+     * @param : Request $req, Response $resp, array $args[]
+     * Return Response $resp contenant la page complète
+     */
+    public function updateScorePartie(Request $req, Response $resp, array $args){
+      $id=$args['id'];
+      $postVar=$req->getParsedBody();
+      
+      if($id != null){
+        try{
+          $partie = partie::where('id', '=', $id)->firstOrFail();
+          
+          $partie->score = filter_var($postVar['score'],FILTER_SANITIZE_STRING);
+          $partie->status = 1; //terminé
+          $partie->save();
+          
+          $resp=$resp->withHeader('Content-Type','application/json')
+          ->withStatus(200);
+          $resp->getBody()->write(json_encode($partie));
+        }catch(ModelNotFoundException $ex){
+          $resp=$resp->withStatus(404);
+          $resp->getBody()->write('not found');
+        }
+      }else{
+        $resp=$resp->withStatus(404);
+        $resp->getBody()->write('not found');
+      }
+      return $resp;
+      
+    }
   }
