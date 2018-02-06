@@ -155,7 +155,7 @@
       $postVar=$req->getParsedBody();
       $Series = new Series();
       //Création du Series
-      $Series->id=Uuid::uuid4();;
+      $Series->id= Uuid::uuid4();
       $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
       $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
       $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);

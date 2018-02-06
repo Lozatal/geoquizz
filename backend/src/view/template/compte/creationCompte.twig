@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <title>API Geoquizz - Backend</title>
+</head>
+
+<body>
+    <header>
+      <h1>Backend - Création de compte</h1>
+    </header>
+    <article>
+      <form method="post" action="{{ creation }}">
+        <input type="text" placeholder="nom" name="nom">
+        <input type="email" placeholder="email" name="email">
+        <input type="password" placeholder="mot de passe" name="password">
+        <input type="password" placeholder="mot de passe" name="password_rep">
+        <input type="submit" value="Connexion">
+      </form>
+      <a href="{{ connexion }}">Se connecter</a>
+    </article>
+    <footer>
+      <p>Fin de la page</p>
+    </footer>
+</body>
+</html>

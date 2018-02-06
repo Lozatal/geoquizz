@@ -24,12 +24,25 @@
   $db->setAsGlobal();
   $db->bootEloquent();
 
+  /* Appel et configuration de twig */
+  $loader = new Twig_Loader_Filesystem('../src/view/template');
+  $twig = new Twig_Environment($loader, array(
+      'cache' => false
+  ));
+
   //Création et configuration du container
   $configuration=[
     'settings'=>[
       'displayErrorDetails'=>true,
-      'production' => false
-    ]
+      'production' => false,
+      'tmpl_dir' => __DIR__ . '/../src/view/template'
+    ],
+    'view'=>function($c){
+      return new \Slim\Views\Twig(
+        $c['settings']['tmpl_dir'],
+        ['debug'=>true]
+      );
+    }
   ];
 
   $errors = require_once __DIR__ . '/../src/config/api_errors.php';
@@ -52,16 +65,14 @@
   }
 
   //======================================================
-  //BackOffice
+  //Comptes
   //======================================================
 
-  //Comptes
-
   $validators = [
-      'nom' => Validator::StringType()->alnum(),
-      'email' => Validator::StringType()->alnum(),
+      'nom' => Validator::StringType(),
+      'email' => Validator::StringType(),
       'password' => Validator::StringType()->alnum(),
-      'password2' => Validator::StringType()->alnum(),
+      'password_rep' => Validator::StringType()->alnum(),
   ];
 
   $app->post('/comptes[/]',
@@ -74,16 +85,11 @@
         return $ctrl->postCompte($req,$resp,$args);
       }
     }
-  )->setName("comptesPut")->add(new Validation($validators));
+  )->setName("comptesPost")->add(new Validation($validators));
 
-  $app->get('/comptes[/]',
-    function(Request $req, Response $resp, $args){
-      $ctrl=new Comptes($this);
-      return $ctrl->getComptes($req,$resp,$args);
-    }
-  )->setName("comptesGet");
-
+  //======================================================
   //Photos
+  //======================================================
 
   $app->get('/photos[/]',
     function(Request $req, Response $resp, $args){
@@ -212,6 +218,41 @@ $app->post('/serie[/]',
     }
   }
 )->setName("seriesPost")->add(new Validation($validators));
+
+//======================================================
+//General
+//======================================================
+
+// Page de connexion
+$app->get('/connexion[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Comptes($this);
+    return $ctrl->getComptesConnexion($req,$resp,$args);
+  }
+)->setName("comptesConnexionGet");
+
+// Page de création de compte
+$app->get('/creerCompte[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Comptes($this);
+    return $ctrl->getComptesCreation($req,$resp,$args);
+  }
+)->setName("comptesCreationGet");
+
+// Page de création de compte
+$app->get('/',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Comptes($this);
+    return $ctrl->getComptesConnexion($req,$resp,$args);
+  }
+)->setName("index");
+
+$app->get('/compte/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Comptes($this);
+    return $ctrl->getComptes($req,$resp,$args);
+  }
+)->setName("compteGet");
 
   $app->run();
 ?>
