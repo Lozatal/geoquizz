@@ -52,6 +52,21 @@
     }
 
     /*
+    * Retourne l'historique des 10 meilleurs score
+    * @param : Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getPartiesPlayer(Response $resp,array $args){
+      $player=$args['player'];
+      $parties=partie::where('joueur', '=', $player)->get();
+        
+      $resp=$resp->withHeader('Content-Type','application/json')
+            ->withStatus(200);
+      $resp->getBody()->write(json_encode($parties));
+      return $resp;
+    }
+
+    /*
     * Sauvegarde une partie a partir d'une requête post
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
@@ -110,6 +125,5 @@
         $resp->getBody()->write('not found');
       }
       return $resp;
-      
     }
   }
