@@ -26,32 +26,32 @@ export default {
   methods: {
   	//On va récupérer la liste des images (sert surtout a avoir le nombre d'images de la liste en cours)
   	villeChange(){
-		let found = false;
-		let localSeries = this.series;
-		for(let i = 0; i < this.series.length; i++) {
-		    if (localSeries[i].id == this.serieId) {
-		    	this.serie = localSeries[i];
-		    	this.nb_photos = this.serie.nb_images;
-		        found = true;
-		        break;
-		    }
-		}
+  		let found = false;
+  		let localSeries = this.series;
+  		for(let i = 0; i < this.series.length; i++) {
+  		    if (localSeries[i].id == this.serieId) {
+  		    	this.serie = localSeries[i];
+  		    	this.nb_photos = this.serie.nb_images;
+  		        found = true;
+  		        break;
+  		    }
+  		}
   	},
   	demarrerPartie(){
-		window.axios.post('parties', {
-	        nb_photos : this.nb_photos_choisis,
-	        joueur: this.pseudo,
-	        id_serie: this.serie.id
-	    }).then((response) => {
-	        //this.$store.state.member = response.data;
-	        this.$store.commit('setToken', response.data.token);
+  		window.axios.post('parties', {
+  	        nb_photos : this.nb_photos_choisis,
+  	        joueur: this.pseudo,
+  	        id_serie: this.serie.id
+  	    }).then((response) => {
+  	        //this.$store.state.member = response.data;
+  	        this.$store.commit('setToken', response.data.token);
 
-	        window.axios.defaults.params.token = response.data.token;
+  	        window.axios.defaults.params.token = response.data.token;
 
-	        //this.$router.push({ path: '/conversation' });
-	    }).catch((error) => {
-	        alert(error.response.data.error);
-	    });
+  	        //this.$router.push({ path: '/conversation' });
+  	    }).catch((error) => {
+  	        alert(error.response.data.error);
+  	    });
   	}
   },
   mounted(){
