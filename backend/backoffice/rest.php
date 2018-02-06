@@ -9,9 +9,9 @@
 
   /* Appel des contrôleurs */
 
-  use \geoquizz\control\PhotosController as Photos;
-  use \geoquizz\control\ComptesController as Comptes;
-  use \geoquizz\control\SeriesController as Series;
+  use \geoquizz\control\PhotoController as Photos;
+  use \geoquizz\control\CompteController as Comptes;
+  use \geoquizz\control\SerieController as Series;
 
   /* Appel des utilitaires */
 
