@@ -17,7 +17,7 @@
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
     }
-    
+
     /*
     * Retourne la liste en json des Photos
     * @param : Request $req, Response $resp, array $args[]
