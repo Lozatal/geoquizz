@@ -240,12 +240,12 @@ $app->get('/creerCompte[/]',
 )->setName("comptesCreationGet");
 
 // Page de création de compte
-$app->get('/[/]',
+$app->get('/',
   function(Request $req, Response $resp, $args){
     $ctrl=new Comptes($this);
-    return $ctrl->getComptesCreation($req,$resp,$args);
+    return $ctrl->getComptesConnexion($req,$resp,$args);
   }
-)->setName("comptesCreationGet");
+)->setName("index");
 
 $app->get('/compte/{id}',
   function(Request $req, Response $resp, $args){

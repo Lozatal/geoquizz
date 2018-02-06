@@ -5,7 +5,7 @@
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
 
-  use geoquizz\model\Compte as Comptes;
+  use geoquizz\model\Compte as Compte;
 
   use geoquizz\utils\Writer as writer;
   use geoquizz\utils\Pagination as pagination;
@@ -25,30 +25,6 @@
     //======================================================
     //Fonctions principales
     //======================================================
-
-    public function getComptes(Request $req,Response $resp,array $args){
-      $size = $req->getQueryParam('size',10);
-      $page = $req->getQueryParam('page',1);
-
-      $q = comptes::select('id','nom','email');
-
-      //Récupération du total d'élement de la recherche
-      $total = sizeof($q->get());
-
-      if($total!=0){
-        $returnPag=pagination::page($q,$size,$page,$total);
-        $listeComptes = $returnPag["request"]->get();
-
-        $tab = writer::addLink($listeComptes, 'Comptes', 'ComptesGetID');
-        $json = writer::jsonFormatCollection("Comptes",$tab,$total,$size,$returnPag["page"]);
-      }else{
-        $json = writer::jsonFormatCollection("Comptes",[],0,0);
-      }
-
-      $resp=$resp->withHeader('Content-Type','application/json');
-      $resp->getBody()->write($json);
-      return $resp;
-    }
 
     public function postCompte(Request $req, Response $resp, array $args){
       $postVar=$req->getParsedBody();
@@ -83,5 +59,13 @@
       $creation=$this->conteneur->get('router')->pathFor('comptesPost');
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['connexion'=>$login, 'creation' =>$creation, 'style'=>$style]);
+    }
+
+    public function getComptes(Request $req,Response $resp,array $args){
+      $id=$args['id'];
+      $compte = Compte::select('nom','email')->find($id);
+      
+      $style='http://'.$_SERVER['HTTP_HOST']."/style";
+      return $this->conteneur->view->render($resp,'compte/compte.twig',[]);
     }
   }
