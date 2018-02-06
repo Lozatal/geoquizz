@@ -11,7 +11,7 @@ CREATE TABLE `partie` (
   `token` varchar(255) NOT NULL,
   `nb_photos` int(11) NOT NULL,
   `status` char(1) NOT NULL,
-  `score` int(11) NOT NULL,
+  `score` int(11) NULL,
   `joueur` varchar(255) NOT NULL,
   `id_serie` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
