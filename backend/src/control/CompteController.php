@@ -63,4 +63,8 @@
 
       return $resp;
     }
+
+    public function getComptesConnexion(Request $req, Response $resp, array $args){
+      return $this->conteneur->view->render($resp,'connexion.twig',[]);    
+    }
   }
