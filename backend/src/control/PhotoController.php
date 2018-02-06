@@ -137,9 +137,13 @@
       return $resp;
     }
 
+    /*
+    * Ajoute supprime une photo depuis Twig
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
     public function getPhotoSuppresion(Request $req,Response $resp,array $args){
       $id=$args['id'];
-      $postVar=$req->getParsedBody();
       $Photos = Photos::find($id);
       if($Photos){
         $Photos->delete();
@@ -147,5 +151,27 @@
       $redirect=$this->conteneur->get('router')->pathFor('index');
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
+    }
+
+    /*
+    * Page de modification d'une photo
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getPhotoModification(Request $req,Response $resp,array $args){
+      $id=$args['id'];
+      $Photos = Photos::find($id);
+      if($Photos){
+        $style='http://'.$_SERVER['HTTP_HOST']."/style";
+        $modification=$this->conteneur->get('router')->pathFor('photosPut');
+        return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
+                                                                  'modification'=>$modification,
+                                                                  'style'=>$style]);
+      }else{
+        $redirect=$this->conteneur->get('router')->pathFor('index');
+        $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+        return $resp;
+      }
+
     }
   }
