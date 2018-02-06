@@ -4,6 +4,7 @@
 
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
+  use Ramsey\Uuid\Uuid as Uuid;
 
   use geoquizz\model\Serie as Series;
 
@@ -123,7 +124,7 @@
       $postVar=$req->getParsedBody();
       $Series = new Series();
       //Création du Series
-      $Series->id=filter_var($postVar['id'],FILTER_SANITIZE_STRING);
+      $Series->id= Uuid::uuid4();
       $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
       $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
       $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);

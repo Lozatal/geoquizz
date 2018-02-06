@@ -24,12 +24,25 @@
   $db->setAsGlobal();
   $db->bootEloquent();
 
+  /* Appel et configuration de twig */
+  $loader = new Twig_Loader_Filesystem('../src/view/template');
+  $twig = new Twig_Environment($loader, array(
+      'cache' => false
+  ));
+
   //Création et configuration du container
   $configuration=[
     'settings'=>[
       'displayErrorDetails'=>true,
-      'production' => false
-    ]
+      'production' => false,
+      'tmpl_dir' => __DIR__ . '/../src/view/template'
+    ],
+    'view'=>function($c){
+      return new \Slim\Views\Twig(
+        $c['settings']['tmpl_dir'],
+        ['debug'=>true]
+      );
+    }
   ];
 
   $errors = require_once __DIR__ . '/../src/config/api_errors.php';
@@ -52,10 +65,8 @@
   }
 
   //======================================================
-  //BackOffice
-  //======================================================
-
   //Comptes
+  //======================================================
 
   $validators = [
       'nom' => Validator::StringType()->alnum(),
@@ -83,7 +94,9 @@
     }
   )->setName("comptesGet");
 
+  //======================================================
   //Photos
+  //======================================================
 
   $app->get('/photos[/]',
     function(Request $req, Response $resp, $args){
@@ -212,6 +225,18 @@ $app->post('/serie[/]',
     }
   }
 )->setName("seriesPost")->add(new Validation($validators));
+
+//======================================================
+//General
+//======================================================
+
+// Supprimer une Serie
+$app->get('/connexion[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Comptes($this);
+    return $ctrl->getComptesConnexion($req,$resp,$args);
+  }
+)->setName("comptesConnexionGet");
 
   $app->run();
 ?>
