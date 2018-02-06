@@ -12,6 +12,7 @@
   use \geoquizz\control\PhotoController as Photos;
   use \geoquizz\control\CompteController as Comptes;
   use \geoquizz\control\SerieController as Series;
+  use \geoquizz\control\IndexController as Index;
 
   /* Appel des utilitaires */
 
@@ -223,13 +224,13 @@ $app->post('/serie[/]',
 //General
 //======================================================
 
-// Page de connexion
-$app->get('/connexion[/]',
+// Page d'index
+$app->get('/backoffice/{userid}',
   function(Request $req, Response $resp, $args){
-    $ctrl=new Comptes($this);
-    return $ctrl->getComptesConnexion($req,$resp,$args);
+    $ctrl=new Index($this);
+    return $ctrl->getIndex($req,$resp,$args);
   }
-)->setName("comptesConnexionGet");
+)->setName("index");
 
 // Page de création de compte
 $app->get('/creerCompte[/]',
@@ -239,20 +240,45 @@ $app->get('/creerCompte[/]',
   }
 )->setName("comptesCreationGet");
 
-// Page de création de compte
+// Page de connexion au compte
 $app->get('/',
   function(Request $req, Response $resp, $args){
     $ctrl=new Comptes($this);
     return $ctrl->getComptesConnexion($req,$resp,$args);
   }
-)->setName("index");
+)->setName("comptesConnexionGet");
 
-$app->get('/compte/{id}',
+// Page de visualisation du compte
+$app->get('/compte/{userid}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Comptes($this);
     return $ctrl->getComptes($req,$resp,$args);
   }
 )->setName("compteGet");
+
+// Page de création de série
+$app->get('/creerSerie/{userid}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSerieCreation($req,$resp,$args);
+  }
+)->setName("serieCreationGet");
+
+// Page de création de photo
+$app->get('/creerPhoto/{userid}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Photos($this);
+    return $ctrl->getPhotoCreation($req,$resp,$args);
+  }
+)->setName("photoCreationGet");
+
+// Page de modification de photo
+$app->get('/modifierPhoto/{id}/{userid}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Photos($this);
+    return $ctrl->getPhotoModification($req,$resp,$args);
+  }
+)->setName("photoModificationGet");
 
   $app->run();
 ?>

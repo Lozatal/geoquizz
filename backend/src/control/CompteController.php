@@ -64,8 +64,7 @@
     public function getComptes(Request $req,Response $resp,array $args){
       $id=$args['id'];
       $compte = Compte::select('nom','email')->find($id);
-      
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
-      return $this->conteneur->view->render($resp,'compte/compte.twig',[]);
+      return $this->conteneur->view->render($resp,'compte/compte.twig',['style'=>$style,'compte'=>$compte]);
     }
   }
