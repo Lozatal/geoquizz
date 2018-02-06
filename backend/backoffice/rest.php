@@ -9,9 +9,9 @@
 
   /* Appel des contrôleurs */
 
-  use \geoquizz\control\PhotosController as Photos;
-  use \geoquizz\control\ComptesController as Comptes;
-  use \geoquizz\control\SeriesController as Series;
+  use \geoquizz\control\PhotoController as Photos;
+  use \geoquizz\control\CompteController as Comptes;
+  use \geoquizz\control\SerieController as Series;
 
   /* Appel des utilitaires */
 
@@ -57,27 +57,24 @@
 
   //Comptes
 
+  $validators = [
+      'nom' => Validator::StringType()->alnum(),
+      'email' => Validator::StringType()->alnum(),
+      'password' => Validator::StringType()->alnum(),
+      'password2' => Validator::StringType()->alnum(),
+  ];
 
   $app->post('/comptes[/]',
     function(Request $req, Response $resp, $args){
-      $ctrl=new Comptes($this);
-      return $ctrl->postCompte($req,$resp,$args);
+      if($req->getAttribute('has_errors')){
+        $errors = $req->getAttribute('errors');
+        return afficheError($resp, '/parties/nouvelle', $errors);
+      }else{
+        $ctrl=new Comptes($this);
+        return $ctrl->postCompte($req,$resp,$args);
+      }
     }
-  )->setName("comptesPost");
-
-  $app->put('/comptes/{id}',
-    function(Request $req, Response $resp, $args){
-      $ctrl=new Comptes($this);
-      return $ctrl->putComptesID($req,$resp,$args);
-    }
-  )->setName("ComptesPut");
-
-  $app->delete('/comptes[/]',
-    function(Request $req, Response $resp, $args){
-      $ctrl=new Comptes($this);
-      return $ctrl->deleteCompte($req,$resp,$args);
-    }
-  )->setName("comptesDelete");
+  )->setName("comptesPut")->add(new Validation($validators));
 
   $app->get('/comptes[/]',
     function(Request $req, Response $resp, $args){
@@ -109,19 +106,43 @@
     }
   )->setName("photosDelete");
 
+  $validators = [
+      'description' => Validator::StringType()->alnum(),
+      'url' => Validator::StringType()->alnum(),
+      'position_long' => Validator::numeric(),
+      'position_lat' =>Validator::numeric()
+  ];
+
   $app->put('/photos/{id}',
     function(Request $req, Response $resp, $args){
-      $ctrl=new Photos($this);
-      return $ctrl->putPhotosID($req,$resp,$args);
+      if($req->getAttribute('has_errors')){
+        $errors = $req->getAttribute('errors');
+        return afficheError($resp, '/parties/nouvelle', $errors);
+      }else{
+        $ctrl=new Photos($this);
+        return $ctrl->putPhotosID($req,$resp,$args);
+      }
     }
-  )->setName("photosPut");
+  )->setName("photosPut")->add(new Validation($validators));
+
+  $validators = [
+    'description' => Validator::StringType()->alnum(),
+    'url' => Validator::StringType()->alnum(),
+    'position_long' => Validator::numeric(),
+    'position_lat' =>Validator::numeric()
+  ];
 
   $app->post('/photos[/]',
     function(Request $req, Response $resp, $args){
-      $ctrl=new Photos($this);
-      return $ctrl->postPhotos($req,$resp,$args);
+      if($req->getAttribute('has_errors')){
+        $errors = $req->getAttribute('errors');
+        return afficheError($resp, '/parties/nouvelle', $errors);
+      }else{
+        $ctrl=new Photos($this);
+        return $ctrl->postPhotos($req,$resp,$args);
+      }
     }
-  )->setName("photosPost");
+  )->setName("photosPost")->add(new Validation($validators));
 
 
 //======================================================
@@ -150,23 +171,47 @@ $app->delete('/series/{id}',
     $ctrl=new Series($this);
     return $ctrl->deleteSeries($req,$resp,$args);
   }
-)->setName("seriessDelete");
+)->setName("seriesDelete");
 
 //Modifier une serie
+
+$validators = [
+    'ville' => Validator::StringType()->alnum(),
+    'map_refs' => Validator::numeric(),
+    'dist' => Validator::numeric()
+];
+
 $app->put('/series/{id}',
   function(Request $req, Response $resp, $args){
+    if($req->getAttribute('has_errors')){
+      $errors = $req->getAttribute('errors');
+      return afficheError($resp, '/parties/nouvelle', $errors);
+    }else{
     $ctrl=new Series($this);
-    return $ctrl->putSeriesID($req,$resp,$args);
+      return $ctrl->putSeriesID($req,$resp,$args);
+    }
   }
-)->setName("seriesPut");
+)->setName("seriesPut")->add(new Validation($validators));
 
 //Ajouter une serie
+
+$validators = [
+  'ville' => Validator::StringType()->alnum(),
+  'map_refs' => Validator::numeric(),
+  'dist' => Validator::numeric()
+];
+
 $app->post('/serie[/]',
   function(Request $req, Response $resp, $args){
-    $ctrl=new Series($this);
-    return $ctrl->postSeries($req,$resp,$args);
+    if($req->getAttribute('has_errors')){
+      $errors = $req->getAttribute('errors');
+      return afficheError($resp, '/parties/nouvelle', $errors);
+    }else{
+      $ctrl=new Series($this);
+      return $ctrl->postSeries($req,$resp,$args);
+    }
   }
-)->setName("seriesPost");
+)->setName("seriesPost")->add(new Validation($validators));
 
   $app->run();
 ?>

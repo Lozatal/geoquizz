@@ -5,14 +5,14 @@
   use \Psr\Http\Message\ServerRequestInterface as Request;
   use \Psr\Http\Message\ResponseInterface as Response;
 
-  use geoquizz\model\Photos as Photos;
+  use geoquizz\model\Photo as Photos;
 
   use geoquizz\utils\Writer as writer;
   use geoquizz\utils\Pagination as pagination;
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
-  class PhotosController{
+  class PhotoController{
     public $conteneur=null;
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
@@ -28,16 +28,20 @@
       $size = $req->getQueryParam('size',10);
       $page = $req->getQueryParam('page',1);
 
-      $q = Photos::select('id','description','url');
+      $q = Photos::select('id','description');
 
       //Récupération du total d'élement de la recherche
       $total = sizeof($q->get());
 
-      $returnPag=pagination::page($q,$size,$page,$total);
-      $listePhotos = $returnPag["request"]->get();
+      if($total!=0){
+        $returnPag=pagination::page($q,$size,$page,$total);
+        $listePhotos = $returnPag["request"]->get();
 
-      $tab = writer::addLink($listePhotos, 'Photos', 'photosGetID');
-      $json = writer::jsonFormatCollection("Photos",$tab,$total,$size,$returnPag["page"]);
+        $tab = writer::addLink($listePhotos, 'Photos', 'photosGetID');
+        $json = writer::jsonFormatCollection("Photos",$tab,$total,$size,$returnPag["page"]);
+      }else{
+        $json = writer::jsonFormatCollection("Photos",[],0,0);
+      }
 
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write($json);
@@ -98,19 +102,13 @@
 
       $Photos = Photos::find($id);
       if($Photos){
-        if (!is_null($postVar['description']) && !is_null($postVar['url']) && !is_null($postVar['position_long']) && !is_null($postVar['position_lat'])){
-          $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
-          $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
-          $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
-          $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
-          $Photos->save();
-          $resp=$resp->withStatus(200);
-          $resp->getBody()->write('Modification complete');
-        }
-        else{
-          $resp=$resp->withStatus(400);
-          $resp->getBody()->write('Bad request');
-        }
+        $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
+        $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
+        $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
+        $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
+        $Photos->save();
+        $resp=$resp->withStatus(200);
+        $resp->getBody()->write('Modification complete');
       }
       else{
         $resp=$resp->withStatus(404);
@@ -128,21 +126,13 @@
       $postVar=$req->getParsedBody();
       $Photos = new Photos();
       //Création du Photos
-      if (!is_null($postVar['description']) && !is_null($postVar['url']) && !is_null($postVar['position_long']) && !is_null($postVar['position_lat']) && !is_null($postVar['id_partie']) && !is_null($postVar['id_serie'])){
-        $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
-        $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
-        $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
-        $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
-        $Photos->id_partie=filter_var($postVar['id_partie'],FILTER_SANITIZE_STRING);
-        $Photos->id_serie=filter_var($postVar['id_serie'],FILTER_SANITIZE_STRING);
-        $Photos->save();
-        $resp=$resp->withStatus(201);
-        $resp->getBody()->write('Created');
-      }
-      else{
-        $resp=$resp->withStatus(400);
-        $resp->getBody()->write('Bad request');
-      }
+      $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
+      $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
+      $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
+      $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
+      $Photos->save();
+      $resp=$resp->withStatus(201);
+      $resp->getBody()->write('Created');
 
       return $resp;
     }
