@@ -13,6 +13,13 @@ export default {
   name: 'App',
   components:{
     NavBar
+  },
+  mounted(){
+    if( this.$store.state.token){
+      window.axios.defaults.params.token = this.$store.state.token;
+    }else{
+      this.$router.push({path: '/'});
+    }
   }
 }
 </script>
