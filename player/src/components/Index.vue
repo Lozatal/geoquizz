@@ -1,6 +1,6 @@
 <template>
 	<div id="formulaire">
-		<h1>Démarrer une partie</h1>
+		<h1 class="title">Démarrer une partie</h1>
 		<h2>Déroulement d'une partie :</h2>
 		<ul>
 			<li>Choisissez un pseudo, une ville et un nombre d'images</li>

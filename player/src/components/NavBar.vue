@@ -1,10 +1,10 @@
 <template>
-	<nav>
+	<nav class="navbar">
 		<ul>
 			<li><img src="@/assets/logo_chico.png"/></li>
-        	<li><router-link to="/"><p>Jouer</p></router-link></li>
-        	<li><router-link to="/historique"><p>Historique</p></router-link></li>
-    	</ul>
+    	<li><router-link to="/"><p>Accueil</p></router-link></li>
+    	<li><router-link to="/historique"><p>Historique</p></router-link></li>
+    </ul>
 	</nav>
 </template>
 
@@ -19,6 +19,7 @@ export default {
 </script>
 
 <style scoped>
+
 a{
 	display:flex;
 	width:100%;
@@ -41,6 +42,7 @@ p{
 
 	margin:auto;
 }
+
 nav{
   display: flex;
   flex-wrap: wrap;
@@ -49,6 +51,7 @@ nav{
   width:100%;
   height:70px;
 }
+
 ul{
   display: flex;
   flex-wrap: wrap;
