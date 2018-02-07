@@ -7,6 +7,7 @@
   use Ramsey\Uuid\Uuid as Uuid;
 
   use geoquizz\model\Partie as partie;
+  use geoquizz\model\Photo as photo;
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
@@ -26,6 +27,13 @@
       $id=$args['id'];
       try{
         $partie=partie::where('id', '=', $id)->firstOrFail();
+
+        //On récupère maintenant la série
+        $serie = $partie->serie->first();
+        $partie->serie = $serie;
+
+        $photos = photo::where('id_serie', '=', $serie->id)->get();
+        $partie->photos = $photos;
           
         $resp=$resp->withHeader('Content-Type','application/json')
               ->withStatus(200);

@@ -18,44 +18,49 @@ class AuthController {
       $this->conteneur=$conteneur;
     }
 
-	public function authenticate(Request $req,Response $resp,array $args) {
+		public function authenticate(Request $req,Response $resp,array $args) {
 
-  		if(!$req->hasHeader('Authorization')) {
-				$resp = $resp->withHeader('WWW-authenticate', 'Basic realm="geoquizz api" ');
-				$resp= $resp->withStatus(401);
-				$temp = array("type" => "error", "error" => '401', "message" => "No Authorization in header");
-				$resp->getBody()->write(json_encode($temp));
-				return $resp;
+			$rs= $resp->withHeader( 'Content-type', "application/json;charset=utf-8");
+
+				if(!$req->hasHeader('Authorization')) {
+					$rs = $rs->withHeader('WWW-authenticate', 'Basic realm="lbs api" ');
+					$resp= $resp->withStatus(401);
+					$temp = array("type" => "error", "error" => '401', "message" => "No Authorization in header");
+					$rs->getBody()->write(json_encode($temp));
+					return $rs;
+				}
+				$auth = base64_decode( explode( " ", $req->getHeader('Authorization')[0]) [1] );
+				list($user, $pass) = explode(':', $auth);
+				try {
+					$compte = Compte::select('id', 'nom', 'password')
+						->where('id', '=', $args['id'])
+						->firstOrFail();
+					if($pass != $compte->password) {
+						throw new \Exception("Authentification incorrecte");
+						/*if(!password_verify($pass, $carte->password)) {
+						throw new \Exception("Authentification incorrecte");*/
+					}
+				} catch(\Exception $e){
+					$rs = $rs->withHeader('WWW-authenticate', 'Basic realm="lbs api" ');
+					$resp= $resp->withStatus(401);
+					$temp = array("type" => "error", "error" => '401', "message" => $e->getMessage());
+					$rs->getBody()->write(json_encode($temp));
+					return $rs;
+				}
+
+				$secret = 'geoquizz';
+				$token = JWT::encode( [ 'iss'=>'http://backoffice.geoquizz.local/auth',
+					'aud'=>'http://api.lbs.local',
+					'iat'=>time(),
+					'exp'=>time()+3600,
+					'uid' =>  $compte->id],
+					$secret, 'HS512' );
+
+				$resp= $resp->withStatus(201);
+				$temp = array("token" => $token);
+				$rs->getBody()->write(json_encode($temp));
+
+				return $rs;
 			}
-
-		$auth=base64_decode(explode(" ", $req->getHeader('Authorization')[0]) [1]);
-		list($user, $pass) = explode(':', $auth);
-
-		try {
-			$compte = Compte::select('email', 'password')
-				->where('email', '=', $args['email'])
-				->where('password', '=', $args['password'])
-				->firstOrFail();
-			if(!password_verify($pass, $carte->password)) {
-				throw new \Exception("Authentification incorrecte");
-			unset($compte->password);
-			}
-		} catch(\Exception $e){
-			$resp = $resp->withHeader('WWW-authenticate','Basic realm="lbs api"');
-    		return Writer::json_error($resp, 401, 'carte ou nom de client non reconnu');
-		}
-
-		$secret = 'geoquizz';
-		$token = JWT::encode( [
-			'iat'=>time(),
-			'exp'=>time()+3600,
-			'uid' =>  $compte->id],
-			$secret, 'HS512' );
-
-		$resp= $resp->withStatus(201);
-		$resp->getBody()->write(json_encode($token));
-
-		return $resp;
-	}
 
 }

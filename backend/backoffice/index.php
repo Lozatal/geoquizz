@@ -20,7 +20,6 @@
 
   use \geoquizz\utils\Writer as writer;
 
-
   $config=parse_ini_file("../src/config/geoquizz.db.conf.ini");
   $db = new Illuminate\Database\Capsule\Manager();
   $db->addConnection($config);
