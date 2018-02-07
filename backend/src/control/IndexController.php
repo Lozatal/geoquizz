@@ -27,12 +27,12 @@
       $serie=$this->conteneur->get('router')->pathFor('serieCreationGet');
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
 
-      $tabPhoto=Photo::select('description','id')->get();
-      foreach($tabPhoto as $photo){
-        $id=$photo['id'];
-        $photo['modif']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
-        $photo['suppr']=$this->conteneur->get('router')->pathFor('photoSuppressionGet',['id'=>$id]);
-      }
+      // $tabPhoto=Photo::select('description','id')->get();
+      // foreach($tabPhoto as $photo){
+      //   $id=$photo['id'];
+      //   $photo['modif']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
+      //   $photo['suppr']=$this->conteneur->get('router')->pathFor('photoSuppressionGet',['id'=>$id]);
+      // }
 
       $tabSerie=Serie::select('ville','id')->get();
       foreach($tabSerie as $serie){
@@ -45,7 +45,7 @@
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       return $this->conteneur->view->render($resp,'index.twig',['serie'=>$serie,
                                                                 'tabSerie'=>$tabSerie,
-                                                                'tabPhoto'=>$tabPhoto,
+                                                                // 'tabPhoto'=>$tabPhoto,
                                                                 'compte'=>$compte,
                                                                 'backoffice'=>$backoffice,
                                                                 'style'=>$style]);
