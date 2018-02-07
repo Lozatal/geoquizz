@@ -188,7 +188,7 @@
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         return $this->conteneur->view->render($resp,'photo/creationPhoto.twig',['creation'=>$creation,
                                                                                 'backoffice'=>$backoffice,
-                                                                                'idSerie'=>$idSerie;
+                                                                                'idSerie'=>$idSerie,
                                                                                 'style'=>$style]);
       }
   }
