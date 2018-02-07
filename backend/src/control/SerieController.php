@@ -201,9 +201,11 @@
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
         $modification=$this->conteneur->get('router')->pathFor('getSeriesPut',['id'=>$id]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
+        $logout=$this->conteneur->get('router')->pathFor('logout');
         return $this->conteneur->view->render($resp,'serie/modifierSerie.twig',['serie'=>$Series,
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
+                                                                                'logout'=>$logout,
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('index');
@@ -221,8 +223,10 @@
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $creation=$this->conteneur->get('router')->pathFor('getSeriesPost');
       $backoffice=$this->conteneur->get('router')->pathFor('index');
+      $logout=$this->conteneur->get('router')->pathFor('logout');
       return $this->conteneur->view->render($resp,'serie/creationSerie.twig',['creation'=>$creation,
                                                                               'backoffice'=>$backoffice,
+                                                                              'logout'=>$logout,
                                                                               'style'=>$style]);
     }
 
@@ -283,6 +287,7 @@
       $idSerie=$args['idSerie'];
       $photo=$this->conteneur->get('router')->pathFor('photoCreationGet',['idSerie'=>$idSerie]);
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
+      $logout=$this->conteneur->get('router')->pathFor('logout');
 
       $tabPhotos=Photos::select('description','id')->where('id_serie','=',$idSerie)->get();
       foreach($tabPhotos as $tabPhoto){
@@ -296,6 +301,7 @@
       return $this->conteneur->view->render($resp,'serie/afficherSerie.twig',['photo'=>$photo,
                                                                 'tabPhotos'=>$tabPhotos,
                                                                 'compte'=>$compte,
+                                                                'logout'=>$logout,
                                                                 'backoffice'=>$backoffice,
                                                                 'style'=>$style]);
     }

@@ -8,6 +8,7 @@ class Serie extends \Illuminate\Database\Eloquent\Model {
   protected $primaryKey = 'id';
   protected $keyType = 'string';
   public $timestamps = false;
+  public $incrementing = false;
 
   public function parties(){
     return $this->hasMany( 'geoquizz\model\Partie', 'id_serie');

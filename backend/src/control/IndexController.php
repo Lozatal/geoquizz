@@ -26,6 +26,7 @@
     public function getIndex(Request $req, Response $resp, array $args){
       $serie=$this->conteneur->get('router')->pathFor('serieCreationGet');
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
+      $logout=$this->conteneur->get('router')->pathFor('logout');
 
       $tabSeries=Serie::select('ville','id')->get();
       foreach($tabSeries as $tabSerie){
@@ -39,6 +40,7 @@
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       return $this->conteneur->view->render($resp,'index.twig',['serie'=>$serie,
                                                                 'tabSeries'=>$tabSeries,
+                                                                'logout'=>$logout,
                                                                 'compte'=>$compte,
                                                                 'backoffice'=>$backoffice,
                                                                 'style'=>$style]);

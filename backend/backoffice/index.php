@@ -14,7 +14,7 @@
   use \geoquizz\control\SerieController as Series;
   use \geoquizz\control\IndexController as Index;
 
-  use \geoquizz\control\AuthController as Auth;
+  use \geoquizz\control\MecadoAuthentification as Auth;
 
   /* Appel des utilitaires */
 
@@ -89,12 +89,36 @@
     }
   )->setName("comptesPost")->add(new Validation($validators));
 
-  $app->post('/auth[/]',
-  		function(Request $req, Response $resp, $args){
-  			$ctrl=new Auth($this);
-  			return $ctrl->authentification($req,$resp,$args);
-  		}
-  )->setName('authentification');
+  $validators = [
+      'email' => Validator::StringType(),
+      'password' => Validator::StringType()
+  ];
+
+  $app->post('/',
+    function(Request $req, Response $resp, $args){
+      if($req->getAttribute('has_errors')){
+        $errors = $req->getAttribute('errors');
+        return afficheError($resp, '/parties/nouvelle', $errors);
+      }else{
+        $ctrl=new Comptes($this);
+        return $ctrl->loginCompte($req,$resp,$args);
+      }
+    }
+  )->setName("loginPost")->add(new Validation($validators));
+
+  $app->get('/logout[/]',
+    function(Request $req, Response $resp, $args){
+      if($req->getAttribute('has_errors')){
+        $errors = $req->getAttribute('errors');
+        return afficheError($resp, '/parties/nouvelle', $errors);
+      }else{
+        $ctrl=new Comptes($this);
+        return $ctrl->logoutCompte($req,$resp,$args);
+      }
+    }
+  )->setName("logout");
+
+
 
   //======================================================
   //Photos

@@ -44,22 +44,29 @@
       return $resp;
     }
 
-    //Connexion
+    public function loginCompte(Request $req, Response $resp, array $args){
+      $postVar=$req->getParsedBody();
 
-    // public function postConnexion(){
-    //   $postVar=$req->getParsedBody();
-    //
-    //   $id=$postVar['id'];
-    //   $password=$postVar['password'];
-    //
-    //   echo "$id";
-    //   echo "$password";
-    //
-    //   // $redirect=$this->conteneur->get('router')->pathFor('backoffice');
-    //   // $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
-    //
-    //   return $resp;
-    // }
+      $email=filter_var($postVar['email'],FILTER_SANITIZE_STRING);
+      $password=filter_var($postVar['password'],FILTER_SANITIZE_STRING);
+
+      $verifier= new \geoquizz\utils\GeoquizzAuthentification();
+      $verifier->login($email, $password);
+
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+
+      return $resp;
+    }
+
+    public function logoutCompte(Request $req, Response $resp, array $args){
+      $verifier= new \geoquizz\utils\GeoquizzAuthentification();
+      $verifier->logout();
+
+      $redirect=$this->conteneur->get('router')->pathFor('comptesConnexionGet');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+      return $resp;
+    }
 
     //======================================================
     // Fonctions pour twig
@@ -67,20 +74,26 @@
 
     public function getComptesConnexion(Request $req, Response $resp, array $args){
       $ajouter=$this->conteneur->get('router')->pathFor('comptesCreationGet');
+      $login=$this->conteneur->get('router')->pathFor('loginPost');
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       return $this->conteneur->view->render($resp,'connexion.twig',['creation'=>$ajouter,
+                                                                    'login'=>$login,
                                                                     'backoffice'=>$backoffice,
                                                                     'style'=>$style]);
     }
 
     public function getComptesCreation(Request $req, Response $resp, array $args){
-      $login=$this->conteneur->get('router')->pathFor('comptesConnexionGet');
+      $connexion=$this->conteneur->get('router')->pathFor('comptesConnexionGet');
+      $ajouter=$this->conteneur->get('router')->pathFor('comptesCreationGet');
       $creation=$this->conteneur->get('router')->pathFor('comptesPost');
+      $login=$this->conteneur->get('router')->pathFor('loginPost');
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
-      return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['connexion'=>$login,
+      return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['connexion'=>$connexion,
+                                                                                'ajouter' =>$ajouter,
                                                                                 'creation' =>$creation,
+                                                                                'login'=>$login,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'style'=>$style]);
     }
@@ -90,8 +103,10 @@
       $compte = Compte::select('nom','email')->find($id);
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
+      $logout=$this->conteneur->get('router')->pathFor('logout');
       return $this->conteneur->view->render($resp,'compte/compte.twig',['style'=>$style,
                                                                         'backoffice'=>$backoffice,
+                                                                        'logout'=>$logout,
                                                                         'compte'=>$compte]);
     }
   }

@@ -71,7 +71,6 @@ export default {
   		}
   	},
   	demarrerPartie(){
-  		console.log(this.nb_photos_choisis);
   		window.axios.post('parties', {
   	        nb_photos : this.nb_photos_choisis,
   	        joueur: this.pseudo,
@@ -81,7 +80,7 @@ export default {
 
   	        window.axios.defaults.params.token = response.data.token;
 
-  	        this.$router.push({ path: '/partie' });
+  	        this.$router.push({ path: '/partie/' + response.data.id });
   	    }).catch((error) => {
   	        alert(error);
   	    });
