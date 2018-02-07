@@ -2,6 +2,8 @@
 
 namespace geoquizz\utils;
 
+use geoquizz\model\Compte as Compte;
+
 class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
 
     /*
@@ -20,10 +22,12 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
      */
     const ACCESS_LEVEL_USER  = 100;
     const ACCESS_LEVEL_ADMIN = 200;
+    public $conteneur=null;
 
     /* constructeur */
     public function __construct(){
         parent::__construct();
+        $this->conteneur=$conteneur;
     }
 
     /* La méthode createUser
@@ -48,7 +52,7 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
 
     public function createUser($id, $nom, $email, $pass, $pass_verif) {
 
-        $requete = \geoquizz\model\Compte::where('email', '=', $email);
+        $requete = Compte::where('email', '=', $email);
         $usertest = $requete->first();
 
         if($usertest!=null)
@@ -81,7 +85,7 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
      * permet de connecter un utilisateur qui a fourni son nom d'utilisateur
      * et son mot de passe (depuis un formulaire de connexion)
      *
-     * @param : $username : le nom d'utilisateur
+     * @param : $username : l'email de l'utilisateur
      * @param : $password : le mot de passe tapé sur le formulaire
      *
      * Algorithme :
@@ -96,27 +100,28 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
      *
      */
 
-    // public function login($email, $password) {
-    //
-    //     $requete = \geoquizz\model\Compte::where('mail', '=', $email);
-    //
-    //     $usertest = $requete->first();
-    //
-    //     if($usertest==null)
-    //     {
-    //         throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
-    //     }
-    //     else
-    //     {
-    //         if($this->verifyPassword($password, $usertest->password))
-    //         {
-    //             $this->updateSession($email, self::ACCESS_LEVEL_USER);
-    //         }
-    //         else
-    //         {
-    //             throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
-    //         }
-    //     }
-    // }
+    public function login($email, $password) {
+
+        $requete = Compte::where('email', '=', $email);
+
+        $usertest = $requete->first();
+
+        if($usertest==null)
+        {
+            throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
+        }
+        else
+        {
+            if($this->verifyPassword($password, $usertest->password))
+            {
+                $this->updateSession($email, self::ACCESS_LEVEL_USER);
+            }
+            else
+            {
+                throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
+            }
+        }
+
+    }
 
 }
