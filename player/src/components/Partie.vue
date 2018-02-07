@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>HOLIS</h1>
-    <map></map>
+    <Map></Map>
   </div>
 </template>
 
