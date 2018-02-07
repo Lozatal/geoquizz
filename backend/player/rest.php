@@ -46,6 +46,7 @@
   });
 
   $app->add(function ($req, $res, $next) {
+      
       $response = $next($req, $res);
       return $response
               ->withHeader('Access-Control-Allow-Origin', $req->getHeader('Origin')[0])
@@ -144,7 +145,7 @@
   $validators= [
       'score' => Validator::numeric()->positive()
   ];
-  
+
   $app->put('/parties/{id}[/]',
       function(Request $req, Response $resp, $args){
         if($req->getAttribute('has_errors')){
@@ -156,6 +157,6 @@
         }
       }
       )->setName('updateScorePartie')->add(new Validation($validators))->add('checkToken');
-  
+
   $app->run();
 ?>
