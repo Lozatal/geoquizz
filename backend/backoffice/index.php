@@ -20,7 +20,6 @@
 
   use \geoquizz\utils\Writer as writer;
 
-
   $config=parse_ini_file("../src/config/geoquizz.db.conf.ini");
   $db = new Illuminate\Database\Capsule\Manager();
   $db->addConnection($config);
@@ -90,22 +89,12 @@
     }
   )->setName("comptesPost")->add(new Validation($validators));
 
-  // $validators = [
-  //     'email' => Validator::StringType(),
-  //     'password' => Validator::StringType()->alnum(),
-  // ];
-
-  $app->post('/connexion[/]',
-    function(Request $req, Response $resp, $args){
-      if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
-      }else{
-        $ctrl=new Auth($this);
-        return $ctrl->authenticate($req,$resp,$args);
-      }
-    }
-  )->setName("authenticatePost");
+  $app->post('/auth[/]',
+  		function(Request $req, Response $resp, $args){
+  			$ctrl=new Auth($this);
+  			return $ctrl->authentification($req,$resp,$args);
+  		}
+  )->setName('authentification');
 
   //======================================================
   //Photos
