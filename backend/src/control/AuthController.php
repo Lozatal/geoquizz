@@ -58,15 +58,4 @@ class AuthController {
 		return $resp;
 	}
 
-	// public function getCarte(Request $req, Response $resp, array $args){
-	// 	$id=$args['id'];
-  //     	$carte = Compte::select("id", "nom", "nbcommande", "montant")
-  //     			->where("id", "=", $id)
-  //     			->firstOrFail();
-	//     $json =writer::jsonFormatRessource("carte",$carte,$links);
-	//     $resp=$resp->withHeader('Content-Type','application/json');
-	//     $resp->getBody()->write($json);
-  //
-	//     return $resp;
-	// }
 }

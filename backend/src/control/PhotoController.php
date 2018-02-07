@@ -166,9 +166,11 @@
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
         $modification=$this->conteneur->get('router')->pathFor('photosPut',['id'=>$id,'idSerie'=>$idSerie]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
+        $logout=$this->conteneur->get('router')->pathFor('logout');
         return $this->conteneur->view->render($resp,'photo/modifierPhoto.twig',['photo'=>$Photos,
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
+                                                                                'logout'=>$logout,
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
@@ -187,9 +189,11 @@
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
         $creation=$this->conteneur->get('router')->pathFor('photosPost',['idSerie'=>$idSerie]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
+        $logout=$this->conteneur->get('router')->pathFor('logout');
         return $this->conteneur->view->render($resp,'photo/creationPhoto.twig',['creation'=>$creation,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'idSerie'=>$idSerie,
+                                                                                'logout'=>$logout,
                                                                                 'style'=>$style]);
       }
   }
