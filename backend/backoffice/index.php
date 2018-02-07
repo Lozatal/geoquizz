@@ -122,13 +122,13 @@
   )->setName("photosDelete");
 
   $validators = [
-      'description' => Validator::StringType()->alnum(),
-      'url' => Validator::StringType()->alnum(),
+      'description' => Validator::StringType(),
+      'url' => Validator::StringType(),
       'position_long' => Validator::numeric(),
       'position_lat' =>Validator::numeric()
   ];
 
-  $app->put('/photos/{id}',
+  $app->post('/photos/{id}/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
@@ -141,13 +141,13 @@
   )->setName("photosPut")->add(new Validation($validators));
 
   $validators = [
-    'description' => Validator::StringType(),
-    'url' => Validator::StringType(),
-    'position_long' => Validator::numeric(),
-    'position_lat' =>Validator::numeric()
+      'description' => Validator::StringType(),
+      'url' => Validator::StringType(),
+      'position_long' => Validator::numeric(),
+      'position_lat' =>Validator::numeric()
   ];
 
-  $app->post('/photos[/]',
+  $app->post('/photos/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
@@ -191,8 +191,8 @@ $app->delete('/series/{id}',
 //Modifier une serie
 
 $validators = [
-    'ville' => Validator::StringType()->alnum(),
-    'map_refs' => Validator::numeric(),
+    'ville' => Validator::StringType(),
+    'map_refs' => Validator::StringType(),
     'dist' => Validator::numeric()
 ];
 
@@ -211,8 +211,8 @@ $app->put('/series/{id}',
 //Ajouter une serie
 
 $validators = [
-  'ville' => Validator::StringType()->alnum(),
-  'map_refs' => Validator::numeric(),
+  'ville' => Validator::StringType(),
+  'map_refs' => Validator::StringType(),
   'dist' => Validator::numeric()
 ];
 
@@ -281,7 +281,7 @@ $app->get('/creerPhoto/{idSerie}',
 )->setName("photoCreationGet");
 
 // Page de modification d'une photo
-$app->get('/modifierPhoto/{id}',
+$app->get('/modifierPhoto/{id}/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
     return $ctrl->getPhotoModification($req,$resp,$args);
@@ -296,6 +296,11 @@ $app->get('/modifierSerie/{id}',
   }
 )->setName("serieModificationGet");
 
+$validators = [
+    'ville' => Validator::StringType(),
+    'map_refs' => Validator::StringType(),
+    'dist' => Validator::numeric()
+];
 // Modification de la série Twig
 $app->post('/modifierSerie/{id}',
   function(Request $req, Response $resp, $args){
@@ -304,7 +309,12 @@ $app->post('/modifierSerie/{id}',
   }
 )->setName("getSeriesPut");
 
-// Modification de la série Twig
+$validators = [
+    'ville' => Validator::StringType(),
+    'map_refs' => Validator::StringType(),
+    'dist' => Validator::numeric()
+];
+// création de la série Twig
 $app->post('/creerSerie[/]',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
@@ -312,37 +322,29 @@ $app->post('/creerSerie[/]',
   }
 )->setName("getSeriesPost");
 
-// Page de modification de photo
-$app->get('/supprimerPhoto/{id}',
+// Page de suppression de photo
+$app->get('/supprimerPhoto/{id}/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
     return $ctrl->getPhotoSuppresion($req,$resp,$args);
   }
 )->setName("photoSuppressionGet");
 
-// Page de modification d'une série
+// Page de suppression d'une série
 $app->get('/supprimerSerie/{id}',
   function(Request $req, Response $resp, $args){
-    $ctrl=new Photos($this);
+    $ctrl=new Series($this);
     return $ctrl->getSerieSuppression($req,$resp,$args);
   }
 )->setName("serieSuppressionGet");
 
-// Page de modification d'une série
-$app->get('/afficherSeries',
-  function(Request $req, Response $resp, $args){
-    $ctrl=new Series($this);
-    return $ctrl->getSerieAfficher($req,$resp,$args);
-  }
-)->setName("serieAfficherGet");
-
-// Page de modification les photos d'une série
-$app->get('/afficherPhotos/{idserie}',
+// Page de d'affichage d'une série
+$app->get('/afficherSerie/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
     return $ctrl->getSerieAfficherPhotos($req,$resp,$args);
   }
-)->setName("serieAfficherPhotosGet");
+)->setName("serieAfficherGet");
 
   $app->run();
 ?>

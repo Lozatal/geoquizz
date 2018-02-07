@@ -21,23 +21,23 @@
     <h1><img src="{{style}}/img/logo_chico.png" class="logo"> Geoquizz</h1>
     <div class="col-12 centrar">
       <div>
-        <img src="{{style}}/img/001-map-location.png">
+        <a href="{{backoffice}}"><img src="{{style}}/img/001-map-location.png"></a>
       </div>
    </div>
    <div class="col-12 centrar">
     <table class="table table-striped">
     <thead>
       <tr>
-        <th colspan="3">Ville</th>
+        <th colspan="3"><a href="{{serie}}">Ajouter une série</a></th>
       </tr>
     </thead>
     <tbody>
 
-     {% for serie in tabSerie %}
+     {% for serie in tabSeries %}
      <tr>
-       <td>{{ serie.ville }}</td>
-       <td><a href="{{ serie.modif }}"><span class="icon-pencil"></span></a></td>
-       <td><a href="{{ serie.suppr }}"><span class="icon-cross"></span></a></td>
+       <td><a href="{{ serie.afficher }}">{{ serie.ville }}</a></td>
+       <td><a href="{{ serie.modifier }}"><span class="icon-pencil"></span></a></td>
+       <td><a href="{{ serie.supprimer }}"><span class="icon-cross"></span></a></td>
      </tr>
      {% endfor %}
 

@@ -27,25 +27,18 @@
       $serie=$this->conteneur->get('router')->pathFor('serieCreationGet');
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
 
-      // $tabPhoto=Photo::select('description','id')->get();
-      // foreach($tabPhoto as $photo){
-      //   $id=$photo['id'];
-      //   $photo['modif']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id]);
-      //   $photo['suppr']=$this->conteneur->get('router')->pathFor('photoSuppressionGet',['id'=>$id]);
-      // }
-
-      $tabSerie=Serie::select('ville','id')->get();
-      foreach($tabSerie as $serie){
-        $id=$serie['id'];
-        $serie['modif']=$this->conteneur->get('router')->pathFor('serieModificationGet',['id'=>$id]);
-        $photo['suppr']=$this->conteneur->get('router')->pathFor('serieSuppressionGet',['id'=>$id]);
+      $tabSeries=Serie::select('ville','id')->get();
+      foreach($tabSeries as $tabSerie){
+        $id=$tabSerie['id'];
+        $tabSerie['afficher']=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$id]);
+        $tabSerie['modifier']=$this->conteneur->get('router')->pathFor('serieModificationGet',['id'=>$id]);
+        $tabSerie['supprimer']=$this->conteneur->get('router')->pathFor('serieSuppressionGet',['id'=>$id]);
       }
 
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       return $this->conteneur->view->render($resp,'index.twig',['serie'=>$serie,
-                                                                'tabSerie'=>$tabSerie,
-                                                                // 'tabPhoto'=>$tabPhoto,
+                                                                'tabSeries'=>$tabSeries,
                                                                 'compte'=>$compte,
                                                                 'backoffice'=>$backoffice,
                                                                 'style'=>$style]);
