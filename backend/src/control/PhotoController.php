@@ -164,14 +164,17 @@
       if($Photos){
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
         $modification=$this->conteneur->get('router')->pathFor('photosPut');
-        return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
-                                                                  'modification'=>$modification,
-                                                                  'style'=>$style]);
+        $backoffice=$this->conteneur->get('router')->pathFor('index');
+        return $this->conteneur->view->render($resp,'photo/modifierPhoto.twig',['photo'=>$photo,
+                                                                                'modification'=>$modification,
+                                                                                'backoffice'=>$backoffice,
+                                                                                'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('index');
         $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
         return $resp;
       }
+    }
 
       /*
       * Page de création d'une photo
@@ -179,10 +182,13 @@
       * Return Response $resp contenant la page complète
       */
       public function getPhotoCreation(Request $req,Response $resp,array $args){
+        $idSerie=$args['idSerie'];
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
-        $modification=$this->conteneur->get('router')->pathFor('photosPost');
-        return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
-                                                                  'modification'=>$modification,
-                                                                  'style'=>$style]);
-    }
+        $creation=$this->conteneur->get('router')->pathFor('photosPost');
+        $backoffice=$this->conteneur->get('router')->pathFor('index');
+        return $this->conteneur->view->render($resp,'photo/creationPhoto.twig',['creation'=>$creation,
+                                                                                'backoffice'=>$backoffice,
+                                                                                'idSerie'=>$idSerie;
+                                                                                'style'=>$style]);
+      }
   }
