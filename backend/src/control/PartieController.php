@@ -29,11 +29,14 @@
         $partie=partie::where('id', '=', $id)->firstOrFail();
 
         //On récupère maintenant la série
-        $serie = $partie->serie->first();
-        $partie->serie = $serie;
-
-        $photos = photo::where('id_serie', '=', $serie->id)->get();
-        $partie->photos = $photos;
+        try{
+          $serie = $partie->serie->firstOrFail();
+          $partie->serie = $serie;
+          $photos = photo::where('id_serie', '=', $serie->id)->get();
+          $partie->photos = $photos;
+        }catch(ModelNotFoundException $ex){
+          $partie->serie = "Pas de série";
+        }
           
         $resp=$resp->withHeader('Content-Type','application/json')
               ->withStatus(200);
