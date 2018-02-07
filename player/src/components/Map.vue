@@ -9,7 +9,7 @@
   >
     <gmap-marker
       :key="index"
-      v-for="(m, index) in markers"
+      v-for="(m) in markers"
       :position="m.position"
       :clickable="true"
       :draggable="true"
@@ -50,13 +50,7 @@
             }
         };
         this.markers.push(newMarker);
-      }/*,
-      placeMarkerAndPanTo(event, map) {
-        var marker = new google.maps.Marker({
-          position: event,
-          map: map
-          });
-      }*/
+      },
     }
   }
 </script>
