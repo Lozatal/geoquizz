@@ -348,7 +348,7 @@ $app->get('/afficherSeries',
 )->setName("serieAfficherGet");
 
 // Page de modification les photos d'une série
-$app->get('/afficherSeries',
+$app->get('/afficherPhotos/{idserie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
     return $ctrl->getSerieAfficherPhotos($req,$resp,$args);
