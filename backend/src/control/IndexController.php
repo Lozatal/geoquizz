@@ -25,7 +25,6 @@
 
     public function getIndex(Request $req, Response $resp, array $args){
       $serie=$this->conteneur->get('router')->pathFor('serieCreationGet');
-      $photo=$this->conteneur->get('router')->pathFor('photoCreationGet');
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
 
       $tabPhoto=Photo::select('description','id')->get();

@@ -262,4 +262,13 @@
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
     }
+
+    /*
+    * Afficher la liste des séries Twig
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesPost(Request $req,Response $resp,array $args){
+
+    }
 }
