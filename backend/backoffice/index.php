@@ -20,7 +20,6 @@
 
   use \geoquizz\utils\Writer as writer;
 
-
   $config=parse_ini_file("../src/config/geoquizz.db.conf.ini");
   $db = new Illuminate\Database\Capsule\Manager();
   $db->addConnection($config);
@@ -90,22 +89,12 @@
     }
   )->setName("comptesPost")->add(new Validation($validators));
 
-  // $validators = [
-  //     'email' => Validator::StringType(),
-  //     'password' => Validator::StringType()->alnum(),
-  // ];
-
-  $app->post('/connexion[/]',
-    function(Request $req, Response $resp, $args){
-      if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
-      }else{
-        $ctrl=new Auth($this);
-        return $ctrl->authenticate($req,$resp,$args);
-      }
-    }
-  )->setName("authenticatePost");
+  $app->post('/auth[/]',
+  		function(Request $req, Response $resp, $args){
+  			$ctrl=new Auth($this);
+  			return $ctrl->authentification($req,$resp,$args);
+  		}
+  )->setName('authentification');
 
   //======================================================
   //Photos
@@ -152,10 +141,10 @@
   )->setName("photosPut")->add(new Validation($validators));
 
   $validators = [
-    'description' => Validator::StringType(),
-    'url' => Validator::StringType(),
-    'position_long' => Validator::numeric(),
-    'position_lat' =>Validator::numeric()
+      'description' => Validator::StringType(),
+      'url' => Validator::StringType(),
+      'position_long' => Validator::numeric(),
+      'position_lat' =>Validator::numeric()
   ];
 
   $app->post('/photos/{idSerie}',
@@ -202,8 +191,8 @@ $app->delete('/series/{id}',
 //Modifier une serie
 
 $validators = [
-    'ville' => Validator::StringType()->alnum(),
-    'map_refs' => Validator::numeric(),
+    'ville' => Validator::StringType(),
+    'map_refs' => Validator::StringType(),
     'dist' => Validator::numeric()
 ];
 
@@ -222,8 +211,8 @@ $app->put('/series/{id}',
 //Ajouter une serie
 
 $validators = [
-  'ville' => Validator::StringType()->alnum(),
-  'map_refs' => Validator::numeric(),
+  'ville' => Validator::StringType(),
+  'map_refs' => Validator::StringType(),
   'dist' => Validator::numeric()
 ];
 
@@ -307,6 +296,11 @@ $app->get('/modifierSerie/{id}',
   }
 )->setName("serieModificationGet");
 
+$validators = [
+    'ville' => Validator::StringType(),
+    'map_refs' => Validator::StringType(),
+    'dist' => Validator::numeric()
+];
 // Modification de la série Twig
 $app->post('/modifierSerie/{id}',
   function(Request $req, Response $resp, $args){
@@ -315,7 +309,12 @@ $app->post('/modifierSerie/{id}',
   }
 )->setName("getSeriesPut");
 
-// Modification de la série Twig
+$validators = [
+    'ville' => Validator::StringType(),
+    'map_refs' => Validator::StringType(),
+    'dist' => Validator::numeric()
+];
+// création de la série Twig
 $app->post('/creerSerie[/]',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
@@ -323,7 +322,7 @@ $app->post('/creerSerie[/]',
   }
 )->setName("getSeriesPost");
 
-// Page de modification de photo
+// Page de suppression de photo
 $app->get('/supprimerPhoto/{id}/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
@@ -331,7 +330,7 @@ $app->get('/supprimerPhoto/{id}/{idSerie}',
   }
 )->setName("photoSuppressionGet");
 
-// Page de modification d'une série
+// Page de suppression d'une série
 $app->get('/supprimerSerie/{id}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
@@ -339,7 +338,7 @@ $app->get('/supprimerSerie/{id}',
   }
 )->setName("serieSuppressionGet");
 
-// Page de modification d'une série
+// Page de d'affichage d'une série
 $app->get('/afficherSerie/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);

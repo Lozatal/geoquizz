@@ -96,27 +96,27 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
      *
      */
 
-    public function login($email, $password) {
-
-        $requete = \mecadoapp\model\User::where('mail', '=', $email);
-
-        $usertest = $requete->first();
-
-        if($usertest==null)
-        {
-            throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
-        }
-        else
-        {
-            if($this->verifyPassword($password, $usertest->password))
-            {
-                $this->updateSession($email, self::ACCESS_LEVEL_USER);
-            }
-            else
-            {
-                throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
-            }
-        }
-    }
+    // public function login($email, $password) {
+    //
+    //     $requete = \geoquizz\model\Compte::where('mail', '=', $email);
+    //
+    //     $usertest = $requete->first();
+    //
+    //     if($usertest==null)
+    //     {
+    //         throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
+    //     }
+    //     else
+    //     {
+    //         if($this->verifyPassword($password, $usertest->password))
+    //         {
+    //             $this->updateSession($email, self::ACCESS_LEVEL_USER);
+    //         }
+    //         else
+    //         {
+    //             throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
+    //         }
+    //     }
+    // }
 
 }
