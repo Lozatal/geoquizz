@@ -17,7 +17,7 @@ Vue.config.productionTip = false
 window.axios = axios.create({
   baseURL: 'http://player.geoquizz.local:10081/',
   params : {
-
+  	token : false
   }
 });
 
