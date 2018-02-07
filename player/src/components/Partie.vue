@@ -6,6 +6,9 @@
 </template>
 
 <script>
+
+import Map from '@/components/Map'
+
 export default {
   name: 'Index',
   data () {
@@ -18,6 +21,9 @@ export default {
     	series: [],
     	options: []
     }
+  },
+  components:{
+    Map
   },
   methods: {
   	//On va récupérer la liste des images (sert surtout a avoir le nombre d'images de la liste en cours)
