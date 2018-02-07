@@ -1174,6 +1174,14 @@ pre {
   justify-content: space-between;
   display: flex; }
 
+.button {
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 0px #656565; }
+
+.success {
+  background: #2ecc71; }
+
 h1 {
   text-align: center;
   margin: 30px; }
