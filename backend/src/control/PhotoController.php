@@ -107,13 +107,9 @@
         $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
         $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
         $Photos->save();
-        $resp=$resp->withStatus(200);
-        $resp->getBody()->write('Modification complete');
       }
-      else{
-        $resp=$resp->withStatus(404);
-        $resp->getBody()->write('not found');
-      }
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
     }
 
@@ -130,10 +126,11 @@
       $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
       $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
       $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
+      $Photos->id_serie=filter_var($postVar['id_serie'],FILTER_SANITIZE_STRING);
       $Photos->save();
-      $resp=$resp->withStatus(201);
-      $resp->getBody()->write('Created');
 
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
     }
 
@@ -163,9 +160,9 @@
       $Photos = Photos::find($id);
       if($Photos){
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
-        $modification=$this->conteneur->get('router')->pathFor('photosPut');
+        $modification=$this->conteneur->get('router')->pathFor('photosPut',['id'=>$id]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
-        return $this->conteneur->view->render($resp,'photo/modifierPhoto.twig',['photo'=>$photo,
+        return $this->conteneur->view->render($resp,'photo/modifierPhoto.twig',['photo'=>$Photos,
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'style'=>$style]);
@@ -188,7 +185,7 @@
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         return $this->conteneur->view->render($resp,'photo/creationPhoto.twig',['creation'=>$creation,
                                                                                 'backoffice'=>$backoffice,
-                                                                                'idSerie'=>$idSerie;
+                                                                                'idSerie'=>$idSerie,
                                                                                 'style'=>$style]);
       }
   }
