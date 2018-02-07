@@ -44,6 +44,23 @@
       return $resp;
     }
 
+    //Connexion
+
+    // public function postConnexion(){
+    //   $postVar=$req->getParsedBody();
+    //
+    //   $id=$postVar['id'];
+    //   $password=$postVar['password'];
+    //
+    //   echo "$id";
+    //   echo "$password";
+    //
+    //   // $redirect=$this->conteneur->get('router')->pathFor('backoffice');
+    //   // $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+    //
+    //   return $resp;
+    // }
+
     //======================================================
     // Fonctions pour twig
     //======================================================
