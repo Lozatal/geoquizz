@@ -18,7 +18,7 @@ export default {
     if( this.$store.state.token){
       window.axios.defaults.params.token = this.$store.state.token;
     }else{
-      this.$router.push({path: '/'});
+      //this.$router.push({path: '/'});
     }
   }
 }
