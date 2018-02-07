@@ -46,7 +46,7 @@ p{
 nav{
   display: flex;
   flex-wrap: wrap;
-  background-color: black;
+  background-color: #34495e;
   box-sizing: border-box;
   width:100%;
   height:70px;
@@ -70,12 +70,18 @@ li{
   justify-content: center; /* alignement vertical */
 }
 li:nth-child(1){
-  width: 10%;
+  width: 5%;
 }
 li:nth-child(2){
   width: 45%;
 }
 li:nth-child(3){
   width: 45%;
+}
+img{
+  text-align:left;
+}
+p{
+  font-size:2em;
 }
 </style>
