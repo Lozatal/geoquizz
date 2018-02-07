@@ -7,7 +7,14 @@ import store from './store.js'
 import axios from 'axios'
 
 Vue.config.productionTip = false
+<<<<<<< HEAD
 //player.geoquizz.local:10081/parties
+=======
+
+//http://localhost/html/geoquizz/backend/player/
+//http://player.geoquizz.local:10081/
+
+>>>>>>> 51d0a5a1c3720838a48b35a71504c672607ad7c0
 window.axios = axios.create({
   baseURL: 'http://player.geoquizz.local:10081/',
   params : {
