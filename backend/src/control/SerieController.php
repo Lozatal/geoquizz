@@ -183,18 +183,31 @@
     * Return Response $resp contenant la page complète
     */
     public function getPhotoModification(Request $req,Response $resp,array $args){
-      $id=$args['id'];
-      $Series = Series::find($id);
-      if($Series){
-        $style='http://'.$_SERVER['HTTP_HOST']."/style";
-        $modification=$this->conteneur->get('router')->pathFor('seriesPut');
-        return $this->conteneur->view->render($resp,'index.twig',['serie'=>$Series,
-                                                                  'modification'=>$modification,
-                                                                  'style'=>$style]);
-      }else{
-        $redirect=$this->conteneur->get('router')->pathFor('index');
-        $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
-        return $resp;
-      }
-  }
+        $id=$args['id'];
+        $Series = Series::find($id);
+        if($Series){
+          $style='http://'.$_SERVER['HTTP_HOST']."/style";
+          $modification=$this->conteneur->get('router')->pathFor('seriesPut');
+          return $this->conteneur->view->render($resp,'index.twig',['serie'=>$Series,
+                                                                    'modification'=>$modification,
+                                                                    'style'=>$style]);
+        }else{
+          $redirect=$this->conteneur->get('router')->pathFor('index');
+          $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+          return $resp;
+        }
+    }
+
+    /*
+    * Page de création d'une série
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSerieCreation(Request $req,Response $resp,array $args){
+      $style='http://'.$_SERVER['HTTP_HOST']."/style";
+      $modification=$this->conteneur->get('router')->pathFor('seriesPost');
+      return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
+                                                                'modification'=>$modification,
+                                                                'style'=>$style]);
+    }
 }

@@ -173,5 +173,16 @@
         return $resp;
       }
 
+      /*
+      * Page de création d'une photo
+      * @param : Request $req, Response $resp, array $args[]
+      * Return Response $resp contenant la page complète
+      */
+      public function getPhotoCreation(Request $req,Response $resp,array $args){
+        $style='http://'.$_SERVER['HTTP_HOST']."/style";
+        $modification=$this->conteneur->get('router')->pathFor('photosPost');
+        return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
+                                                                  'modification'=>$modification,
+                                                                  'style'=>$style]);
     }
   }
