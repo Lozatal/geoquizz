@@ -1,12 +1,8 @@
 <template>
-  <form @submit="demarrerPartie">
-    <input type='pseudo' v-model="pseudo" placeholder="Pseudo">
-	<select v-model="serieId" v-on:change="villeChange">
-		<option v-for="serie in series" v-bind:value="serie.id"  v-bind:label="serie.ville">{{serie.ville}}</option>
-	</select>
-	<input type="number" min="0" :max="nb_photos" v-model="nb_photos_choisis"/>
-    <input type="submit" value="Démarrer">
-  </form>
+  <div>
+    <h1>HOLIS</h1>
+    <map></map>
+  </div>
 </template>
 
 <script>
@@ -71,4 +67,30 @@ export default {
 </script>
 
 <style scoped>
+  h1{color:green;}
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+      height: 100%;
+      width: 50%;
+      float: left;
+    }
+    #pic {
+      height: 10%;
+      width: 50%;
+      float: left;
+    }
+    img{
+      width: 80%;
+      margin: 10%;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border: 1px solid #999999;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
 </style>
