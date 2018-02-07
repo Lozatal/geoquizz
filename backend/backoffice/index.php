@@ -133,13 +133,13 @@
   )->setName("photosDelete");
 
   $validators = [
-      'description' => Validator::StringType()->alnum(),
-      'url' => Validator::StringType()->alnum(),
+      'description' => Validator::StringType(),
+      'url' => Validator::StringType(),
       'position_long' => Validator::numeric(),
       'position_lat' =>Validator::numeric()
   ];
 
-  $app->put('/photos/{id}',
+  $app->post('/photos/{id}/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
@@ -158,7 +158,7 @@
     'position_lat' =>Validator::numeric()
   ];
 
-  $app->post('/photos[/]',
+  $app->post('/photos/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
@@ -292,7 +292,7 @@ $app->get('/creerPhoto/{idSerie}',
 )->setName("photoCreationGet");
 
 // Page de modification d'une photo
-$app->get('/modifierPhoto/{id}',
+$app->get('/modifierPhoto/{id}/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
     return $ctrl->getPhotoModification($req,$resp,$args);
@@ -324,7 +324,7 @@ $app->post('/creerSerie[/]',
 )->setName("getSeriesPost");
 
 // Page de modification de photo
-$app->get('/supprimerPhoto/{id}',
+$app->get('/supprimerPhoto/{id}/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
     return $ctrl->getPhotoSuppresion($req,$resp,$args);
@@ -334,26 +334,18 @@ $app->get('/supprimerPhoto/{id}',
 // Page de modification d'une série
 $app->get('/supprimerSerie/{id}',
   function(Request $req, Response $resp, $args){
-    $ctrl=new Photos($this);
+    $ctrl=new Series($this);
     return $ctrl->getSerieSuppression($req,$resp,$args);
   }
 )->setName("serieSuppressionGet");
 
 // Page de modification d'une série
-$app->get('/afficherSeries',
-  function(Request $req, Response $resp, $args){
-    $ctrl=new Series($this);
-    return $ctrl->getSerieAfficher($req,$resp,$args);
-  }
-)->setName("serieAfficherGet");
-
-// Page de modification les photos d'une série
-$app->get('/afficherPhotos/{idserie}',
+$app->get('/afficherSerie/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
     return $ctrl->getSerieAfficherPhotos($req,$resp,$args);
   }
-)->setName("serieAfficherPhotosGet");
+)->setName("serieAfficherGet");
 
   $app->run();
 ?>

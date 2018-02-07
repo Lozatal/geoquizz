@@ -110,6 +110,12 @@
       $Series = Series::find($id);
       if($Series){
         $Series->delete();
+        $Photos = Photos::where('id_serie','=',$id)->get();
+        if($Photos){
+          foreach($Photos as $photo){
+            $photo->delete();
+          }
+        }
         $resp=$resp->withStatus(200);
         $resp->getBody()->write('Delete Complete');
       }
@@ -168,10 +174,15 @@
 
     public function getSerieSuppression(Request $req,Response $resp,array $args){
       $id=$args['id'];
-      $postVar=$req->getParsedBody();
       $Series = Series::find($id);
       if($Series){
         $Series->delete();
+        $Photos = Photos::where('id_serie','=',$id)->get();
+        if($Photos){
+          foreach($Photos as $photo){
+            $photo->delete();
+          }
+        }
       }
       $redirect=$this->conteneur->get('router')->pathFor('index');
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
@@ -184,21 +195,21 @@
     * Return Response $resp contenant la page complète
     */
     public function getSerieModification(Request $req,Response $resp,array $args){
-        $id=$args['id'];
-        $Series = Series::find($id);
-        if($Series){
-          $style='http://'.$_SERVER['HTTP_HOST']."/style";
-          $modification=$this->conteneur->get('router')->pathFor('getSeriesPut',['id'=>$id]);
-          $backoffice=$this->conteneur->get('router')->pathFor('index');
-          return $this->conteneur->view->render($resp,'serie/modifierSerie.twig',['serie'=>$Series,
-                                                                                  'modification'=>$modification,
-                                                                                  'backoffice'=>$backoffice,
-                                                                                  'style'=>$style]);
-        }else{
-          $redirect=$this->conteneur->get('router')->pathFor('index');
-          $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
-          return $resp;
-        }
+      $id=$args['id'];
+      $Series = Series::find($id);
+      if($Series){
+        $style='http://'.$_SERVER['HTTP_HOST']."/style";
+        $modification=$this->conteneur->get('router')->pathFor('getSeriesPut',['id'=>$id]);
+        $backoffice=$this->conteneur->get('router')->pathFor('index');
+        return $this->conteneur->view->render($resp,'serie/modifierSerie.twig',['serie'=>$Series,
+                                                                                'modification'=>$modification,
+                                                                                'backoffice'=>$backoffice,
+                                                                                'style'=>$style]);
+      }else{
+        $redirect=$this->conteneur->get('router')->pathFor('index');
+        $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+        return $resp;
+      }
     }
 
     /*
@@ -264,24 +275,28 @@
     }
 
     /*
-    * Afficher la liste des séries Twig
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function getSerieAfficher(Request $req,Response $resp,array $args){
-      $redirect=$this->conteneur->get('router')->pathFor('index');
-      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
-      return $resp;
-    }
-
-    /*
     * Afficher la liste des photos d'une série sélectionné
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
     public function getSerieAfficherPhotos(Request $req,Response $resp,array $args){
-      $redirect=$this->conteneur->get('router')->pathFor('index');
-      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
-      return $resp;
+      $idSerie=$args['idSerie'];
+      $photo=$this->conteneur->get('router')->pathFor('photoCreationGet',['idSerie'=>$idSerie]);
+      $compte=$this->conteneur->get('router')->pathFor('compteGet');
+
+      $tabPhotos=Photos::select('description','id')->where('id_serie','=',$idSerie)->get();
+      foreach($tabPhotos as $tabPhoto){
+        $id=$tabPhoto['id'];
+        $tabPhoto['modifier']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id,'idSerie'=>$idSerie]);
+        $tabPhoto['supprimer']=$this->conteneur->get('router')->pathFor('photoSuppressionGet',['id'=>$id,'idSerie'=>$idSerie]);
+      }
+
+      $style='http://'.$_SERVER['HTTP_HOST']."/style";
+      $backoffice=$this->conteneur->get('router')->pathFor('index');
+      return $this->conteneur->view->render($resp,'serie/afficherSerie.twig',['photo'=>$photo,
+                                                                'tabPhotos'=>$tabPhotos,
+                                                                'compte'=>$compte,
+                                                                'backoffice'=>$backoffice,
+                                                                'style'=>$style]);
     }
 }

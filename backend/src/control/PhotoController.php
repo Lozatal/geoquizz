@@ -97,6 +97,7 @@
     */
     public function putPhotosID(Request $req,Response $resp,array $args){
       $id=$args['id'];
+      $idSerie=$args['idSerie'];
 
       $postVar=$req->getParsedBody();
 
@@ -108,7 +109,7 @@
         $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
         $Photos->save();
       }
-      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
     }
@@ -119,6 +120,7 @@
     * Return Response $resp contenant la page complète
     */
     public function postPhotos(Request $req,Response $resp,array $args){
+      $idSerie=$args['idSerie'];
       $postVar=$req->getParsedBody();
       $Photos = new Photos();
       //Création du Photos
@@ -129,7 +131,7 @@
       $Photos->id_serie=filter_var($postVar['id_serie'],FILTER_SANITIZE_STRING);
       $Photos->save();
 
-      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
     }
@@ -141,11 +143,12 @@
     */
     public function getPhotoSuppresion(Request $req,Response $resp,array $args){
       $id=$args['id'];
+      $idSerie=$args['idSerie'];
       $Photos = Photos::find($id);
       if($Photos){
         $Photos->delete();
       }
-      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
     }
@@ -157,17 +160,18 @@
     */
     public function getPhotoModification(Request $req,Response $resp,array $args){
       $id=$args['id'];
+      $idSerie=$args['idSerie'];
       $Photos = Photos::find($id);
       if($Photos){
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
-        $modification=$this->conteneur->get('router')->pathFor('photosPut',['id'=>$id]);
+        $modification=$this->conteneur->get('router')->pathFor('photosPut',['id'=>$id,'idSerie'=>$idSerie]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         return $this->conteneur->view->render($resp,'photo/modifierPhoto.twig',['photo'=>$Photos,
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'style'=>$style]);
       }else{
-        $redirect=$this->conteneur->get('router')->pathFor('index');
+        $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
         $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
         return $resp;
       }
@@ -181,7 +185,7 @@
       public function getPhotoCreation(Request $req,Response $resp,array $args){
         $idSerie=$args['idSerie'];
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
-        $creation=$this->conteneur->get('router')->pathFor('photosPost');
+        $creation=$this->conteneur->get('router')->pathFor('photosPost',['idSerie'=>$idSerie]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         return $this->conteneur->view->render($resp,'photo/creationPhoto.twig',['creation'=>$creation,
                                                                                 'backoffice'=>$backoffice,
