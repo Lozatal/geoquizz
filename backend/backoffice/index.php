@@ -265,7 +265,7 @@ $app->get('/creerSerie[/]',
 )->setName("serieCreationGet");
 
 // Page de création de photo
-$app->get('/creerPhoto[/]',
+$app->get('/creerPhoto/{idSerie}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
     return $ctrl->getPhotoCreation($req,$resp,$args);
@@ -280,13 +280,29 @@ $app->get('/modifierPhoto/{id}',
   }
 )->setName("photoModificationGet");
 
-// Page de modification de photo
+// Page de modification d'une série
 $app->get('/modifierSerie/{id}',
   function(Request $req, Response $resp, $args){
-    $ctrl=new Photos($this);
+    $ctrl=new Series($this);
     return $ctrl->getSerieModification($req,$resp,$args);
   }
 )->setName("serieModificationGet");
+
+// Modification de la série Twig
+$app->post('/modifierSerie/{id}',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeriesPut($req,$resp,$args);
+  }
+)->setName("getSeriesPut");
+
+// Modification de la série Twig
+$app->post('/creerSerie[/]',
+  function(Request $req, Response $resp, $args){
+    $ctrl=new Series($this);
+    return $ctrl->getSeriesPost($req,$resp,$args);
+  }
+)->setName("getSeriesPost");
 
 // Page de modification de photo
 $app->get('/supprimerPhoto/{id}',
@@ -296,7 +312,7 @@ $app->get('/supprimerPhoto/{id}',
   }
 )->setName("photoSuppressionGet");
 
-// Page de modification de photo
+// Page de modification d'une série
 $app->get('/supprimerSerie/{id}',
   function(Request $req, Response $resp, $args){
     $ctrl=new Photos($this);
