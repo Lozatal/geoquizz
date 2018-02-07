@@ -14,6 +14,8 @@
   use \geoquizz\control\SerieController as Series;
   use \geoquizz\control\IndexController as Index;
 
+  use \geoquizz\control\AuthController as Auth;
+
   /* Appel des utilitaires */
 
   use \geoquizz\utils\Writer as writer;
@@ -87,6 +89,23 @@
       }
     }
   )->setName("comptesPost")->add(new Validation($validators));
+
+  // $validators = [
+  //     'email' => Validator::StringType(),
+  //     'password' => Validator::StringType()->alnum(),
+  // ];
+
+  $app->post('/connexion[/]',
+    function(Request $req, Response $resp, $args){
+      if($req->getAttribute('has_errors')){
+        $errors = $req->getAttribute('errors');
+        return afficheError($resp, '/parties/nouvelle', $errors);
+      }else{
+        $ctrl=new Auth($this);
+        return $ctrl->authenticate($req,$resp,$args);
+      }
+    }
+  )->setName("authenticatePost");
 
   //======================================================
   //Photos
