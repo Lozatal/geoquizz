@@ -44,6 +44,12 @@ $color_nav_hover: #212f3c;
   box-shadow: 5px 5px 5px 0px #656565;
 }
 
+.centrar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .success{
   background: #2ecc71;
 }
@@ -53,6 +59,14 @@ h1{
   margin: 30px;
 }
 
+td{
+  padding: 10px;
+}
+
+th{
+  font-size: 25px;
+  text-align: center;
+}
 
 // MENU
 

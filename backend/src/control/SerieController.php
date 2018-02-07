@@ -262,4 +262,26 @@
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
       return $resp;
     }
+
+    /*
+    * Afficher la liste des séries Twig
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSerieAfficher(Request $req,Response $resp,array $args){
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+      return $resp;
+    }
+
+    /*
+    * Afficher la liste des photos d'une série sélectionné
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSerieAfficherPhotos(Request $req,Response $resp,array $args){
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+      return $resp;
+    }
 }

@@ -4,10 +4,10 @@
   <title>Geoquizz</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../style/css/input.css">
-
+  <link rel="stylesheet" href="{{style}}/css/input.css">
+   <link rel="stylesheet" href="{{style}}/css/demo-files/demo.css">
+  <link rel="stylesheet" href="{{style}}/css/style.css"></head>
 </head>
-
 <body>
   <header class="navbar">
     <div class="nav_element">
@@ -17,20 +17,32 @@
       <a href="#news">Déconnexion</a>
     </nav>
   </header>
-
   <article class="container">
     <h1><img src="{{style}}/img/logo_chico.png" class="logo"> Geoquizz</h1>
-    <div class="row justify-content-center">
-      <div class="col-4 centrer">
-        <h3>Jeux</h3>
+    <div class="col-12 centrar">
+      <div>
         <img src="{{style}}/img/001-map-location.png">
-        <button type="button" name="button" class="button success">Ajouter</button>
       </div>
-      <div class="col-4 offset-md-4">
-        <h3>Images</h3>
-        <img src="{{style}}/img/005-image.png">
-        <button type="button" name="button" class="button success">Ajouter</button>
-      </div>
+   </div>
+   <div class="col-12 centrar">
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th colspan="3">Ville</th>
+      </tr>
+    </thead>
+    <tbody>
+
+     {% for serie in tabSerie %}
+     <tr>
+       <td>{{ serie.ville }}</td>
+       <td><a href="{{ serie.modif }}"><span class="icon-pencil"></span></a></td>
+       <td><a href="{{ serie.suppr }}"><span class="icon-cross"></span></a></td>
+     </tr>
+     {% endfor %}
+
+    </tbody>
+   </table>
    </div>
   </article>
 </body>
