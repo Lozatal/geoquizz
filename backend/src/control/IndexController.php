@@ -43,8 +43,7 @@
 
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
-      return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
-                                                                'serie'=>$serie,
+      return $this->conteneur->view->render($resp,'index.twig',['serie'=>$serie,
                                                                 'tabSerie'=>$tabSerie,
                                                                 'tabPhoto'=>$tabPhoto,
                                                                 'compte'=>$compte,
