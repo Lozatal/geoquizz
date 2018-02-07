@@ -17,11 +17,11 @@ window.axios = axios.create({
 
   }
 });
-/*
+
 store.subscribe((mutation, state) => {
 	localStorage.setItem('store', JSON.stringify(state));
 });
-*/
+
 window.bus = new Vue();
 
 /* eslint-disable no-new */

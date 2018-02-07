@@ -12,17 +12,17 @@
 		<form @submit="demarrerPartie">
 			<div>
 				<label>Pseudo :</label>
-				<input type='pseudo' v-model="pseudo" placeholder="Pseudo">
+				<input type='pseudo' v-model="pseudo" placeholder="Pseudo" required>
 			</div>
 			<div>
 				<label>Ville :</label>
-				<select v-model="serieId" v-on:change="villeChange">
+				<select v-model="serieId" v-on:change="villeChange" required>
 					<option v-for="serie in series" v-bind:value="serie.id"  v-bind:label="serie.ville">{{serie.ville}}</option>
 				</select>
 			</div>
 			<div>
 				<label>Nombre de photos :</label>
-				<input type="number" min="0" :max="nb_photos" v-model="nb_photos_choisis"/>
+				<input type="number" min="1" :max="nb_photos" v-model="nb_photos_choisis" required/>
 			</div>
 			<input type="submit" value="Démarrer">
 		</form>
@@ -58,19 +58,19 @@ export default {
   		}
   	},
   	demarrerPartie(){
+  		console.log(this.nb_photos_choisis);
   		window.axios.post('parties', {
   	        nb_photos : this.nb_photos_choisis,
   	        joueur: this.pseudo,
   	        id_serie: this.serie.id
   	    }).then((response) => {
-  	        //this.$store.state.member = response.data;
   	        this.$store.commit('setToken', response.data.token);
 
   	        window.axios.defaults.params.token = response.data.token;
 
-  	        //this.$router.push({ path: '/conversation' });
+  	        this.$router.push({ path: '/partie' });
   	    }).catch((error) => {
-  	        alert(error.response.data.error);
+  	        alert(error);
   	    });
   	}
   },
