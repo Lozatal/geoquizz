@@ -62,15 +62,16 @@
       //Pour chaque serie, on va rechercher le nombre d'images
       foreach($series as $serie){
         $nbImage = Photos::where('id_serie', '=', $serie->id)->count();
-        //$nbImage = $serie->photos;
 
         if($nbImage == null){
           $nbImage = 0;
         }
 
-        $serie->nb_images = $nbImage;
-
-        $resultat[] = $serie;
+        //On exclue les séries sans images
+        if($nbImage > 0){
+          $serie->nb_images = $nbImage;
+          $resultat[] = $serie;
+        }
       }
 
       $resp=$resp->withHeader('Content-Type','application/json');
@@ -182,19 +183,92 @@
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
-    public function getPhotoModification(Request $req,Response $resp,array $args){
+    public function getSerieModification(Request $req,Response $resp,array $args){
+        $id=$args['id'];
+        $Series = Series::find($id);
+        if($Series){
+          $style='http://'.$_SERVER['HTTP_HOST']."/style";
+          $modification=$this->conteneur->get('router')->pathFor('getSeriesPut',['id'=>$id]);
+          $backoffice=$this->conteneur->get('router')->pathFor('index');
+          return $this->conteneur->view->render($resp,'serie/modifierSerie.twig',['serie'=>$Series,
+                                                                                  'modification'=>$modification,
+                                                                                  'backoffice'=>$backoffice,
+                                                                                  'style'=>$style]);
+        }else{
+          $redirect=$this->conteneur->get('router')->pathFor('index');
+          $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+          return $resp;
+        }
+    }
+
+    /*
+    * Page de création d'une série
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSerieCreation(Request $req,Response $resp,array $args){
+      $style='http://'.$_SERVER['HTTP_HOST']."/style";
+      $creation=$this->conteneur->get('router')->pathFor('getSeriesPost');
+      $backoffice=$this->conteneur->get('router')->pathFor('index');
+      return $this->conteneur->view->render($resp,'serie/creationSerie.twig',['creation'=>$creation,
+                                                                              'backoffice'=>$backoffice,
+                                                                              'style'=>$style]);
+    }
+
+    /*
+    * Modifie une Serie via son ID avec Twig
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesPut(Request $req,Response $resp,array $args){
       $id=$args['id'];
+
+      $postVar=$req->getParsedBody();
+
       $Series = Series::find($id);
       if($Series){
-        $style='http://'.$_SERVER['HTTP_HOST']."/style";
-        $modification=$this->conteneur->get('router')->pathFor('seriesPut');
-        return $this->conteneur->view->render($resp,'index.twig',['serie'=>$Series,
-                                                                  'modification'=>$modification,
-                                                                  'style'=>$style]);
-      }else{
+        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+        $Series->save();
         $redirect=$this->conteneur->get('router')->pathFor('index');
         $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
         return $resp;
       }
-  }
+      else{
+        $redirect=$this->conteneur->get('router')->pathFor('index');
+        $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+        return $resp;
+      }
+      return $resp;
+    }
+
+    /*
+    * Ajoute une Serie avec Twig
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesPost(Request $req,Response $resp,array $args){
+      $postVar=$req->getParsedBody();
+      $Series = new Series();
+      //Création d'une Serie
+      $Series->id= Uuid::uuid4();
+      $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+      $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+      $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+      $Series->save();
+
+      $redirect=$this->conteneur->get('router')->pathFor('index');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+      return $resp;
+    }
+
+    /*
+    * Afficher la liste des séries Twig
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesPost(Request $req,Response $resp,array $args){
+
+    }
 }

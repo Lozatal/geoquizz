@@ -68,20 +68,30 @@
     public function getComptesConnexion(Request $req, Response $resp, array $args){
       $ajouter=$this->conteneur->get('router')->pathFor('comptesCreationGet');
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
-      return $this->conteneur->view->render($resp,'connexion.twig',['creation'=>$ajouter, 'style'=>$style]);
+      $backoffice=$this->conteneur->get('router')->pathFor('index');
+      return $this->conteneur->view->render($resp,'connexion.twig',['creation'=>$ajouter,
+                                                                    'backoffice'=>$backoffice,
+                                                                    'style'=>$style]);
     }
 
     public function getComptesCreation(Request $req, Response $resp, array $args){
       $login=$this->conteneur->get('router')->pathFor('comptesConnexionGet');
       $creation=$this->conteneur->get('router')->pathFor('comptesPost');
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
-      return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['connexion'=>$login, 'creation' =>$creation, 'style'=>$style]);
+      $backoffice=$this->conteneur->get('router')->pathFor('index');
+      return $this->conteneur->view->render($resp,'compte/creationCompte.twig',['connexion'=>$login,
+                                                                                'creation' =>$creation,
+                                                                                'backoffice'=>$backoffice,
+                                                                                'style'=>$style]);
     }
 
     public function getComptes(Request $req,Response $resp,array $args){
       $id=$_SESSION['user_login'];
       $compte = Compte::select('nom','email')->find($id);
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
-      return $this->conteneur->view->render($resp,'compte/compte.twig',['style'=>$style,'compte'=>$compte]);
+      $backoffice=$this->conteneur->get('router')->pathFor('index');
+      return $this->conteneur->view->render($resp,'compte/compte.twig',['style'=>$style,
+                                                                        'backoffice'=>$backoffice,
+                                                                        'compte'=>$compte]);
     }
   }

@@ -46,6 +46,7 @@
   });
 
   $app->add(function ($req, $res, $next) {
+      
       $response = $next($req, $res);
       return $response
               ->withHeader('Access-Control-Allow-Origin', $req->getHeader('Origin')[0])
@@ -123,7 +124,7 @@
 
   //On va créer une partie
   $validators= [
-      'nb_photos' => Validator::numeric()->positive(),
+      'nb_photos' => Validator::numeric()->min(0),
       'joueur' => Validator::StringType()->alnum(),
       'id_serie' => Validator::StringType()
   ];
@@ -144,7 +145,7 @@
   $validators= [
       'score' => Validator::numeric()->positive()
   ];
-  
+
   $app->put('/parties/{id}[/]',
       function(Request $req, Response $resp, $args){
         if($req->getAttribute('has_errors')){
@@ -156,6 +157,6 @@
         }
       }
       )->setName('updateScorePartie')->add(new Validation($validators))->add('checkToken');
-  
+
   $app->run();
 ?>

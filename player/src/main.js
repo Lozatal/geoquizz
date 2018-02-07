@@ -8,17 +8,20 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
+//http://localhost/html/geoquizz/backend/player/
+//http://player.geoquizz.local:10081/
+
 window.axios = axios.create({
   baseURL: 'http://player.geoquizz.local:10081/',
   params : {
 
   }
 });
-/*
+
 store.subscribe((mutation, state) => {
 	localStorage.setItem('store', JSON.stringify(state));
 });
-*/
+
 window.bus = new Vue();
 
 /* eslint-disable no-new */

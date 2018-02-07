@@ -25,7 +25,6 @@
 
     public function getIndex(Request $req, Response $resp, array $args){
       $serie=$this->conteneur->get('router')->pathFor('serieCreationGet');
-      $photo=$this->conteneur->get('router')->pathFor('photoCreationGet');
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
 
       $tabPhoto=Photo::select('description','id')->get();
@@ -43,11 +42,13 @@
       }
 
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
+      $backoffice=$this->conteneur->get('router')->pathFor('index');
       return $this->conteneur->view->render($resp,'index.twig',['photo'=>$photo,
                                                                 'serie'=>$serie,
                                                                 'tabSerie'=>$tabSerie,
                                                                 'tabPhoto'=>$tabPhoto,
                                                                 'compte'=>$compte,
+                                                                'backoffice'=>$backoffice,
                                                                 'style'=>$style]);
     }
   }
