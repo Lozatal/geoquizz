@@ -62,15 +62,16 @@
       //Pour chaque serie, on va rechercher le nombre d'images
       foreach($series as $serie){
         $nbImage = Photos::where('id_serie', '=', $serie->id)->count();
-        //$nbImage = $serie->photos;
 
         if($nbImage == null){
           $nbImage = 0;
         }
 
-        $serie->nb_images = $nbImage;
-
-        $resultat[] = $serie;
+        //On exclue les séries sans images
+        if($nbImage > 0){
+          $serie->nb_images = $nbImage;
+          $resultat[] = $serie;
+        }
       }
 
       $resp=$resp->withHeader('Content-Type','application/json');

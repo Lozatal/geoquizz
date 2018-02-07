@@ -124,7 +124,7 @@
 
   //On va créer une partie
   $validators= [
-      'nb_photos' => Validator::numeric()->positive(),
+      'nb_photos' => Validator::numeric()->min(0),
       'joueur' => Validator::StringType()->alnum(),
       'id_serie' => Validator::StringType()
   ];
