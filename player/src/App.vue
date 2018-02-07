@@ -66,4 +66,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+#app{
+  font-size:21px;
+  font-family: 'Ubuntu', sans-serif;
+}
+
 </style>

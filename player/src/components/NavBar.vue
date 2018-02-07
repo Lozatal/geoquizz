@@ -4,6 +4,7 @@
 			<li><img src="@/assets/logo_chico.png"/></li>
     	<li><router-link to="/"><p>Accueil</p></router-link></li>
     	<li><router-link to="/historique"><p>Historique</p></router-link></li>
+      <li></li>
     </ul>
 	</nav>
 </template>
@@ -22,7 +23,7 @@ export default {
 
 a{
 	display:flex;
-	width:100%;
+	width:40%;
 	height:100%;
 	margin:auto;
 	color: white;
@@ -33,9 +34,12 @@ a{
 	-moz-transition-duration: 1s;
 	transition-property: color;
 	transition-duration: 1s;
+  transition-property: background-color;
+  transition-duration: 1s;
 }
 a:hover{
   color: red;
+  background-color:black;
 }
 
 p{
@@ -73,10 +77,13 @@ li:nth-child(1){
   width: 5%;
 }
 li:nth-child(2){
-  width: 45%;
+  width: 40%;
 }
 li:nth-child(3){
-  width: 45%;
+  width: 40%;
+}
+li:nth-child(4){
+  width: 5%;
 }
 img{
   text-align:left;

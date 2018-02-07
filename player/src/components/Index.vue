@@ -1,6 +1,6 @@
 <template>
 	<div id="formulaire" class="box">
-		<h1 class="title">Déroulement d'une partie :</h1>
+		<h1 class="title">Déroulement d'une partie</h1>
 		<div id="regle">
 			<ul>
 				<li>Choisissez un pseudo, une zone géographique et un nombre d'images</li>
@@ -10,7 +10,7 @@
 				<li>A la fin de la partie, votre résultat vous est fournit</li>
 			</ul>
 		</div>
-		<h1 class="title">Démarrer une partie</h1>
+		<h1 class="title secondTitre">Démarrer une partie</h1>
 		<form @submit="demarrerPartie">
 			<div class="field">
 				<label class="label">Pseudo :</label>
@@ -128,5 +128,8 @@ li{
 }
 input{
 	width:20em;
+}
+.secondTitre{
+	margin-top:20px;
 }
 </style>
