@@ -1,30 +1,43 @@
 <template>
-	<div id="formulaire">
-		<h1>Démarrer une partie</h1>
-		<h2>Déroulement d'une partie :</h2>
-		<ul>
-			<li>Choisissez un pseudo, une ville et un nombre d'images</li>
-			<li>Une photo d'un lieu va vous être présentée</li>
-			<li>Sur la carte de la ville, choisir où se trouve ce lieu</li>
-			<li>En fonction de la justesse de vos réponses et de votre rapiditée, vous gagnez des points</li>
-			<li>A la fin de la partie, votre résultat vous est fournit</li>
-		</ul>
+	<div id="formulaire" class="box">
+		<h1 class="title">Déroulement d'une partie</h1>
+		<div id="regle">
+			<ul>
+				<li>Choisissez un pseudo, une zone géographique et un nombre d'images</li>
+				<li>Une photo d'un lieu de cette zone va vous être présentée</li>
+				<li>Sur la carte de la ville, choisir où se trouve ce lieu</li>
+				<li>En fonction de la justesse de vos réponses et de votre rapiditée, vous gagnez des points</li>
+				<li>A la fin de la partie, votre résultat vous est fournit</li>
+			</ul>
+		</div>
+		<h1 class="title secondTitre">Démarrer une partie</h1>
 		<form @submit="demarrerPartie">
-			<div>
-				<label>Pseudo :</label>
-				<input type='pseudo' v-model="pseudo" placeholder="Pseudo" required>
+			<div class="field">
+				<label class="label">Pseudo :</label>
+				<div class="control">
+					<input class="input" type='pseudo' v-model="pseudo" placeholder="Pseudo" required>
+				</div>
 			</div>
-			<div>
-				<label>Ville :</label>
-				<select v-model="serieId" v-on:change="villeChange" required>
-					<option v-for="serie in series" v-bind:value="serie.id"  v-bind:label="serie.ville">{{serie.ville}}</option>
-				</select>
+			<div class="field">
+				<label class="label">Lieu du quizz :</label>
+				<div class="control">
+					<div class="select">
+						<select v-model="serieId" v-on:change="villeChange" required>
+							<option value="" disabled selected>Lieu du quizz</option>
+							<option v-for="serie in series" v-bind:value="serie.id"  v-bind:label="serie.ville">{{serie.ville}}</option>
+						</select>
+					</div>
+				</div>
 			</div>
-			<div>
-				<label>Nombre de photos :</label>
-				<input type="number" min="1" :max="nb_photos" v-model="nb_photos_choisis" required/>
+			<div class="field">
+				<label class="label">Nombre de photos dans le quizz:</label>
+				<div class="control">
+					<input class="input" type="number" min="1" :max="nb_photos" v-model="nb_photos_choisis" placeholder="Nombre de photos dans le quizz" required/>
+				</div>
 			</div>
-			<input type="submit" value="Démarrer">
+			<div class="control">
+				<input class="button is-link" type="submit" value="Démarrer">
+			</div>
 		</form>
 	</div>
 </template>
@@ -92,34 +105,31 @@ export default {
 
 <style scoped>
 #formulaire{
-	width:40%;
+	width:60%;
 	margin:auto;
 	text-align: center;
-	border:1px black solid;
-	margin-top:10px;
-}
-form>div{
-	display:flex;
-	width:100%;
+	background-color: #EEF0F1;
 	margin-top:10px;
 }
 label{
 	width:50%;
-	text-align:right;
+	text-align:left;
 }
 h1{
 	font-size:2em;
 }
-h2{
-	border-top:black 1px solid;;
-}
 ul{
 	list-style-type: square;
-	border-bottom:black 1px solid;
 }
 li{
 	width:80%;
 	text-align: left;
 	margin-left:20px;
+}
+input{
+	width:20em;
+}
+.secondTitre{
+	margin-top:20px;
 }
 </style>

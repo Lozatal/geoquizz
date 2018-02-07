@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import store from './store.js'
 import axios from 'axios'
+import './assets/css/main.css'
+
+//require('./assets/sass/main.scss');
 
 Vue.config.productionTip = false
 
