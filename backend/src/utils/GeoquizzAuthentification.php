@@ -22,12 +22,10 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
      */
     const ACCESS_LEVEL_USER  = 100;
     const ACCESS_LEVEL_ADMIN = 200;
-    public $conteneur=null;
 
     /* constructeur */
     public function __construct(){
         parent::__construct();
-        $this->conteneur=$conteneur;
     }
 
     /* La méthode createUser

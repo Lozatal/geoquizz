@@ -87,7 +87,7 @@ export default {
   	}
   },
   mounted(){
-    window.axios.get('series').then((response) => {
+    window.axios.get('seriesNbImage').then((response) => {
               this.series = response.data;
               this.series.forEach((serie)=>{
               	this.options.push({

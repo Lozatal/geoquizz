@@ -8,12 +8,11 @@
     style="width: 50%; height: 900px"
   >
     <gmap-marker
-      :key="index"
-      v-for="(m) in markers"
-      :position="m.position"
+      v-for="marker in markers"
+      :position="marker.position"
       :clickable="true"
       :draggable="true"
-      @click="center=m.position"
+      @click="center=marker.position"
     ></gmap-marker>
   </gmap-map>
 </template>
@@ -40,9 +39,6 @@
     },
     methods: {
       mostrarMensaje(event){
-        //console.log(event.latLng.lat());
-        //console.log(event.latLng.lng());
-        //placeMarkerAndPanTo(event, map);
         let newMarker = {
           position: {
             lat: event.latLng.lat(),

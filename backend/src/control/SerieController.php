@@ -50,7 +50,7 @@
     }
 
         /*
-    * Retourne la liste en json des Series sans la pagination
+    * Retourne la liste en json des Series sans la pagination avec le calcul du nombre d'images
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
@@ -76,6 +76,19 @@
 
       $resp=$resp->withHeader('Content-Type','application/json');
       $resp->getBody()->write(json_encode($resultat));
+      return $resp;
+    }
+
+    /*
+    * Retourne la liste en json des Series sans la pagination
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesSansPagination(Response $resp,array $args){
+      $series = Series::get();
+
+      $resp=$resp->withHeader('Content-Type','application/json');
+      $resp->getBody()->write(json_encode($series));
       return $resp;
     }
 

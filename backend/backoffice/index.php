@@ -1,4 +1,9 @@
 <?php
+  //Démarrage de la session utilisateur
+  session_start();
+  $_SESSION['test']=1;
+  $_SESSION['test2']=1;
+
   require_once __DIR__ . '/../src/vendor/autoload.php';
 
   use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -14,7 +19,9 @@
   use \geoquizz\control\SerieController as Series;
   use \geoquizz\control\IndexController as Index;
 
-  use \geoquizz\control\MecadoAuthentification as Auth;
+  /* Appel modèle Compte pour le middleware checkLogin */
+
+  use \geoquizz\utils\GeoquizzAuthentification as Auth;
 
   /* Appel des utilitaires */
 
@@ -66,8 +73,20 @@
   	return $resp;
   }
 
+  function checkLogin(Request $req, Response $resp, callable $next){
+    if(isset($_SESSION['user_login'])){
+      return $next($req, $resp);
+    }else{
+      //$redirect=$this->get('router')->pathFor('loginPost');
+      $redirect='/';
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+      return $next($req, $resp);
+    }
+  }
+
+
   //======================================================
-  //Comptes
+  //ComptespartieModel
   //======================================================
 
   $validators = [
@@ -77,7 +96,7 @@
       'password_rep' => Validator::StringType()->alnum(),
   ];
 
-  $app->post('/comptes[/]',
+  $app->post('/comptes',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
@@ -106,7 +125,7 @@
     }
   )->setName("loginPost")->add(new Validation($validators));
 
-  $app->get('/logout[/]',
+  $app->get('/logout',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
@@ -116,7 +135,7 @@
         return $ctrl->logoutCompte($req,$resp,$args);
       }
     }
-  )->setName("logout");
+  )->setName("logout")->add('checkLogin');
 
 
 
@@ -124,26 +143,26 @@
   //Photos
   //======================================================
 
-  $app->get('/photos[/]',
+  $app->get('/photos',
     function(Request $req, Response $resp, $args){
       $ctrl=new Photos($this);
       return $ctrl->getPhotos($req,$resp,$args);
     }
-  )->setName("photosGet");
+  )->setName("photosGet")->add('checkLogin');
 
   $app->get('/photos/{id}',
     function(Request $req, Response $resp, $args){
       $ctrl=new Photos($this);
       return $ctrl->getPhotosID($req,$resp,$args);
     }
-  )->setName("photosGetID");
+  )->setName("photosGetID")->add('checkLogin');
 
   $app->delete('/photos/{id}',
     function(Request $req, Response $resp, $args){
       $ctrl=new Photos($this);
       return $ctrl->deletePhotos($req,$resp,$args);
     }
-  )->setName("photosDelete");
+  )->setName("photosDelete")->add('checkLogin');
 
   $validators = [
       'description' => Validator::StringType(),
@@ -162,7 +181,7 @@
         return $ctrl->putPhotosID($req,$resp,$args);
       }
     }
-  )->setName("photosPut")->add(new Validation($validators));
+  )->setName("photosPut")->add(new Validation($validators))->add('checkLogin');
 
   $validators = [
       'description' => Validator::StringType(),
@@ -181,7 +200,7 @@
         return $ctrl->postPhotos($req,$resp,$args);
       }
     }
-  )->setName("photosPost")->add(new Validation($validators));
+  )->setName("photosPost")->add(new Validation($validators))->add('checkLogin');
 
 
 //======================================================
@@ -189,12 +208,12 @@
 //======================================================
 
 //Lite de series
-$app->get('/series[/]',
+$app->get('/series',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
     return $ctrl->getSeries($req,$resp,$args);
   }
-)->setName("seriesGet");
+)->setName("seriesGet")->add('checkLogin');
 
 //Afficher une serie par son ID
 $app->get('/series/{id}',
@@ -202,7 +221,7 @@ $app->get('/series/{id}',
     $ctrl=new Series($this);
     return $ctrl->getSeriesID($req,$resp,$args);
   }
-)->setName("seriesGetID");
+)->setName("seriesGetID")->add('checkLogin');
 
 // Supprimer une Serie
 $app->delete('/series/{id}',
@@ -210,7 +229,7 @@ $app->delete('/series/{id}',
     $ctrl=new Series($this);
     return $ctrl->deleteSeries($req,$resp,$args);
   }
-)->setName("seriesDelete");
+)->setName("seriesDelete")->add('checkLogin');
 
 //Modifier une serie
 
@@ -230,7 +249,7 @@ $app->put('/series/{id}',
       return $ctrl->putSeriesID($req,$resp,$args);
     }
   }
-)->setName("seriesPut")->add(new Validation($validators));
+)->setName("seriesPut")->add(new Validation($validators))->add('checkLogin');
 
 //Ajouter une serie
 
@@ -240,7 +259,7 @@ $validators = [
   'dist' => Validator::numeric()
 ];
 
-$app->post('/serie[/]',
+$app->post('/serie',
   function(Request $req, Response $resp, $args){
     if($req->getAttribute('has_errors')){
       $errors = $req->getAttribute('errors');
@@ -250,22 +269,22 @@ $app->post('/serie[/]',
       return $ctrl->postSeries($req,$resp,$args);
     }
   }
-)->setName("seriesPost")->add(new Validation($validators));
+)->setName("seriesPost")->add(new Validation($validators))->add('checkLogin');
 
 //======================================================
 //General
 //======================================================
 
 // Page d'index
-$app->get('/backoffice[/]',
+$app->get('/backoffice',
   function(Request $req, Response $resp, $args){
     $ctrl=new Index($this);
     return $ctrl->getIndex($req,$resp,$args);
   }
-)->setName("index");
+)->setName("index")->add('checkLogin');
 
 // Page de création de compte
-$app->get('/creerCompte[/]',
+$app->get('/creerCompte',
   function(Request $req, Response $resp, $args){
     $ctrl=new Comptes($this);
     return $ctrl->getComptesCreation($req,$resp,$args);
@@ -281,20 +300,20 @@ $app->get('/',
 )->setName("comptesConnexionGet");
 
 // Page de visualisation du compte
-$app->get('/compte[/]',
+$app->get('/compte',
   function(Request $req, Response $resp, $args){
     $ctrl=new Comptes($this);
     return $ctrl->getComptes($req,$resp,$args);
   }
-)->setName("compteGet");
+)->setName("compteGet")->add('checkLogin');
 
 // Page de création de série
-$app->get('/creerSerie[/]',
+$app->get('/creerSerie',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
     return $ctrl->getSerieCreation($req,$resp,$args);
   }
-)->setName("serieCreationGet");
+)->setName("serieCreationGet")->add('checkLogin');
 
 // Page de création de photo
 $app->get('/creerPhoto/{idSerie}',
@@ -302,7 +321,7 @@ $app->get('/creerPhoto/{idSerie}',
     $ctrl=new Photos($this);
     return $ctrl->getPhotoCreation($req,$resp,$args);
   }
-)->setName("photoCreationGet");
+)->setName("photoCreationGet")->add('checkLogin');
 
 // Page de modification d'une photo
 $app->get('/modifierPhoto/{id}/{idSerie}',
@@ -310,7 +329,7 @@ $app->get('/modifierPhoto/{id}/{idSerie}',
     $ctrl=new Photos($this);
     return $ctrl->getPhotoModification($req,$resp,$args);
   }
-)->setName("photoModificationGet");
+)->setName("photoModificationGet")->add('checkLogin');
 
 // Page de modification d'une série
 $app->get('/modifierSerie/{id}',
@@ -318,7 +337,7 @@ $app->get('/modifierSerie/{id}',
     $ctrl=new Series($this);
     return $ctrl->getSerieModification($req,$resp,$args);
   }
-)->setName("serieModificationGet");
+)->setName("serieModificationGet")->add('checkLogin');
 
 $validators = [
     'ville' => Validator::StringType(),
@@ -331,7 +350,7 @@ $app->post('/modifierSerie/{id}',
     $ctrl=new Series($this);
     return $ctrl->getSeriesPut($req,$resp,$args);
   }
-)->setName("getSeriesPut");
+)->setName("getSeriesPut")->add('checkLogin');
 
 $validators = [
     'ville' => Validator::StringType(),
@@ -339,12 +358,12 @@ $validators = [
     'dist' => Validator::numeric()
 ];
 // création de la série Twig
-$app->post('/creerSerie[/]',
+$app->post('/creerSerie',
   function(Request $req, Response $resp, $args){
     $ctrl=new Series($this);
     return $ctrl->getSeriesPost($req,$resp,$args);
   }
-)->setName("getSeriesPost");
+)->setName("getSeriesPost")->add('checkLogin');
 
 // Page de suppression de photo
 $app->get('/supprimerPhoto/{id}/{idSerie}',
@@ -352,7 +371,7 @@ $app->get('/supprimerPhoto/{id}/{idSerie}',
     $ctrl=new Photos($this);
     return $ctrl->getPhotoSuppresion($req,$resp,$args);
   }
-)->setName("photoSuppressionGet");
+)->setName("photoSuppressionGet")->add('checkLogin');
 
 // Page de suppression d'une série
 $app->get('/supprimerSerie/{id}',
@@ -360,7 +379,7 @@ $app->get('/supprimerSerie/{id}',
     $ctrl=new Series($this);
     return $ctrl->getSerieSuppression($req,$resp,$args);
   }
-)->setName("serieSuppressionGet");
+)->setName("serieSuppressionGet")->add('checkLogin');
 
 // Page de d'affichage d'une série
 $app->get('/afficherSerie/{idSerie}',
@@ -368,7 +387,7 @@ $app->get('/afficherSerie/{idSerie}',
     $ctrl=new Series($this);
     return $ctrl->getSerieAfficherPhotos($req,$resp,$args);
   }
-)->setName("serieAfficherGet");
+)->setName("serieAfficherGet")->add('checkLogin');
 
   $app->run();
 ?>

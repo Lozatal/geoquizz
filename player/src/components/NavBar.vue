@@ -4,7 +4,7 @@
 			<li><img src="@/assets/logo_chico.png"/></li>
     	<li><router-link to="/"><p>Accueil</p></router-link></li>
     	<li><router-link to="/historique"><p>Historique</p></router-link></li>
-      <li v-if="afficherDeconnecter"><button id='quitter' v-on:click="deleteToken">Quitter</button></li>
+      <li v-if="afficherDeconnecter"><button id='quitter' class="button is-large is-danger" v-on:click="deleteToken">Quitter</button></li>
       <li v-else></li>
     </ul>
 	</nav>
@@ -23,9 +23,13 @@ export default {
       window.bus.$emit('deleteToken');
     }
   },
-  mounted(){
+  created(){
+    //console.log(this.$store.state.token);
+    //console.log(this.$route.name);
     if(this.$store.state.token != null && this.$route.name === "partie"){
       this.afficherDeconnecter = true;
+    }else{
+      this.afficherDeconnecter = false;
     }
   }
 }
@@ -101,7 +105,6 @@ p{
   margin:auto;
 }
 #quitter{
-  color:red;
   vertical-align: baseline;
   margin:auto;
 }
