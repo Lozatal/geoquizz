@@ -86,7 +86,7 @@ export default {
 
 <style scoped>
 #historique{
-	width:60%;
+	width:100%;
 	margin:auto;
 	text-align: center;
 	background-color: #EEF0F1;
@@ -94,8 +94,10 @@ export default {
 }
 #tableau{
 	display:flex;
-	width:60%;
-	margin:auto;
+	width:100%;
+	overflow: auto;
+    white-space: nowrap;
+
 }
 h1{
 	font-size:2em;
@@ -106,11 +108,26 @@ table{
 	margin:auto;
 }
 form{
-	width:50%;
+	width:100%;
 	display:flex;
 	margin:auto;
 }
 tr{
 	background-color: #EEF0F1;
+}
+
+/* TABLETTE */
+@media only screen and (min-width: 768px) {
+	#historique{
+		width:60%;
+	}
+	#tableau{
+		width:60%;
+	}
+	form{
+	width:50%;
+	display:flex;
+	margin:auto;
+	}
 }
 </style>
