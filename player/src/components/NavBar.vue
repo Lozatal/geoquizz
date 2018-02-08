@@ -4,7 +4,8 @@
 			<li><img src="@/assets/logo_chico.png"/></li>
     	<li><router-link to="/"><p>Accueil</p></router-link></li>
     	<li><router-link to="/historique"><p>Historique</p></router-link></li>
-      <li></li>
+      <li v-if="afficherDeconnecter"><button id='quitter' v-on:click="deleteToken">Quitter</button></li>
+      <li v-else></li>
     </ul>
 	</nav>
 </template>
@@ -14,6 +15,17 @@ export default {
   name: 'NavBar',
   data () {
     return {
+      afficherDeconnecter: false
+    }
+  },
+  methods : {
+    deleteToken(){
+      window.bus.$emit('deleteToken');
+    }
+  },
+  mounted(){
+    if(this.$store.state.token != null && this.$route.name === "partie"){
+      this.afficherDeconnecter = true;
     }
   }
 }
@@ -40,11 +52,6 @@ a{
 a:hover{
   color: red;
   background-color:black;
-}
-
-p{
-
-	margin:auto;
 }
 
 nav{
@@ -74,7 +81,7 @@ li{
   justify-content: center; /* alignement vertical */
 }
 li:nth-child(1){
-  width: 5%;
+  width: 10%;
 }
 li:nth-child(2){
   width: 40%;
@@ -83,12 +90,19 @@ li:nth-child(3){
   width: 40%;
 }
 li:nth-child(4){
-  width: 5%;
+  width: 10%;
+  display:flex;
 }
 img{
   text-align:left;
 }
 p{
   font-size:2em;
+  margin:auto;
+}
+#quitter{
+  color:red;
+  vertical-align: baseline;
+  margin:auto;
 }
 </style>
