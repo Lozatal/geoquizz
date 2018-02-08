@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Picture></Picture>
     <Map></Map>
   </div>
 </template>
@@ -7,17 +8,27 @@
 <script>
 
 import Map from '@/components/Map'
+import Picture from '@/components/Picture'
 
 export default {
   name: 'Partie',
   data () {
     return {
+      partie: ''
     }
   },
   components:{
-    Map
+    Map,
+    Picture
   },
   methods: {
+  },
+  mounted(){
+  window.axios.get('parties/' + this.$route.params.id).then((response) => {
+          this.partie = response.data;
+        }).catch((error) => {
+            alert(error);
+        });
   }
 }
 </script>
