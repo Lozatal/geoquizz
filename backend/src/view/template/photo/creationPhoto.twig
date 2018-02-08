@@ -35,13 +35,14 @@
        </div>
        <div class="form-group">
            <input type="hidden" class="form-control" id="id_serie" name="id_serie" value="{{idSerie}}">
+           <input type="hidden" class="form-control" id="id_serie" name="lat_serie" value="{{latSerie}}">
+           <input type="hidden" class="form-control" id="id_serie" name="long_serie" value="{{longSerie}}">
            <button type="submit" class="btn btn-default">Ajouter !</button>
        </div>
      </form>
     </div>
 </article>
 <script src="{{style}}/js/map.js" charset="utf-8"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y &callback=initMap"
-async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y&callback=initMap"async defer></script>
 </body>
 </html>
