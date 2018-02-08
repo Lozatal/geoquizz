@@ -15,7 +15,7 @@ function initMap() {
     let lng = e.latLng.lng();
     document.getElementById("position_long").value = lat;
     document.getElementById("position_lat").value = lng;
-    e.latLng.lat()=0;
+    
 
   });
 }
