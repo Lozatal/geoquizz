@@ -24,8 +24,8 @@ export default {
     }
   },
   created(){
-    console.log(this.$store.state.token);
-    console.log(this.$route.name);
+    //console.log(this.$store.state.token);
+    //console.log(this.$route.name);
     if(this.$store.state.token != null && this.$route.name === "partie"){
       this.afficherDeconnecter = true;
     }else{
