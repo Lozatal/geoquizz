@@ -6,7 +6,7 @@
 				<li>Choisissez un pseudo, une zone géographique et un nombre d'images</li>
 				<li>Une photo d'un lieu de cette zone va vous être présentée</li>
 				<li>Sur la carte de la ville, choisir où se trouve ce lieu</li>
-				<li>En fonction de la justesse de vos réponses et de votre rapiditée, vous gagnez des points</li>
+				<li>En fonction de la justesse de vos réponses et de votre rapidité, vous gagnez des points</li>
 				<li>A la fin de la partie, votre résultat vous est fournit</li>
 			</ul>
 		</div>
