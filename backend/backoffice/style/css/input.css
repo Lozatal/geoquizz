@@ -1158,14 +1158,12 @@ pre {
   .offset-xl-11 {
     margin-left: 91.66667%; } }
 .container {
-  margin-top: 80px; }
+  margin-top: 70px; }
 
-.jumbotron {
+.jbt {
   border-radius: 5px;
   background-color: rgba(234, 236, 238, 0.8);
-  padding: 30px;
-  display: block;
-  vertical-align: middle; }
+  padding: 30px; }
 
 .form-group {
   padding: 5px; }
@@ -1179,11 +1177,6 @@ pre {
   border-radius: 5px;
   box-shadow: 5px 5px 5px 0px #656565; }
 
-.centrar {
-  display: flex;
-  align-items: center;
-  justify-content: center; }
-
 .success {
   background: #2ecc71; }
 
@@ -1192,7 +1185,7 @@ pre {
   width: 600px;
   float: right;
   margin: 20px;
-  display: block; }
+  display: flex; }
 
 h1 {
   text-align: center;
@@ -1208,7 +1201,6 @@ th {
 .navbar {
   overflow: hidden;
   background-color: #34495e;
-  position: fixed;
   top: 0;
   width: 100%;
   justify-content: space-between;
