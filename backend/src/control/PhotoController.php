@@ -6,6 +6,7 @@
   use \Psr\Http\Message\ResponseInterface as Response;
 
   use geoquizz\model\Photo as Photos;
+  use geoquizz\model\Serie as Serie;
 
   use geoquizz\utils\Writer as writer;
   use geoquizz\utils\Pagination as pagination;
@@ -161,6 +162,7 @@
     public function getPhotoModification(Request $req,Response $resp,array $args){
       $id=$args['id'];
       $idSerie=$args['idSerie'];
+      $Serie=Serie::where('id','=',$idSerie)->select('serie_lat','serie_long')->first();
       $Photos = Photos::find($id);
       if($Photos){
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
@@ -171,6 +173,8 @@
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'logout'=>$logout,
+                                                                                'latSerie'=>$Serie['serie_lat'],
+                                                                                'longSerie'=>$Serie['serie_long'],
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
@@ -186,6 +190,7 @@
       */
       public function getPhotoCreation(Request $req,Response $resp,array $args){
         $idSerie=$args['idSerie'];
+        $Serie=Serie::where('id','=',$idSerie)->select('serie_lat','serie_long')->first();
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
         $creation=$this->conteneur->get('router')->pathFor('photosPost',['idSerie'=>$idSerie]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
@@ -193,6 +198,8 @@
         return $this->conteneur->view->render($resp,'photo/creationPhoto.twig',['creation'=>$creation,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'idSerie'=>$idSerie,
+                                                                                'latSerie'=>$Serie['serie_lat'],
+                                                                                'longSerie'=>$Serie['serie_long'],
                                                                                 'logout'=>$logout,
                                                                                 'style'=>$style]);
       }

@@ -155,7 +155,8 @@
       $Series = Series::find($id);
       if($Series){
         $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+        $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+        $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
         $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
         $Series->save();
         $resp=$resp->withStatus(200);
@@ -179,7 +180,8 @@
       //Création du Series
       $Series->id= Uuid::uuid4();
       $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-      $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+      $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+      $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
       $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
       $Series->save();
       $resp=$resp->withStatus(201);
@@ -259,7 +261,8 @@
       $Series = Series::find($id);
       if($Series){
         $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+        $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+        $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
         $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
         $Series->save();
         $redirect=$this->conteneur->get('router')->pathFor('index');
@@ -285,7 +288,8 @@
       //Création d'une Serie
       $Series->id= Uuid::uuid4();
       $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-      $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+      $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+      $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
       $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
       $Series->save();
 
@@ -315,10 +319,10 @@
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       return $this->conteneur->view->render($resp,'serie/afficherSerie.twig',['photo'=>$photo,
-                                                                'tabPhotos'=>$tabPhotos,
-                                                                'compte'=>$compte,
-                                                                'logout'=>$logout,
-                                                                'backoffice'=>$backoffice,
-                                                                'style'=>$style]);
+                                                                              'tabPhotos'=>$tabPhotos,
+                                                                              'compte'=>$compte,
+                                                                              'logout'=>$logout,
+                                                                              'backoffice'=>$backoffice,
+                                                                              'style'=>$style]);
     }
 }
