@@ -2,11 +2,13 @@ var map;
 var markers = [];
 
 function initMap() {
-  var haightAshbury = {lat: 37.769, lng: -122.446};
+
+  var long = document.getElementById("long_serie").value;
+  var lat = document.getElementById("lat_serie").value;
 
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
-    center: haightAshbury,
+    center: {lat, long},
     mapTypeId: 'terrain'
   });
 
