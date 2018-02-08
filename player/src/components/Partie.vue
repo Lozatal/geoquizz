@@ -24,11 +24,15 @@ export default {
   methods: {
   },
   mounted(){
-  window.axios.get('parties/' + this.$route.params.id).then((response) => {
+    window.axios.get('parties/' + this.$route.params.id).then((response) => {
           this.partie = response.data;
+              //sert a rafraichir la navBar au niveau du bouton déconnexion
+              window.bus.$emit('refreshDeco');
         }).catch((error) => {
             alert(error);
         });
+
+
   }
 }
 </script>
