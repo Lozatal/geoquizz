@@ -2,7 +2,7 @@
 	<nav class="navbar">
 		<ul>
 			<li><img src="@/assets/logo_chico.png"/></li>
-    	<li><router-link to="/"><p>Accueil</p></router-link></li>
+    	<li><router-link to="/" v-on:click.native="deleteToken"><p>Accueil</p></router-link></li>
     	<li><router-link to="/historique"><p>Historique</p></router-link></li>
       <li></li>
     </ul>
@@ -14,6 +14,11 @@ export default {
   name: 'NavBar',
   data () {
     return {
+    }
+  },
+  methods : {
+    deleteToken(){
+      window.bus.$emit('deleteToken');
     }
   }
 }
