@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{style}}/css/input.css">
 </head>
-
 <body>
   <header class="navbar">
     <div class="nav_element">
@@ -18,9 +17,9 @@
       </nav>
     </nav>
   </header>
-
+  <div id="map"></div>
   <article class="container">
-    <div class="jumbotron">
+    <div class="jumbotron col-6">
       <h1>Créer une nouvelle série</h1>
       <form class="form-horizontal" method="POST" action="{{creation}}">
        <div class="form-group">
@@ -49,5 +48,8 @@
      </form>
     </div>
    </article>
+<script src="{{style}}/js/map2.js" charset="utf-8"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y &callback=initMap"
+async defer></script>
 </body>
 </html>

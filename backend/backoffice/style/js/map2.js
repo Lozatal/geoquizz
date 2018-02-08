@@ -11,12 +11,7 @@ function initMap() {
   });
 
   map.addListener('click', function(e){
-    let lat = e.latLng.lat();
-    let lng = e.latLng.lng();
-    document.getElementById("position_long").value = lat;
-    document.getElementById("position_lat").value = lng;
-    e.latLng.lat()=0;
-
+    document.getElementById("map_refs").value = e.latLng;
   });
 }
 

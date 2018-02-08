@@ -18,15 +18,13 @@ $color_nav_hover: #212f3c;
 //GENERAL
 
 .container{
-  margin-top: 80px;
+  margin-top: 70px;
 }
 
-.jumbotron{
+.jbt{
   border-radius: 5px;
   background-color: rgba(234, 236, 238, 0.8);
   padding: 30px;
-  display: block;
-  vertical-align: middle;
 }
 
 .form-group{
@@ -44,12 +42,6 @@ $color_nav_hover: #212f3c;
   box-shadow: 5px 5px 5px 0px #656565;
 }
 
-.centrar{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .success{
   background: #2ecc71;
 }
@@ -59,7 +51,7 @@ $color_nav_hover: #212f3c;
   width: 600px;
   float: right;
   margin: 20px;
-  display: block;
+  display: flex;
 }
 
 h1{
@@ -81,7 +73,6 @@ th{
 .navbar {
   overflow: hidden;
   background-color:  $color_nav;
-  position: fixed;
   top: 0;
   width: 100%;
   justify-content: space-between;
