@@ -15,7 +15,7 @@ Vue.config.productionTip = false
 //http://player.geoquizz.local:10081/
 
 window.axios = axios.create({
-  baseURL: 'http://player.geoquizz.local:10081/',
+  baseURL: 'http://localhost/html/geoquizz/backend/player/',
   params : {
   	token : false
   }
@@ -32,6 +32,9 @@ new Vue({
   el: '#app',
   router,
   store: store,
+  beforeCreate() {
+  	this.$store.commit('initialiseStore');
+  },
   components: { App },
   template: '<App/>'
 })
