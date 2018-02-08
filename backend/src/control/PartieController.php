@@ -8,6 +8,7 @@
 
   use geoquizz\model\Partie as partie;
   use geoquizz\model\Photo as photo;
+  use geoquizz\model\Serie as serie;
 
   use illuminate\database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 
@@ -30,7 +31,7 @@
 
         //On récupère maintenant la série
         try{
-          $serie = $partie->serie->firstOrFail();
+          $serie = serie::where('id', '=', $partie->id_serie)->firstOrFail();
           $partie->serie = $serie;
           $photos = photo::where('id_serie', '=', $serie->id)->get();
           $partie->photos = $photos;
