@@ -64,7 +64,7 @@
     }
 
     /*
-    * Retourne l'historique des 10 meilleurs score d'un joueur
+    * Retourne l'historique des parties d'un joueur
     * @param : Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */

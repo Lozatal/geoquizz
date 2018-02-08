@@ -74,7 +74,8 @@
         }
       }
 
-      $resp=$resp->withHeader('Content-Type','application/json');
+      $resp=$resp->withHeader('Content-Type','application/json')
+                ->withStatus(200);
       $resp->getBody()->write(json_encode($resultat));
       return $resp;
     }
@@ -87,7 +88,8 @@
     public function getSeriesSansPagination(Response $resp,array $args){
       $series = Series::get();
 
-      $resp=$resp->withHeader('Content-Type','application/json');
+      $resp=$resp->withHeader('Content-Type','application/json')
+        ->withStatus(200);
       $resp->getBody()->write(json_encode($series));
       return $resp;
     }
@@ -103,7 +105,8 @@
       $Series = Series::find($id);
 
       if($Series){
-        $resp=$resp->withHeader('Content-Type','application/json');
+        $resp=$resp->withHeader('Content-Type','application/json')
+                    ->withStatus(200);
         $resp->getBody()->write(json_encode($Series));
       }else{
           $resp=$resp->withStatus(404);

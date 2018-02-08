@@ -109,7 +109,7 @@
       $ctrl=new Serie($this);
       return $ctrl->getSeriesID($req,$resp,$args);
     }
-  )->setName("seriesGetID");
+  )->setName("getSeriesID");
 
   //Parties
 
