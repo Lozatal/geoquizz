@@ -6,20 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{style}}/css/input.css">
   <link rel="stylesheet" href="{{style}}/css/background.css">
+  <link rel="stylesheet" href="{{style}}/css/style.css">
 </head>
 
 <body>
   <header class="navbar">
     <div class="nav_element">
-        <a href="/"><img src="{{style}}/img/logo_chico.png" class="logo"></a>
+        <a href="{{backoffice}}"><img src="{{style}}/img/logo_chico.png" class="logo"><h6>Geoquizz</h6></a>
     </div>
-    <nav class="nav_element">
-      <a href="/">Connexion</a>
-      <a href="{{ajouter}}">S'enregistrer</a>
-    </nav>
+      <nav class="nav_element">
+        <a href="{{connexion}}">Connexion <span class="icon-key"></span></a>
+        <a href="{{ajouter}}">S'enregistrer <span class="icon-user"></a>
+      </nav>
   </header>
   <article class="container">
-    <div class="jumbotron">
+    <div class="jbt col-6">
       <h1>Creer une compte</h1>
       <form method="POST" class="form-horizontal" action="{{creation}}">
         <div class="form-group">
