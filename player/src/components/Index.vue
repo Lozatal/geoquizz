@@ -104,7 +104,7 @@ export default {
 
 <style scoped>
 #formulaire{
-	width:60%;
+	width:100%;
 	margin:auto;
 	text-align: center;
 	background-color: #EEF0F1;
@@ -130,5 +130,12 @@ input{
 }
 .secondTitre{
 	margin-top:20px;
+}
+
+/* TABLETTE */
+@media only screen and (min-width: 768px) {
+	#formulaire{
+		width:60%;
+	}
 }
 </style>
