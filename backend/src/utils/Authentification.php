@@ -35,10 +35,11 @@ abstract class Authentification extends AbstractAuthentification {
 
     	unset($_SESSION['user_login']);
     	unset($_SESSION['access_level']);
+			session_destroy();
 
     	$this->user_login= NULL;
-		$this->access_level = 'ACCESS_LEVEL_NONE';
-		$this->logged_in = false;
+			$this->access_level = 'ACCESS_LEVEL_NONE';
+			$this->logged_in = false;
 	}
 
     public function checkAccessRight($requested) {
