@@ -1,7 +1,7 @@
 {
     "name": "Geoquizz",
     "description": "Jeu de placement de lieux sur une carte",
-    "title": "geoquizz : api",
+    "title": "geoquizz : backoffice",
     "version": "0.1.0",
-    "author": "Daniel Bentz"
+    "author": "Ragonneau Valentin"
 }
