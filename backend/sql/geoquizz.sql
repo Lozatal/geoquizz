@@ -22,8 +22,8 @@ DROP TABLE IF EXISTS `photo`;
 CREATE TABLE `photo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) NOT NULL,
-  `position_long` float NOT NULL,
-  `position_lat` float NOT NULL,
+  `position_long` varchar(120) NOT NULL,
+  `position_lat` varchar(120) NOT NULL,
   `url` varchar(255) NOT NULL,
   `id_serie` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -50,4 +50,4 @@ CREATE TABLE `utilisateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2018-02-08 15:44:23
+-- 2018-02-08 15:48:09
