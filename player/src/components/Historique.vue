@@ -1,5 +1,5 @@
 <template>
-	<div id="historique">
+	<div id="historique" class="box">
 		<h1 class="title">Tableau des scores</h1>
 		<form @submit="recherche">
 			<input class="input" type='pseudo' v-model="pseudoRecherche" placeholder="Recherche d'un joueur" />
