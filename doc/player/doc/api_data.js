@@ -1,33 +1,5 @@
 define({ "api": [
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./doc/main.js",
-    "group": "C__Daniel_wamp64_www_html_geoquizz_doc_doc_main_js",
-    "groupTitle": "C__Daniel_wamp64_www_html_geoquizz_doc_doc_main_js",
-    "name": ""
-  },
-  {
     "type": "put",
     "url": "/partie/{id}",
     "title": "modifier une partie",
@@ -118,6 +90,36 @@ define({ "api": [
         {
           "title": "exemple de réponse en cas de succès",
           "content": "HTTP/1.1 200 OK\n{\n   \"type\" : \"collection\",\n     serie : {\n         \"id\"  : \"0722ceee-16d9-4c68-b147-25d8bbcc9bd6\",\n         \"ville\" : \"Lyon\",\n         \"description\" : \"Une série de photo concernant la ville de lyon\",\n         \"serie_lat\" : \"45.75\",\n         \"serie_long\" : \"4.85\",\n         \"dist\" : \"100\",\n            \"nb_images\" : 10\n   }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./rest.php",
+    "groupTitle": "Series"
+  },
+  {
+    "type": "get",
+    "url": "/series/{id}",
+    "title": "accéder à une série en fonction de id",
+    "group": "Series",
+    "name": "getSeriesID",
+    "version": "0.1.0",
+    "description": "<p>Accès à toutes les ressources d'une série en particulier permet d'accéder à la représentation des ressources d'une série Retourne une représentation json des ressources, incluant l'id, la ville, localisation ainsi que la distance.</p>",
+    "success": {
+      "fields": {
+        "Succès : 200": [
+          {
+            "group": "Succès : 200",
+            "optional": false,
+            "field": "OK",
+            "description": "<p>Ressources trouvées</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "exemple de réponse en cas de succès",
+          "content": "HTTP/1.1 200 OK\n{\n   serie : {\n         \"id\"  : \"0722ceee-16d9-4c68-b147-25d8bbcc9bd6\",\n         \"ville\" : \"Lyon\",\n         \"description\" : \"Une série de photo concernant la ville de lyon\",\n         \"serie_lat\" : \"45.75\",\n         \"serie_long\" : \"4.85\",\n         \"dist\" : \"100\",\n   }\n}",
           "type": "json"
         }
       ]
