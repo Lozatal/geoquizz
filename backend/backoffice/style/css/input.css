@@ -1187,6 +1187,13 @@ pre {
 .success {
   background: #2ecc71; }
 
+#map {
+  height: 500px;
+  width: 600px;
+  float: right;
+  margin: 20px;
+  display: block; }
+
 h1 {
   text-align: center;
   margin: 30px; }
