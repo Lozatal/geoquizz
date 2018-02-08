@@ -1177,6 +1177,11 @@ pre {
   border-radius: 5px;
   box-shadow: 5px 5px 5px 0px #656565; }
 
+.centrar {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
 .success {
   background: #2ecc71; }
 

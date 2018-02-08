@@ -20,7 +20,8 @@
   </header>
 
   <article class="container">
-    <div class="jumbotron">
+    <div id="map"></div>
+    <div class="jbt">
       <h1>Modifier une série</h1>
       <form class="form-horizontal" method="POST" action="{{modification}}">
        <div class="form-group">
@@ -55,5 +56,7 @@
      </form>
     </div>
    </article>
+<script src="{{style}}/js/map2.js" charset="utf-8"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y &callback=initMap" async defer></script>
 </body>
 </html>
