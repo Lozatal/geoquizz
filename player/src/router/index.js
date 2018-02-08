@@ -19,7 +19,7 @@ export default new Router({
     	component: Historique
     },
     {
-      path: '/partie',
+      path: '/partie/:id',
       name : 'partie',
       component : Partie
     }

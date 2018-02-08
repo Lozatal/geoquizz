@@ -12,12 +12,18 @@ export default {
   name: 'Partie',
   data () {
     return {
+      partie: ''
     }
   },
   components:{
     Map
   },
-  methods: {
+  mounted() {
+        window.axios.get('parties/' + this.$route.params.id ).then((response) => {
+            this.partie = response.data;
+        }).catch((error) => {
+            alert(error);
+        });
   }
 }
 </script>
