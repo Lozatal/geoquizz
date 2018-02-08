@@ -5,29 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{style}}/css/input.css">
-  <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 400px;
-          width: 50%;
-        float: right;
-        margin: 10px;
-        display: block;
-      }
-      #pic {
-        height: 10%;
-        width: 50%;
-        float: left;
-      }
-
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100vh;
-      }
-    </style>
 </head>
-
 <body>
   <header class="navbar">
     <div class="nav_element">
@@ -60,34 +38,9 @@
        </div>
      </form>
     </div>
-    <div class="jumbotron col-6">
-      <div id="map"></div>
-    </div>
-
-
 </article>
-<script>
-      function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 48.8574100, lng: 2.3338000},
-          draggable: false,
-          zoom: 13
-        });
-
-        map.addListener('click', function(e) {
-          placeMarkerAndPanTo(e.latLng, map);
-        });
-      }
-
-      function placeMarkerAndPanTo(latLng, map) {
-        var marker = new google.maps.Marker({
-          position: latLng,
-          map: map
-        });
-
-      }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y &callback=initMap"
-        async defer></script>
+<script src="{{style}}/js/map.js" charset="utf-8"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y &callback=initMap"
+async defer></script>
 </body>
 </html>

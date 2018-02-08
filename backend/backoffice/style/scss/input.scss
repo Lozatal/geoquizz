@@ -55,10 +55,12 @@ $color_nav_hover: #212f3c;
 }
 
 #map {
-  width: 100%;
-  height: 100%;
+  height: 500px;
+  width: 600px;
+  float: right;
+  margin: 20px;
+  display: block;
 }
-
 
 h1{
   text-align: center;
