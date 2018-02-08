@@ -17,7 +17,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<historiquePartie v-if="listeParties != null" v-for="partie in listeParties" :partie="partie" :key="partie.id" :listeSeries = "listeSeries" :counter = 'counter++'>	
+					<historiquePartie v-if="listeParties != null" v-for="(partie,idx) in listeParties" :partie="partie" :key="partie.id" :listeSeries = "listeSeries" :counter = 'idx+1'>	
 					</historiquePartie>
 				</tbody>
 			</table>
