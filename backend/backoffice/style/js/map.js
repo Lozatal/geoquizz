@@ -3,12 +3,17 @@ var markers = [];
 
 function initMap() {
 
-  var long = document.getElementById("long_serie").value;
-  var lat = document.getElementById("lat_serie").value;
+  let longitude = parseFloat(document.getElementById("long_serie").value);
+  let latitude = parseFloat(document.getElementById("lat_serie").value);
+
+  let centre = {lat: latitude, lng: longitude};
+
+
+  console.log(centre);
 
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
-    center: {lat, long},
+    center: centre,
     mapTypeId: 'terrain'
   });
 
