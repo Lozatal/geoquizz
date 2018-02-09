@@ -66,7 +66,7 @@ html{
 }
 body {
   line-height: 1;
-  background-image: url('img/seigaiha.png');
+  background-image: url('assets/seigaiha.png');
   height: 100%;
 }
 ol, ul {
