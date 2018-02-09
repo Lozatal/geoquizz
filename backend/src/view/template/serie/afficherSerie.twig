@@ -24,17 +24,17 @@
         <a href="{{backoffice}}"><img src="{{style}}/img/005-image.png"></a>
       </div>
    </div>
-   <div class="col-12">
-     <a href="{{photo}}" class="lien">Ajouter une photo</a>
+   <div class="col-12 right">
+     <a href="{{photo}}" class="lien">Ajouter une photo<span class="icon-plus"></a>
    </div>
-   <div class="cont">
 
-     <div class="c-x"><img src="{{style}}/img/test2.jpg" alt=""><h6>Nom</h6><span class="icon-pencil"></span><span class="icon-cross"></span></a></div>
-     <div class="c-x"><img src="{{style}}/img/test1.jpg" alt=""><h6>Nom</h6><span class="icon-pencil"></span><span class="icon-cross"></span></a></div>
-     <div class="c-x"><img src="{{style}}/img/test2.jpg" alt=""><h6>Nom</h6><span class="icon-pencil"></span><span class="icon-cross"></span></a></div>
-     <div class="c-x"><img src="{{style}}/img/test1.jpg" alt=""><h6>Nom</h6><span class="icon-pencil"></span><span class="icon-cross"></span></a></div>
+   <div class="cont">
+     {% for photo in tabPhotos %}
+     <div class="c-x"><img src="{{ photo.url }}" alt=""><h6>{{ photo.description }}</h6><a href="{{ photo.modifier }}"><span class="icon-pencil"></span></a><a href="{{ photo.supprimer }}"><span class="icon-cross"></span></a></div>
+     {% endfor %}
    </div>
-   <div class="col-12 centrar">
+
+
 
     <!-- <table>
     <thead>
@@ -54,7 +54,7 @@
 
     </tbody>
    </table> -->
-   </div>
+
   </article>
 </body>
 </html>

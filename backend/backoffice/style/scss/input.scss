@@ -43,6 +43,9 @@ $color_nav_hover: #212f3c;
   border-radius: 5px;
   box-shadow: 5px 5px 5px 0px #656565;
 }
+.right{
+  text-align: right;
+}
 .lien{
   text-align: center;
   font-size: 25px;
@@ -52,7 +55,6 @@ $color_nav_hover: #212f3c;
   display: flex;
   justify-content: center;
 }
-
 .success{
   background: #2ecc71;
 }

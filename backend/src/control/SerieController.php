@@ -236,7 +236,7 @@
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
       $logout=$this->conteneur->get('router')->pathFor('logout');
 
-      $tabPhotos=Photos::select('description','id')->where('id_serie','=',$idSerie)->get();
+      $tabPhotos=Photos::select('description','id', 'url')->where('id_serie','=',$idSerie)->get();
       foreach($tabPhotos as $tabPhoto){
         $id=$tabPhoto['id'];
         $tabPhoto['modifier']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id,'idSerie'=>$idSerie]);

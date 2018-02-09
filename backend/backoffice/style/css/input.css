@@ -1178,6 +1178,9 @@ pre {
   border-radius: 5px;
   box-shadow: 5px 5px 5px 0px #656565; }
 
+.right {
+  text-align: right; }
+
 .lien {
   text-align: center;
   font-size: 25px;
