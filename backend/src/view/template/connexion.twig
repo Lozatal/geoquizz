@@ -22,6 +22,15 @@
 
   <article class="container">
     <div class="jbt col-6">
+      {% if exception != null %}
+        {% if exception is iterable %}
+          {% for excep in exception %}
+            <p>{{excep.0}}</p>
+          {% endfor %}
+        {% else %}
+          <p>{{exception}}</p>
+        {% endif %}
+      {% endif %}
       <h1>Connexion</h1>
       <form method="POST" action="{{login}}" class="form-horizontal">
        <div class="form-group">

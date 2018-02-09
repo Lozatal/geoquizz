@@ -11,19 +11,16 @@ export default new Router({
     {
 	    path: '/',
 	    name: 'index',
-      pathname: 'index',
 	    component: Index
     },
     {
     	path: '/historique',
     	name: 'historique',
-      pathname: 'historique',
     	component: Historique
     },
     {
       path: '/partie/:id',
       name : 'partie',
-      pathname: 'partie',
       component : Partie
     }
   ]

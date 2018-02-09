@@ -1,20 +1,24 @@
 <template>
+<div>
   <gmap-map
+    id="map"
     v-on:model="map"
-    v-on:click="mostrarMensaje"
+    v-on:click="setMarker"
     :center="center"
     :zoom="13"
     :draggable="false"
-    style="width: 50%; height: 900px"
   >
     <gmap-marker
       v-for="marker in markers"
       :position="marker.position"
       :clickable="true"
       :draggable="true"
+      :key="marker"
       @click="center=marker.position"
     ></gmap-marker>
   </gmap-map>
+  <button class="button is-link" v-on:click="validerResponse">Valider la sélection</button>
+</div>
 </template>
 
 <script>
@@ -24,21 +28,25 @@
   Vue.use(VueGoogleMaps, {
     load: {
       key: 'AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y',
-      v: 'OPTIONAL VERSION NUMBER',
+      libraries: 'geometry',
+      v: '1.0',
     }
   });
 
   export default {
     name: 'Map',
+    props: ['imageLatitude', 'imageLongituede', 'serieDist', 'points'],
     data () {
       return {
         center: {lat: 48.8574100, lng: 2.3338000},
         markers: [],
-        map: ''
+        map: '',
+        realPosition: {},
+        userPosition: {}
       }
     },
     methods: {
-      mostrarMensaje(event){
+      setMarker(event){
         let newMarker = {
           position: {
             lat: event.latLng.lat(),
@@ -46,7 +54,42 @@
             }
         };
         this.markers.push(newMarker);
+        this.realPosition = {lat:this.imageLatitude, lng:this.imageLongituede};
+        this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
+        this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
       },
+      validerResponse(){
+        let newScore = this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
+        this.$store.commit('setScore', newScore);
+        this.$store.commit('setEarned', newScore);
+        window.bus.$emit('responseEmit');
+      },
+      getDistance(realPosition, userPosition) {
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(
+          new google.maps.LatLng(realPosition.lat, realPosition.lng),
+          new google.maps.LatLng(userPosition.lat, userPosition.lng));
+          return distance;
+      },
+      evaluateDistance(distance){
+        let userDistance = parseFloat(distance);
+        let serieDistance = parseFloat(this.serieDist);
+        let score=0;
+        if(userDistance <= serieDistance){
+          score=5;
+        }else if(userDistance <= (serieDistance * 2)){
+          score=3;
+        }else{
+          score=1;
+        }
+        return score;
+      }
     }
   }
 </script>
+
+<style scoped>
+#map{
+  width:100%;
+  height:900px;
+}
+</style>

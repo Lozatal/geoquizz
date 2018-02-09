@@ -20,6 +20,15 @@
 
   <article class="container">
     <div class="jbt">
+      {% if exception != null %}
+        {% if exception is iterable %}
+          {% for excep in exception %}
+            <p>{{excep.0}}</p>
+          {% endfor %}
+        {% else %}
+          <p>{{exception}}</p>
+        {% endif %}
+      {% endif %}
       <h1>Modifier une photo</h1>
       <div class="flex">
         <form class="form-horizontal" method="POST" action="{{modification}}">

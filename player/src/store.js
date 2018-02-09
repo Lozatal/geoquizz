@@ -6,10 +6,22 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state : {
 		token : false,
+		score : 0,
+		earned : 0,
+		time : 0,
 	},
 	mutations : {
 		setToken(state,token) {
 			state.token = token;
+		},
+		setScore(state,score) {
+			state.score += score;
+		},
+		setEarned(state,earned) {
+			state.earned = earned;
+		},
+		setTime(state,time) {
+			state.time = time;
 		},
 		initialiseStore(state) {
 			if(localStorage.getItem('store')) {
