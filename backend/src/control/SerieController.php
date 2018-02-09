@@ -164,10 +164,12 @@
         $modification=$this->conteneur->get('router')->pathFor('getSeriesPut',['id'=>$id]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         $logout=$this->conteneur->get('router')->pathFor('logout');
+        $compte=$this->conteneur->get('router')->pathFor('compteGet');
         return $this->conteneur->view->render($resp,'serie/modifierSerie.twig',['serie'=>$Series,
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'logout'=>$logout,
+                                                                                'compte'=>$compte,
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('index');
@@ -186,9 +188,11 @@
       $creation=$this->conteneur->get('router')->pathFor('getSeriesPost');
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       $logout=$this->conteneur->get('router')->pathFor('logout');
+      $compte=$this->conteneur->get('router')->pathFor('compteGet');
       return $this->conteneur->view->render($resp,'serie/creationSerie.twig',['creation'=>$creation,
                                                                               'backoffice'=>$backoffice,
                                                                               'logout'=>$logout,
+                                                                              'compte'=>$compte,
                                                                               'style'=>$style]);
     }
 
@@ -262,11 +266,13 @@
 
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
+      $compte=$this->conteneur->get('router')->pathFor('compteGet');
       return $this->conteneur->view->render($resp,'serie/afficherSerie.twig',['photo'=>$photo,
                                                                               'tabPhotos'=>$tabPhotos,
                                                                               'compte'=>$compte,
                                                                               'logout'=>$logout,
                                                                               'backoffice'=>$backoffice,
+                                                                              'compte'=>$compte,
                                                                               'style'=>$style]);
     }
 }

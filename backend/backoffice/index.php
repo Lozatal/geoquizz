@@ -160,7 +160,7 @@
   )->setName("loginPost")->add(new Validation($validators));
 
   //======================================================
-  //                Visualisation et déconnexion
+  //       Visualisation/modification et déconnexion
   //======================================================
 
   // Page de visualisation du compte
@@ -171,6 +171,20 @@
     }
   )->setName("compteGet")->add('checkLogin');
 
+  // Page de de déconnexion
+  $app->post('/compte',
+    function(Request $req, Response $resp, $args){
+      if($req->getAttribute('has_errors')){
+        $errors = $req->getAttribute('errors');
+        return afficheError($resp, '/parties/nouvelle', $errors);
+      }else{
+        $ctrl=new Comptes($this);
+        return $ctrl->putCompte($req,$resp,$args);
+      }
+    }
+  )->setName("modifierCompte")->add('checkLogin');
+
+  // Page de de déconnexion
   $app->get('/logout',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){

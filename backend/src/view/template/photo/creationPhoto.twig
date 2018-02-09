@@ -14,7 +14,7 @@
     </div>
     <nav class="nav_element">
       <a href="{{logout}}">Déconnexion <span class="icon-exit"></span></a>
-      <a href="{{logout}}">Compte <span class="icon-cog"></span></a>
+      <a href="{{compte}}">Compte <span class="icon-cog"></span></a>
     </nav>
   </header>
 
@@ -24,17 +24,17 @@
       <div class="flex">
         <form class="form-horizontal" method="POST" action="{{creation}}">
          <div class="form-group">
-             <input type="text" class="form-control" id="description" placeholder="Nom et/ou détails sur l'image" name="description">
+             <input type="text" class="form-control" id="description" placeholder="Nom et/ou détails sur l'image" name="description" required>
          </div>
          <div class="form-group">
-             <input type="text" class="form-control" id="position_long" placeholder="Longitude" name="position_long">
+             <input type="text" class="form-control" id="position_long" placeholder="Longitude" name="position_long" required>
          </div>
          <div class="form-group">
-             <input type="text" class="form-control" id="position_lat" placeholder="Latitude" name="position_lat">
+             <input type="text" class="form-control" id="position_lat" placeholder="Latitude" name="position_lat" required>
          </div>
          <div class="form-group">
              <p><a href="https://imageshack.us/" target="_blank">Upload de l'image</a></p>
-             <input type="text" class="form-control" id="url" placeholder="Lien vers l'image" name="url">
+             <input type="text" class="form-control" id="url" placeholder="Lien vers l'image" name="url" required>
          </div>
          <div class="form-group">
              <input type="hidden" class="form-control" id="id_serie" name="id_serie" value="{{idSerie}}">

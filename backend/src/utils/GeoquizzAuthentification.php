@@ -78,6 +78,54 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
         }
     }
 
+    /* La méthode modifyUser
+     *
+     *  Permet la modification d'un utilisateur de l'application
+     *
+     *
+     * @param : $username : le nom d'utilisateur choisi
+     * @param : $pass : le mot de passe choisi
+     * @param : $fullname : le nom complet
+     * @param : $level : le niveaux d'accés (par défaut ACCESS_LEVEL_USER)
+     *
+     * Algorithme :
+     *
+     *  Si un utilisateur avec le même nom d'utilisateur existe déjà  en BD
+     *     - soulever une exception
+     *  Sinon
+     *     - créer un nouvel modéle User avec les valeurs en paramètre
+     *       ATTENTION : Le mot de passe ne doit pas être enregistré en clair.
+     *
+     */
+
+    public function modifyUser($nom, $email, $pass, $pass_verif) {
+
+        $requete = Compte::where('email', '=', $email);
+        $usertest = $requete->first();
+
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            throw new \geoquizz\utils\AuthentificationException('Mauvais format d\'adresse email');
+            echo '2';
+        }
+        elseif($pass != $pass_verif)
+        {
+            throw new \geoquizz\utils\AuthentificationException('Les deux mots de passe ne correspondent pas');
+            echo '1';
+        }
+        elseif(!$usertest){
+          throw new \geoquizz\utils\AuthentificationException("L'utilisateur n'existe pas");
+          echo '3';
+
+        }else{
+            $user = $usertest;
+            $user->nom = $nom;
+            $user->email = $email;
+            $user->password = $this->hashPassword($pass);
+            $user->save();
+        }
+    }
+
     /* La méthode login
      *
      * permet de connecter un utilisateur qui a fourni son nom d'utilisateur
