@@ -70,6 +70,7 @@ export default {
   		    }
   		}
   	},
+  	//On va créer la partie et redirigé vers la page de la nouvelle partie
   	demarrerPartie(){
   		window.axios.post('parties', {
   	        nb_photos : this.nb_photos_choisis,
@@ -82,7 +83,7 @@ export default {
 
   	        this.$router.push({ path: '/partie/' + response.data.id });
   	    }).catch((error) => {
-  	        alert(error);
+  	        console.log(error);
   	    });
   	}
   },
@@ -96,7 +97,7 @@ export default {
               	})
               });
             }).catch((error) => {
-                alert(error);
+                console.log(error);
             });
   }
 }

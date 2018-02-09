@@ -71,7 +71,6 @@
       },
       validerResponse(){
         let newScore = this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
-        console.log(newScore);
         this.$store.commit('setScore', newScore);
         this.$store.commit('setEarned', newScore);
       },

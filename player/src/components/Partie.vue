@@ -46,13 +46,13 @@ export default {
       // -1 car les tableaux commencent a 0
       let index = Math.floor((Math.random() * nombreImageTotal) + 1) -1;
 
-      //seulement si il y a des images de disponible
+      //seulement si il y a des images de disponible ou que l'on a pas atteint la limite
       if(nombreImageTotal >= 0 && this.partie.nb_photos >= this.nbImageTraite){
         this.photoEnCoursUrl = '';
         this.photoEnCours = this.photos[index];
         this.photoEnCoursUrl = this.photoEnCours.url;
 
-        //On supprimer la photo de la liste
+        //On supprime la photo de la liste
         this.photos.splice(index, 1);
         this.nbImageTraite++;
 
@@ -64,8 +64,6 @@ export default {
         var _this = this;
         let seconds = 0;
         this.myTimer = setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
-      }else{
-        console.log("fin de array");
       }
     },
     stopTimer(){
@@ -76,6 +74,13 @@ export default {
     }
   },
   mounted(){
+
+    //reset des variables
+    //console.log('test');
+    //this.$store.commit('setScore', 0);
+    //this.$store.commit('setEarned', 0);
+
+    //On récupère les informations de la partie
     window.axios.get('parties/' + this.$route.params.id).then((response) => {
             this.partie = response.data;
             this.serie = response.data.serie;
@@ -89,10 +94,6 @@ export default {
           }).catch((error) => {
               console.log(error);
           });
-
-    window.bus.$on('responseEmit', () => {
-      console.log('partie responseEmit recus');
-    })
   }
 }
 </script>

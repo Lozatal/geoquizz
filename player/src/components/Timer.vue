@@ -20,6 +20,8 @@ export default {
   methods: {
   },
   mounted(){
+
+    //sert a récupérer le temps émis
     window.bus.$on('responseEmit', () => {
       window.bus.$emit('recupTimer', this.timeSpent);
     })
