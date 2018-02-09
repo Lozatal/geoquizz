@@ -224,15 +224,15 @@
       'position_lat' =>Validator::numeric()->floatVal()->setname("Latitude")
   ];
 
-  $app->post('/photos/{id}/{idSerie}',
+  $app->post('/photos/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $args['exception'] = $req->getAttribute('errors');
       }
       $ctrl=new Photos($this);
-      return $ctrl->putPhotosID($req,$resp,$args);
+      return $ctrl->postPhotos($req,$resp,$args);
     }
-  )->setName("photosPut")->add(new Validation($validators))->add('checkLogin');
+  )->setName("photosPost")->add(new Validation($validators))->add('checkLogin');
 
   //======================================================
   //                Modification de photo
@@ -253,15 +253,15 @@
       'position_lat' =>Validator::numeric()->floatVal()->setname("Latitude")
   ];
 
-  $app->post('/photos/{idSerie}',
+  $app->post('/photos/{id}/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $args['exception'] = $req->getAttribute('errors');
       }
       $ctrl=new Photos($this);
-      return $ctrl->postPhotos($req,$resp,$args);
+      return $ctrl->putPhotosID($req,$resp,$args);
     }
-  )->setName("photosPost")->add(new Validation($validators))->add('checkLogin');
+  )->setName("photosPut")->add(new Validation($validators))->add('checkLogin');
 
   //======================================================
   //                Suppression de photo
