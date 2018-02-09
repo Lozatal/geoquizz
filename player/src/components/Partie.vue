@@ -47,7 +47,6 @@ export default {
 
       //seulement si il y a des images de disponible
       if(nombreImageTotal >= 0 && this.partie.nb_photos >= this.nbImageTraite){
-        console.log(this.photos[index]);
         this.photoEnCoursUrl = '';
         this.photoEnCours = this.photos[index];
         this.photoEnCoursUrl = this.photoEnCours.url;
@@ -56,8 +55,8 @@ export default {
         this.photos.splice(index, 1);
         this.nbImageTraite++;
 
-        //On envoyé l'event a la photo
-        //window.bus.$emit('showPhoto', this.photoEnCours);
+        //On envoye l'event a la map
+        window.bus.$emit('showPhoto', this.photoEnCours);
 
         this.$store.commit('setEarned', 0);
 
