@@ -2,6 +2,11 @@
   //Démarrage de la session utilisateur
   session_start();
 
+  //Configuration pour Daniel
+  if($_SERVER['HTTP_HOST']=='localhost'){
+    $_SERVER['HTTP_HOST']='localhost/html/geoquizz/backend/backoffice';
+  }
+
   require_once __DIR__ . '/../src/vendor/autoload.php';
 
   use \Psr\Http\Message\ServerRequestInterface as Request;
