@@ -13,6 +13,7 @@
       :position="marker.position"
       :clickable="true"
       :draggable="true"
+      :key="marker"
       @click="center=marker.position"
     ></gmap-marker>
   </gmap-map>
