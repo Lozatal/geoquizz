@@ -30,31 +30,16 @@
 
    <div class="cont">
      {% for photo in tabPhotos %}
-     <div class="c-x"><img src="{{ photo.url }}" alt=""><h6>{{ photo.description }}</h6><a href="{{ photo.modifier }}"><span class="icon-pencil"></span></a><a href="{{ photo.supprimer }}"><span class="icon-cross"></span></a></div>
+     <div class="c-x">
+       <h6 class="x">{{ photo.description }}</h6>
+       <div class="visor">
+         <img src="{{ photo.url }}" alt="">
+       </div>
+       <a href="{{ photo.modifier }}"><span class="icon-pencil"></span></a>
+       <a href="{{ photo.supprimer }}"><span class="icon-cross"></span></a>
+     </div>
      {% endfor %}
    </div>
-
-
-
-    <!-- <table>
-    <thead>
-      <tr>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-    <tbody>
-
-     {% for photo in tabPhotos %}
-     <tr>
-       <td>{{ photo.description }}</td>
-       <td><a href="{{ photo.modifier }}"><span class="icon-pencil"></span></a></td>
-       <td><a href="{{ photo.supprimer }}"><span class="icon-cross"></span></a></td>
-     </tr>
-     {% endfor %}
-
-    </tbody>
-   </table> -->
-
   </article>
 </body>
 </html>
