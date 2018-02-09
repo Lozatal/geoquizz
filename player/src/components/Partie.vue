@@ -87,7 +87,7 @@ export default {
 
             window.bus.$emit('refreshDeco');
           }).catch((error) => {
-              alert(error);
+              console.log(error);
           });
 
     window.bus.$on('responseEmit', () => {

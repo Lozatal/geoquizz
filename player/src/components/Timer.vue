@@ -20,10 +20,8 @@ export default {
   methods: {
   },
   mounted(){
-
-
     window.bus.$on('responseEmit', () => {
-      console.log('timer responseEmit recus');
+      window.bus.$emit('recupTimer', this.timeSpent);
     })
   }
 }
