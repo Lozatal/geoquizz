@@ -29,7 +29,7 @@ export default {
       photoEnCoursUrl : '',
       photoEnCours : '',
       points: 0,
-      nbImageTraite : 0,
+      nbImageTraite : 1,
       myTimer: ''
     }
   },
