@@ -9,11 +9,10 @@
  */
 
 /**
- * @api {get} /creerCompte  affiche la page de création de compte
+ * @api {get} /creerCompte Affiche la page de création de compte
  * @apiGroup Comptes
  * @apiName getComptesCreation
  * @apiVersion 0.1.0
- *
  *
  * @apiDescription Accès à toutes les ressources de type compte :
  * permet d'accéder à la représentation des ressources compte permettant la création d'un compte.
@@ -31,7 +30,7 @@
   )->setName("comptesCreationGet");
 
 /**
- * @api {post} /creerCompte  Créer un compte
+ * @api {post} /creerCompte Créer un compte
  * @apiGroup Comptes
  * @apiName postCompte
  * @apiVersion 0.1.0
@@ -52,8 +51,10 @@
  * @apiErrorExample {json} exemple de réponse en cas d'erreur
  *     HTTP/1.1 400 Bad Request
  *     {
- *			password : must contain only letters (a-z) and digits (0-9)"
- *			password_rep :must contain only letters (a-z) and digits (0-9)"
+ *			nom : must contain only letters (a-z) and digits (0-9)
+ *			email : must be valid email
+ *			password : must contain only letters (a-z) and digits (0-9)
+ *			password_rep :must contain only letters (a-z) and digits (0-9)
  *     }
  */
 
@@ -76,9 +77,18 @@
     }
   )->setName("comptesPost")->add(new Validation($validators));
 
-  //======================================================
-  //                Connexion au compte
-  //======================================================
+ /**
+ * @api {get} / Affiche la page de connexion au compte
+ * @apiGroup Comptes
+ * @apiName getComptesConnexion
+ * @apiVersion 0.1.0
+ *
+ * @apiDescription Accès à toutes les ressources de type compte :
+ * permet d'accéder à la représentation des ressources compte permettant la connexion,
+ * Retourne une liste de lien pour twig.
+ *
+ * @apisuccess (Succès : 200) OK Ressources trouvées
+ */
 
   // Page de connexion au compte
   $app->get('/',
@@ -88,16 +98,40 @@
     }
   )->setName("comptesConnexionGet");
 
+/**
+ * @api {post} / Vérification et connexion à un compte
+ * @apiGroup Comptes
+ * @apiName loginCompte
+ * @apiVersion 0.1.0
+ *
+ * @apiDescription Création d'une ressource de type Compte:
+ * permet de récupérer après vérification de son éxistence une ressource compte.
+ * Redirige vers la page des séries du backoffice.
+ *
+ * @apiParam {Varchar} email Email de l'utilisateur
+ * @apiParam {Varchar} password Mot de passe
+ * 
+ * @apiSuccess (Réponse : 200) OK Ressources trouvées
+ *
+ * @apiError (Réponse : 400) Bad request paramètre manquant dans la requête
+ *
+ * @apiErrorExample {json} exemple de réponse en cas d'erreur
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *			email : must be valid email
+ *			password : must contain only letters (a-z) and digits (0-9)
+ *     }
+ */
   $validators = [
-      'email' => Validator::StringType(),
-      'password' => Validator::StringType()
+      'email' => Validator::email(),
+      'password' => Validator::StringType()->alnum()
   ];
 
   $app->post('/',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
+        return afficheError($resp, '/comptes/login', $errors);
       }else{
         $ctrl=new Comptes($this);
         return $ctrl->loginCompte($req,$resp,$args);

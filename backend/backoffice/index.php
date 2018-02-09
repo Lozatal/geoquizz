@@ -143,15 +143,15 @@
   )->setName("comptesConnexionGet");
 
   $validators = [
-      'email' => Validator::StringType(),
-      'password' => Validator::StringType()
+      'email' => Validator::email(),
+      'password' => Validator::StringType()->alnum()
   ];
 
   $app->post('/',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
+        return afficheError($resp, '/comptes/login', $errors);
       }else{
         $ctrl=new Comptes($this);
         return $ctrl->loginCompte($req,$resp,$args);
