@@ -5,9 +5,6 @@ function initMap() {
 
   let centre = {lat: 47.081662, lng: 2.5556267};
 
-
-  console.log(centre);
-
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 6,
     center: centre,
