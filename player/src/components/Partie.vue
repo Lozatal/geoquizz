@@ -41,6 +41,9 @@ export default {
   },
   methods: {
     showPhoto(){
+
+      this.stopTimer();
+
       //On récupère un chiffre random entre 0 le nombre d'images totale -1
       let nombreImageTotal = this.photos.length;
       // -1 car les tableaux commencent a 0
@@ -76,9 +79,8 @@ export default {
   mounted(){
 
     //reset des variables
-    //console.log('test');
-    //this.$store.commit('setScore', 0);
-    //this.$store.commit('setEarned', 0);
+    this.$store.commit('resetScore');
+    this.$store.commit('setEarned', 0);
 
     //On récupère les informations de la partie
     window.axios.get('parties/' + this.$route.params.id).then((response) => {

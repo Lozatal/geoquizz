@@ -88,6 +88,9 @@ export default {
   	}
   },
   mounted(){
+
+  	this.$store.commit('setTime', 0);
+
     window.axios.get('seriesNbImage').then((response) => {
               this.series = response.data;
               this.series.forEach((serie)=>{
