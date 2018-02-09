@@ -1,10 +1,14 @@
 <template>
-  <div>
-    <Map :imageLatitude="imageLatitude" :imageLongituede="imageLongituede" :serieDist="serieDist"></Map>
-    <Timer></Timer>
-    <Picture :imageSource="photoEnCours"></Picture>
-    <Score></Score>
-    <button v-on:click="showPhoto">Photo suivante</button>
+  <div id="partie">
+    <section id="map">
+      <Map :imageLatitude="imageLatitude" :imageLongituede="imageLongituede" :serieDist="serieDist"></Map>
+    </section>
+    <section id="picScore">
+      <Picture id="pic" :imageSource="photoEnCours"></Picture>
+      <Score id="score"></Score>
+      <Timer id="timer"></Timer>
+      <button class="button is-link" v-on:click="showPhoto">Photo suivante</button>
+    </section>
   </div>
 </template>
 
@@ -85,15 +89,31 @@ export default {
   h1{color:green;}
     /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
+    #partie{
+      display:flex;
+      width:100%;
+    }
     #map {
       height: 100%;
       width: 50%;
-      float: left;
     }
-    #pic {
-      height: 10%;
+    #picScore {
+      height: 700px;
       width: 50%;
-      float: left;
+      display:flex;
+      flex-wrap:wrap;
+    }
+    #pic{
+      margin:auto;
+      width:100%;
+      display:flex;
+    }
+    #score{
+      width:100%;
+    }
+    #timer{
+      width:100%;
+      text-align:center;
     }
     img{
       width: 80%;
@@ -102,10 +122,8 @@ export default {
       background-color: #f5f5f5;
       border: 1px solid #999999;
     }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
+    button{
+      margin:auto;
     }
+
 </style>

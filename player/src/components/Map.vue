@@ -1,22 +1,23 @@
 <template>
 <div>
   <gmap-map
+    id="map"
     v-on:model="map"
     v-on:click="setMarker"
     :center="center"
     :zoom="13"
     :draggable="false"
-    style="width: 50%; height: 900px"
   >
     <gmap-marker
       v-for="marker in markers"
       :position="marker.position"
       :clickable="true"
       :draggable="true"
+      :key="marker"
       @click="center=marker.position"
     ></gmap-marker>
   </gmap-map>
-  <button v-on:click="validerResponse">Valider la sélection</button>
+  <button class="button is-link" v-on:click="validerResponse">Valider la sélection</button>
 </div>
 </template>
 
@@ -85,3 +86,10 @@
     }
   }
 </script>
+
+<style scoped>
+#map{
+  width:100%;
+  height:900px;
+}
+</style>
