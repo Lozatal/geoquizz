@@ -21,35 +21,6 @@
     }
 
     /*
-    * Retourne la liste en json des Series
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function getSeries(Request $req,Response $resp,array $args){
-      $size = $req->getQueryParam('size',10);
-      $page = $req->getQueryParam('page',1);
-
-      $q = Series::select('id','ville');
-
-      //Récupération du total d'élement de la recherche
-      $total = sizeof($q->get());
-
-      if($total!=0){
-        $returnPag=pagination::page($q,$size,$page,$total);
-        $listeSeries = $returnPag["request"]->get();
-
-        $tab = writer::addLink($listeSeries, 'Series', 'seriesGetID');
-        $json = writer::jsonFormatCollection("Series",$tab,$total,$size,$returnPag["page"]);
-      }else{
-        $json = writer::jsonFormatCollection("Series",[],0,0);
-      }
-
-      $resp=$resp->withHeader('Content-Type','application/json');
-      $resp->getBody()->write($json);
-      return $resp;
-    }
-
-        /*
     * Retourne la liste en json des Series sans la pagination avec le calcul du nombre d'images
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
@@ -134,33 +105,6 @@
         }
         $resp=$resp->withStatus(200);
         $resp->getBody()->write('Delete Complete');
-      }
-      else{
-        $resp=$resp->withStatus(404);
-        $resp->getBody()->write('not found');
-      }
-      return $resp;
-    }
-
-    /*
-    * Modifie une Serie via son ID
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function putSeriesID(Request $req,Response $resp,array $args){
-      $id=$args['id'];
-
-      $postVar=$req->getParsedBody();
-
-      $Series = Series::find($id);
-      if($Series){
-        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
-        $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
-        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-        $Series->save();
-        $resp=$resp->withStatus(200);
-        $resp->getBody()->write('Modification complete');
       }
       else{
         $resp=$resp->withStatus(404);
