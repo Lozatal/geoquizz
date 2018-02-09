@@ -1,7 +1,7 @@
 <template>
   <div id="partie">
     <section id="map">
-      <Map></Map>
+      <Map v-on:markerSet="stopTimer"></Map>
     </section>
     <section id="picScore">
       <Picture id="pic" :image="photoEnCoursUrl"></Picture>
@@ -29,7 +29,8 @@ export default {
       photoEnCoursUrl : '',
       photoEnCours : '',
       points: 0,
-      nbImageTraite : 0
+      nbImageTraite : 0,
+      myTimer: ''
     }
   },
   components:{
@@ -62,10 +63,13 @@ export default {
 
         var _this = this;
         let seconds = 0;
-        setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
+        this.myTimer = setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
       }else{
         console.log("fin de array");
       }
+    },
+    stopTimer(){
+      clearInterval(this.myTimer);
     },
     updateScore(tiempo){
       this.$store.commit('setTime', tiempo)
