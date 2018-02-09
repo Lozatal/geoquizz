@@ -20,17 +20,13 @@ $color_nav_hover: #212f3c;
 //GENERAL
 
 .container{
-  margin-top: 70px;
+  margin-top: 20px;
 }
 
 .jbt{
   border-radius: 5px;
   background-color: rgba(234, 236, 238, 0.8);
-  padding: 30px;
-}
-
-.flex{
-  display: flex;
+  padding: 5px;
 }
 
 .form-group{
@@ -47,7 +43,11 @@ $color_nav_hover: #212f3c;
   border-radius: 5px;
   box-shadow: 5px 5px 5px 0px #656565;
 }
-
+.lien{
+  text-align: center;
+  font-size: 25px;
+  cursor: pointer;
+}
 .centrar{
   display: flex;
   justify-content: center;
@@ -56,24 +56,28 @@ $color_nav_hover: #212f3c;
 .success{
   background: #2ecc71;
 }
-
-#map {
-  overflow:hidden;
-  position:relative;
-  height:300px;
-  width:100%;
-  margin-left: 10px;
+.cont{
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  text-align: center;
+}
+.c-x{
+  padding: 5px;
+  background-color: rgba(234, 236, 238, 0.8);
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 25px;
+}
+.c-x>img{
+  width: 100%;
+  position: relative;
 }
 
-h1{
+h1, h6{
   font-family: 'Poiret One', cursive;
   font-weight: bold;
 }
-h6{
-  font-family: 'Poiret One', cursive;
-  font-weight: bold;
-}
-
 td{
   padding: 10px;
 }
@@ -85,6 +89,37 @@ th{
 
 span{
   margin: 5px;
+}
+.form-control{
+  width: 100%;
+}
+.flex{
+  // display: flex;
+  flex-flow: row;
+}
+#map {
+  height:300px;
+  width:100%;
+}
+@media(max-width: 380px) {
+  h1{
+    font-size: 25px;
+  }
+}
+@media(min-width: 800px) {
+  .form-control{
+    width: 300px;
+  }
+  .flex{
+    display: flex;
+  }
+  #map{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .jbt{
+    padding: 20px;
+  }
 }
 
 // MENU
