@@ -49,6 +49,7 @@
     },
     methods: {
       setMarker(event){
+        this.markers = [];
         let newMarker = {
           position: {
             lat: event.latLng.lat(),
@@ -96,6 +97,7 @@
       }) 
 
       window.bus.$on('showPhoto', (image) => {
+        this.markers = [];
         this.imageLatitude = parseFloat(image.position_lat);
         this.imageLongitude = parseFloat(image.position_long);
       }) 
