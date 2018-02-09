@@ -121,12 +121,10 @@
   $app->post('/creerCompte',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
-      }else{
-        $ctrl=new Comptes($this);
-        return $ctrl->postCompte($req,$resp,$args);
+        $args['exception'] = $req->getAttribute('errors');
       }
+      $ctrl=new Comptes($this);
+      return $ctrl->postCompte($req,$resp,$args);
     }
   )->setName("comptesPost")->add(new Validation($validators));
 
@@ -150,12 +148,10 @@
   $app->post('/',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/comptes/login', $errors);
-      }else{
-        $ctrl=new Comptes($this);
-        return $ctrl->loginCompte($req,$resp,$args);
+        $args['exception'] = $req->getAttribute('errors');
       }
+      $ctrl=new Comptes($this);
+      return $ctrl->loginCompte($req,$resp,$args);
     }
   )->setName("loginPost")->add(new Validation($validators));
 
@@ -182,12 +178,10 @@
   $app->post('/compte',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/comptes/modification', $errors);
-      }else{
-        $ctrl=new Comptes($this);
-        return $ctrl->putCompte($req,$resp,$args);
+        $args['exception'] = $req->getAttribute('errors');
       }
+      $ctrl=new Comptes($this);
+      return $ctrl->putCompte($req,$resp,$args);
     }
   )->setName("modifierCompte")->add(new Validation($validators))->add('checkLogin');
 
@@ -195,12 +189,10 @@
   $app->get('/logout',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
-      }else{
-        $ctrl=new Comptes($this);
-        return $ctrl->logoutCompte($req,$resp,$args);
+        $args['exception'] = $req->getAttribute('errors');
       }
+      $ctrl=new Comptes($this);
+      return $ctrl->logoutCompte($req,$resp,$args);
     }
   )->setName("logout")->add('checkLogin');
 
@@ -227,19 +219,17 @@
   $validators = [
       'description' => Validator::StringType(),
       'url' => Validator::StringType(),
-      'position_long' => Validator::numeric(),
-      'position_lat' =>Validator::numeric()
+      'position_long' => Validator::numeric()->floatVal(),
+      'position_lat' => Validator::numeric()->floatVal()
   ];
 
   $app->post('/photos/{id}/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
-      }else{
-        $ctrl=new Photos($this);
-        return $ctrl->putPhotosID($req,$resp,$args);
+        $args['exception'] = $req->getAttribute('errors');
       }
+      $ctrl=new Photos($this);
+      return $ctrl->putPhotosID($req,$resp,$args);
     }
   )->setName("photosPut")->add(new Validation($validators))->add('checkLogin');
 
@@ -258,19 +248,17 @@
   $validators = [
       'description' => Validator::StringType(),
       'url' => Validator::StringType(),
-      'position_long' => Validator::numeric(),
-      'position_lat' =>Validator::numeric()
+      'position_long' => Validator::numeric()->floatVal(),
+      'position_lat' =>Validator::numeric()->floatVal()
   ];
 
   $app->post('/photos/{idSerie}',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
-        $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
-      }else{
-        $ctrl=new Photos($this);
-        return $ctrl->postPhotos($req,$resp,$args);
+        $args['exception'] = $req->getAttribute('errors');
       }
+      $ctrl=new Photos($this);
+      return $ctrl->postPhotos($req,$resp,$args);
     }
   )->setName("photosPost")->add(new Validation($validators))->add('checkLogin');
 
@@ -328,16 +316,20 @@ $app->get('/creerSerie',
 
 $validators = [
     'ville' => Validator::StringType(),
-    'map_refs' => Validator::StringType(),
+    'serie_lat' => Validator::numeric()->floatVal(),
+    'serie_long' => Validator::numeric()->floatVal(),
     'dist' => Validator::numeric()
 ];
 // création de la série Twig
 $app->post('/creerSerie',
   function(Request $req, Response $resp, $args){
+    if($req->getAttribute('has_errors')){
+      $args['exception'] = $req->getAttribute('errors');
+    }
     $ctrl=new Series($this);
     return $ctrl->getSeriesPost($req,$resp,$args);
   }
-)->setName("getSeriesPost")->add('checkLogin');
+)->setName("getSeriesPost")->add(new Validation($validators))->add('checkLogin');
 
 //======================================================
 //            Modification d'une série
@@ -353,16 +345,20 @@ $app->get('/modifierSerie/{id}',
 
 $validators = [
     'ville' => Validator::StringType(),
-    'map_refs' => Validator::StringType(),
+    'serie_lat' => Validator::numeric()->floatVal(),
+    'serie_long' => Validator::numeric()->floatVal(),
     'dist' => Validator::numeric()
 ];
 // Modification de la série Twig
 $app->post('/modifierSerie/{id}',
   function(Request $req, Response $resp, $args){
+    if($req->getAttribute('has_errors')){
+      $args['exception'] = $req->getAttribute('errors');
+    }
     $ctrl=new Series($this);
     return $ctrl->getSeriesPut($req,$resp,$args);
   }
-)->setName("getSeriesPut")->add('checkLogin');
+)->setName("getSeriesPut")->add(new Validation($validators))->add('checkLogin');
 
 //======================================================
 //            Suppression d'une série

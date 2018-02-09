@@ -74,7 +74,6 @@
       $id=$args['id'];
       $postVar=$req->getParsedBody();
       $Series = Series::find($id);
-
       if($Series){
         $resp=$resp->withHeader('Content-Type','application/json')
                     ->withStatus(200);
@@ -83,54 +82,6 @@
           $resp=$resp->withStatus(404);
           $resp->getBody()->write('not found');
       }
-      return $resp;
-    }
-
-    /*
-    * Supprime une Serie par son ID
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function deleteSeries(Request $req,Response $resp,array $args){
-      $id=$args['id'];
-      $postVar=$req->getParsedBody();
-      $Series = Series::find($id);
-      if($Series){
-        $Series->delete();
-        $Photos = Photos::where('id_serie','=',$id)->get();
-        if($Photos){
-          foreach($Photos as $photo){
-            $photo->delete();
-          }
-        }
-        $resp=$resp->withStatus(200);
-        $resp->getBody()->write('Delete Complete');
-      }
-      else{
-        $resp=$resp->withStatus(404);
-        $resp->getBody()->write('not found');
-      }
-      return $resp;
-    }
-
-    /*
-    * Ajoute une Serie
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function postSeries(Request $req,Response $resp,array $args){
-      $postVar=$req->getParsedBody();
-      $Series = new Series();
-      //Création du Series
-      $Series->id= Uuid::uuid4();
-      $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-      $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
-      $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
-      $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-      $Series->save();
-      $resp=$resp->withStatus(201);
-      $resp->getBody()->write('Created');
-
       return $resp;
     }
 
@@ -157,6 +108,11 @@
     * Return Response $resp contenant la page complète
     */
     public function getSerieModification(Request $req,Response $resp,array $args){
+      if(isset($args['exception'])){
+        $exception=$args['exception'];
+      }else{
+        $exception=null;
+      }
       $id=$args['id'];
       $Series = Series::find($id);
       if($Series){
@@ -170,6 +126,7 @@
                                                                                 'backoffice'=>$backoffice,
                                                                                 'logout'=>$logout,
                                                                                 'compte'=>$compte,
+                                                                                'exception'=>$exception,
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('index');
@@ -184,6 +141,11 @@
     * Return Response $resp contenant la page complète
     */
     public function getSerieCreation(Request $req,Response $resp,array $args){
+      if(isset($args['exception'])){
+        $exception=$args['exception'];
+      }else{
+        $exception=null;
+      }
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $creation=$this->conteneur->get('router')->pathFor('getSeriesPost');
       $backoffice=$this->conteneur->get('router')->pathFor('index');
@@ -193,6 +155,7 @@
                                                                               'backoffice'=>$backoffice,
                                                                               'logout'=>$logout,
                                                                               'compte'=>$compte,
+                                                                              'exception'=>$exception,
                                                                               'style'=>$style]);
     }
 
@@ -202,17 +165,25 @@
     * Return Response $resp contenant la page complète
     */
     public function getSeriesPut(Request $req,Response $resp,array $args){
+      if(isset($args['exception'])){
+        return $this->getSerieModification($req,$resp,$args);
+      }
       $id=$args['id'];
 
       $postVar=$req->getParsedBody();
 
       $Series = Series::find($id);
       if($Series){
-        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
-        $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
-        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-        $Series->save();
+        try{
+          $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+          $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+          $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
+          $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+          $Series->save();
+        }catch(ModelNotFoundException $e){
+          $args['exception']=$e->getMessage();
+          return $this->getSerieModification($req,$resp,$args);
+        }
         $redirect=$this->conteneur->get('router')->pathFor('index');
         $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
         return $resp;
@@ -231,15 +202,23 @@
     * Return Response $resp contenant la page complète
     */
     public function getSeriesPost(Request $req,Response $resp,array $args){
-      $postVar=$req->getParsedBody();
-      $Series = new Series();
-      //Création d'une Serie
-      $Series->id= Uuid::uuid4();
-      $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-      $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
-      $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
-      $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-      $Series->save();
+      if(isset($args['exception'])){
+        return $this->getSerieCreation($req,$resp,$args);
+      }
+      try{
+        $postVar=$req->getParsedBody();
+        $Series = new Series();
+        //Création d'une Serie
+        $Series->id= Uuid::uuid4();
+        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
+        $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+        $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
+        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
+        $Series->save();
+      }catch(ModelNotFoundException $e){
+        $args['exception']=$e->getMessage();
+        return $this->getSerieCreation($req,$resp,$args);
+      }
 
       $redirect=$this->conteneur->get('router')->pathFor('index');
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);

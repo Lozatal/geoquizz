@@ -25,6 +25,9 @@
     * Return Response $resp contenant la page complète
     */
     public function putPhotosID(Request $req,Response $resp,array $args){
+      if(isset($args['exception'])){
+        return $this->getPhotoModification($req,$resp,$args);
+      }
       $id=$args['id'];
       $idSerie=$args['idSerie'];
 
@@ -32,11 +35,16 @@
 
       $Photos = Photos::find($id);
       if($Photos){
-        $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
-        $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
-        $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
-        $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
-        $Photos->save();
+        try{
+          $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
+          $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
+          $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
+          $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
+          $Photos->save();
+        }catch(ModelNotFoundException $e){
+          $args['exception']=$e->getMessage();
+          return $this->getPhotoModification($req,$resp,$args);
+        }
       }
       $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
@@ -49,16 +57,24 @@
     * Return Response $resp contenant la page complète
     */
     public function postPhotos(Request $req,Response $resp,array $args){
+      if(isset($args['exception'])){
+        return $this->getPhotoCreation($req,$resp,$args);
+      }
       $idSerie=$args['idSerie'];
       $postVar=$req->getParsedBody();
       $Photos = new Photos();
-      //Création du Photos
-      $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
-      $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
-      $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
-      $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
-      $Photos->id_serie=filter_var($postVar['id_serie'],FILTER_SANITIZE_STRING);
-      $Photos->save();
+      try{
+        //Création du Photos
+        $Photos->description=filter_var($postVar['description'],FILTER_SANITIZE_STRING);
+        $Photos->url=filter_var($postVar['url'],FILTER_SANITIZE_STRING);
+        $Photos->position_long=filter_var($postVar['position_long'],FILTER_SANITIZE_STRING);
+        $Photos->position_lat=filter_var($postVar['position_lat'],FILTER_SANITIZE_STRING);
+        $Photos->id_serie=filter_var($postVar['id_serie'],FILTER_SANITIZE_STRING);
+        $Photos->save();
+      }catch(ModelNotFoundException $e){
+        $args['exception']=$e->getMessage();
+        return $this->getPhotoCreation($req,$resp,$args);
+      }
 
       $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
@@ -88,6 +104,11 @@
     * Return Response $resp contenant la page complète
     */
     public function getPhotoModification(Request $req,Response $resp,array $args){
+      if(isset($args['exception'])){
+        $exception=$args['exception'];
+      }else{
+        $exception=null;
+      }
       $id=$args['id'];
       $idSerie=$args['idSerie'];
       $Serie=Serie::where('id','=',$idSerie)->select('serie_lat','serie_long')->first();
@@ -105,6 +126,7 @@
                                                                                 'latSerie'=>$Serie['serie_lat'],
                                                                                 'longSerie'=>$Serie['serie_long'],
                                                                                 'compte'=>$compte,
+                                                                                'exception'=>$exception,
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
@@ -119,6 +141,11 @@
       * Return Response $resp contenant la page complète
       */
       public function getPhotoCreation(Request $req,Response $resp,array $args){
+        if(isset($args['exception'])){
+          $exception=$args['exception'];
+        }else{
+          $exception=null;
+        }
         $idSerie=$args['idSerie'];
         $Serie=Serie::where('id','=',$idSerie)->select('serie_lat','serie_long')->first();
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
@@ -133,6 +160,7 @@
                                                                                 'longSerie'=>$Serie['serie_long'],
                                                                                 'logout'=>$logout,
                                                                                 'compte'=>$compte,
+                                                                                'exception'=>$exception,
                                                                                 'style'=>$style]);
       }
   }

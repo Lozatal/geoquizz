@@ -19,6 +19,15 @@
   </header>
   <article class="container">
     <div class="jbt">
+      {% if exception != null %}
+        {% if exception is iterable %}
+          {% for excep in exception %}
+            <p>{{excep.0}}</p>
+          {% endfor %}
+        {% else %}
+          <p>{{exception}}</p>
+        {% endif %}
+      {% endif %}
       <h1>Modification du compte</h1>
       <form class="form-horizontal" method="POST" action="{{modifier}}">
         <div class="form-group">
