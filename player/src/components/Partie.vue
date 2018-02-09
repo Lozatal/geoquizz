@@ -44,12 +44,13 @@ export default {
         this.imageLatitude = this.photosList[this.photoIndex].latitude;
         this.imageLongituede = this.photosList[this.photoIndex].longitude;
         this.$store.commit('setEarned', 0);
-        /*
-        let seconds = 0;
-        let update = this.updateScore(seconds);
-        setInterval(function(){ seconds++; update; }, 1000);
         this.photoIndex ++;
-        */
+
+        var _this = this;
+        let seconds = 0;
+        setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
+
+
       }else{
         console.log("fin de array");
       }

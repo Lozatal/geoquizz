@@ -27,6 +27,7 @@
   Vue.use(VueGoogleMaps, {
     load: {
       key: 'AIzaSyDW6k5H-IUwCs5HrPIUWz0NWfC41fQWz2Y',
+      libraries: 'geometry',
       v: '1.0',
     }
   });
@@ -69,19 +70,18 @@
           return distance;
       },
       evaluateDistance(distance){
-        let d = parseFloat(distance);
-        let s = parseFloat(this.serieDist);
+        let userDistance = parseFloat(distance);
+        let serieDistance = parseFloat(this.serieDist);
         let score=0;
-        if(d <= s){
+        if(userDistance <= serieDistance){
           score=5;
-        }else if(d <= (s * 2)){
+        }else if(userDistance <= (serieDistance * 2)){
           score=3;
         }else{
           score=1;
         }
         return score;
       }
-
     }
   }
 </script>
