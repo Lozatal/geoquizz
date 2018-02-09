@@ -35,10 +35,10 @@
 
   export default {
     name: 'Map',
-    props: ['imageLatitude', 'imageLongituede', 'serieDist', 'points'],
+    props: ['imageLatitude', 'imageLongituede' , 'points'],
     data () {
       return {
-        center: {lat: 48.8574100, lng: 2.3338000},
+        center: {lat: 0, lng: 0},
         markers: [],
         map: '',
         realPosition: {},
@@ -72,7 +72,7 @@
       },
       evaluateDistance(distance){
         let userDistance = parseFloat(distance);
-        let serieDistance = parseFloat(this.serieDist);
+        let serieDistance = parseFloat(this.serie.dist);
         let score=0;
         if(userDistance <= serieDistance){
           score=5;
@@ -83,6 +83,15 @@
         }
         return score;
       }
+    },
+    mounted(){
+      window.bus.$on('initMap', (serieOrigine) => {
+        this.serie = serieOrigine;
+        this.center = {
+          lat:parseFloat(this.serie.serie_lat),
+          lng:parseFloat(this.serie.serie_long)
+        };
+      }) 
     }
   }
 </script>
