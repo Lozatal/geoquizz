@@ -1,7 +1,10 @@
 <template>
   <div>
-    <Picture></Picture>
-    <Map></Map>
+    <Map :imageLatitude="imageLatitude" :imageLongituede="imageLongituede" :serieDist="serieDist"></Map>
+    <Timer></Timer>
+    <Picture :imageSource="photoEnCours"></Picture>
+    <Score></Score>
+    <button v-on:click="showPhoto">Photo suivante</button>
   </div>
 </template>
 
@@ -9,26 +12,68 @@
 
 import Map from '@/components/Map'
 import Picture from '@/components/Picture'
+import Score from '@/components/Score'
+import Timer from '@/components/Timer'
 
 export default {
   name: 'Partie',
   data () {
     return {
-      partie: ''
+      partie: '',
+      serie : '',
+      photos : [],
+      photosList : [],
+      photoEnCours : '',
+      photoIndex: 0,
+      points: 0,
+      imageLatitude: 0,
+      imageLongituede: 0,
+      serieDist: 0,
     }
   },
   components:{
     Map,
-    Picture
+    Picture,
+    Score,
+    Timer
   },
   methods: {
+    showPhoto(){
+      if(this.photoIndex <= this.photosList.length-1){
+        this.photoEnCours = this.photosList[this.photoIndex].url;
+        this.imageLatitude = this.photosList[this.photoIndex].latitude;
+        this.imageLongituede = this.photosList[this.photoIndex].longitude;
+        this.$store.commit('setEarned', 0);
+        /*
+        let seconds = 0;
+        let update = this.updateScore(seconds);
+        setInterval(function(){ seconds++; update; }, 1000);
+        this.photoIndex ++;
+        */
+      }else{
+        console.log("fin de array");
+      }
+    },
+    updateScore(tiempo){
+      this.$store.commit('setTime', tiempo)
+    }
   },
   mounted(){
-  window.axios.get('parties/' + this.$route.params.id).then((response) => {
-          this.partie = response.data;
-        }).catch((error) => {
-            alert(error);
-        });
+    window.axios.get('parties/' + this.$route.params.id).then((response) => {
+            this.partie = response.data;
+            this.serie = response.data.serie;
+            this.serieDist = response.data.serie.dist;
+            this.photos = response.data.photos;
+            this.photosList = response.data.photos;
+            this.$store.state.score=0;
+            this.showPhoto();
+          }).catch((error) => {
+              alert(error);
+          });
+
+    window.bus.$on('responseEmit', () => {
+      console.log('partie responseEmit recus');
+    })
   }
 }
 </script>
