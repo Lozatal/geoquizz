@@ -236,9 +236,10 @@
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
       $logout=$this->conteneur->get('router')->pathFor('logout');
 
-      $tabPhotos=Photos::select('description','id')->where('id_serie','=',$idSerie)->get();
+      $tabPhotos=Photos::select('description','id', 'url')->where('id_serie','=',$idSerie)->get();
       foreach($tabPhotos as $tabPhoto){
         $id=$tabPhoto['id'];
+        $url=$tabPhoto['url'];
         $tabPhoto['modifier']=$this->conteneur->get('router')->pathFor('photoModificationGet',['id'=>$id,'idSerie'=>$idSerie]);
         $tabPhoto['supprimer']=$this->conteneur->get('router')->pathFor('photoSuppressionGet',['id'=>$id,'idSerie'=>$idSerie]);
       }
@@ -247,6 +248,7 @@
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       $compte=$this->conteneur->get('router')->pathFor('compteGet');
       return $this->conteneur->view->render($resp,'serie/afficherSerie.twig',['photo'=>$photo,
+                                                                              'url'=>$url,
                                                                               'tabPhotos'=>$tabPhotos,
                                                                               'compte'=>$compte,
                                                                               'logout'=>$logout,
