@@ -18,14 +18,16 @@ $color_nav: #34495e;
 $color_nav_hover: #212f3c;
 
 //GENERAL
-
+body{
+  background-image: url(../img/seigaiha.png);
+}
 .container{
   margin-top: 20px;
 }
 
 .jbt{
   border-radius: 5px;
-  background-color: rgba(234, 236, 238, 0.8);
+  background-color: rgba(234, 236, 238, 0.5);
   padding: 5px;
 }
 
@@ -63,6 +65,7 @@ $color_nav_hover: #212f3c;
   display: flex;
   box-sizing: border-box;
   text-align: center;
+  overflow-x: auto;
 }
 .c-x{
   padding: 5px;
@@ -72,7 +75,7 @@ $color_nav_hover: #212f3c;
   font-size: 25px;
 }
 .c-x>img{
-  width: 100%;
+  width: 300px;
   position: relative;
 }
 
@@ -80,15 +83,22 @@ h1, h6{
   font-family: 'Poiret One', cursive;
   font-weight: bold;
 }
+table{
+  border-radius: 5px;
+  background-color: rgba(234, 236, 238, 0.8);
+}
 td{
-  padding: 10px;
+  padding: 20px;
 }
 
 th{
-  font-size: 25px;
+  font-size: 30px;
   text-align: center;
 }
+tbody{
 
+  font-size: 20px;
+}
 span{
   margin: 5px;
 }
