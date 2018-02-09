@@ -64,13 +64,16 @@
     }
 
     /*
-    * Retourne l'historique des 10 meilleurs score
+    * Retourne l'historique des parties d'un joueur
     * @param : Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
     public function getPartiesPlayer(Response $resp,array $args){
       $player=$args['player'];
-      $parties=partie::where('joueur', '=', $player)->get();
+      $parties=partie::where('joueur', '=', $player)
+              ->where('score', '!=', null)
+              ->orderBy('score', 'DESC')
+              ->get();
 
       $resp=$resp->withHeader('Content-Type','application/json')
             ->withStatus(200);

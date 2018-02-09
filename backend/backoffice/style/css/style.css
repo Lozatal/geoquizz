@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?1uv7n1');
-  src:  url('fonts/icomoon.eot?1uv7n1#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?1uv7n1') format('truetype'),
-    url('fonts/icomoon.woff?1uv7n1') format('woff'),
-    url('fonts/icomoon.svg?1uv7n1#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?hlo7ru');
+  src:  url('fonts/icomoon.eot?hlo7ru#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?hlo7ru') format('truetype'),
+    url('fonts/icomoon.woff?hlo7ru') format('woff'),
+    url('fonts/icomoon.svg?hlo7ru#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -42,11 +42,17 @@
 .icon-compass2:before {
   content: "\e94a";
 }
+.icon-user:before {
+  content: "\e971";
+}
 .icon-spinner:before {
   content: "\e97a";
 }
 .icon-spinner11:before {
   content: "\e984";
+}
+.icon-key:before {
+  content: "\e98d";
 }
 .icon-cog:before {
   content: "\e994";
@@ -65,4 +71,7 @@
 }
 .icon-checkmark:before {
   content: "\ea10";
+}
+.icon-exit:before {
+  content: "\ea14";
 }

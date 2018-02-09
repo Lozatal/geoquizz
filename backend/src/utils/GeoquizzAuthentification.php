@@ -22,12 +22,10 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
      */
     const ACCESS_LEVEL_USER  = 100;
     const ACCESS_LEVEL_ADMIN = 200;
-    public $conteneur=null;
 
     /* constructeur */
     public function __construct(){
         parent::__construct();
-        $this->conteneur=$conteneur;
     }
 
     /* La méthode createUser
@@ -80,6 +78,51 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
         }
     }
 
+    /* La méthode modifyUser
+     *
+     *  Permet la modification d'un utilisateur de l'application
+     *
+     *
+     * @param : $username : le nom d'utilisateur choisi
+     * @param : $pass : le mot de passe choisi
+     * @param : $fullname : le nom complet
+     * @param : $level : le niveaux d'accés (par défaut ACCESS_LEVEL_USER)
+     *
+     * Algorithme :
+     *
+     *  Si un utilisateur avec le même nom d'utilisateur existe déjà  en BD
+     *     - soulever une exception
+     *  Sinon
+     *     - créer un nouvel modéle User avec les valeurs en paramètre
+     *       ATTENTION : Le mot de passe ne doit pas être enregistré en clair.
+     *
+     */
+
+    public function modifyUser($nom, $email, $pass, $pass_verif, $pass_old) {
+
+        $requete = Compte::where('email', '=', $email);
+        $usertest = $requete->first();
+
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            throw new \geoquizz\utils\AuthentificationException('Mauvais format d\'adresse email');
+        }
+        elseif($pass != $pass_verif)
+        {
+            throw new \geoquizz\utils\AuthentificationException('Les deux mots de passe ne correspondent pas');
+        }
+        elseif($this->verifyPassword($pass_old, $usertest->password)){
+            $user = $usertest;
+            $user->nom = $nom;
+            $user->email = $email;
+            $user->password = $this->hashPassword($pass);
+            $user->save();
+
+        }else{
+            throw new \geoquizz\utils\AuthentificationException("Mauvais ancien mot de passe");
+        }
+    }
+
     /* La méthode login
      *
      * permet de connecter un utilisateur qui a fourni son nom d'utilisateur
@@ -108,7 +151,7 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
 
         if($usertest==null)
         {
-            throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
+            throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
         }
         else
         {
@@ -118,7 +161,7 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
             }
             else
             {
-                throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
+                throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
             }
         }
 

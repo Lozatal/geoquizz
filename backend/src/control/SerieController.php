@@ -21,36 +21,7 @@
     }
 
     /*
-    * Retourne la liste en json des Series
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function getSeries(Request $req,Response $resp,array $args){
-      $size = $req->getQueryParam('size',10);
-      $page = $req->getQueryParam('page',1);
-
-      $q = Series::select('id','ville');
-
-      //Récupération du total d'élement de la recherche
-      $total = sizeof($q->get());
-
-      if($total!=0){
-        $returnPag=pagination::page($q,$size,$page,$total);
-        $listeSeries = $returnPag["request"]->get();
-
-        $tab = writer::addLink($listeSeries, 'Series', 'seriesGetID');
-        $json = writer::jsonFormatCollection("Series",$tab,$total,$size,$returnPag["page"]);
-      }else{
-        $json = writer::jsonFormatCollection("Series",[],0,0);
-      }
-
-      $resp=$resp->withHeader('Content-Type','application/json');
-      $resp->getBody()->write($json);
-      return $resp;
-    }
-
-        /*
-    * Retourne la liste en json des Series sans la pagination
+    * Retourne la liste en json des Series sans la pagination avec le calcul du nombre d'images
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
     */
@@ -74,8 +45,23 @@
         }
       }
 
-      $resp=$resp->withHeader('Content-Type','application/json');
+      $resp=$resp->withHeader('Content-Type','application/json')
+                ->withStatus(200);
       $resp->getBody()->write(json_encode($resultat));
+      return $resp;
+    }
+
+    /*
+    * Retourne la liste en json des Series sans la pagination
+    * @param : Request $req, Response $resp, array $args[]
+    * Return Response $resp contenant la page complète
+    */
+    public function getSeriesSansPagination(Response $resp,array $args){
+      $series = Series::get();
+
+      $resp=$resp->withHeader('Content-Type','application/json')
+        ->withStatus(200);
+      $resp->getBody()->write(json_encode($series));
       return $resp;
     }
 
@@ -90,7 +76,8 @@
       $Series = Series::find($id);
 
       if($Series){
-        $resp=$resp->withHeader('Content-Type','application/json');
+        $resp=$resp->withHeader('Content-Type','application/json')
+                    ->withStatus(200);
         $resp->getBody()->write(json_encode($Series));
       }else{
           $resp=$resp->withStatus(404);
@@ -127,32 +114,6 @@
     }
 
     /*
-    * Modifie une Serie via son ID
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function putSeriesID(Request $req,Response $resp,array $args){
-      $id=$args['id'];
-
-      $postVar=$req->getParsedBody();
-
-      $Series = Series::find($id);
-      if($Series){
-        $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
-        $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
-        $Series->save();
-        $resp=$resp->withStatus(200);
-        $resp->getBody()->write('Modification complete');
-      }
-      else{
-        $resp=$resp->withStatus(404);
-        $resp->getBody()->write('not found');
-      }
-      return $resp;
-    }
-
-    /*
     * Ajoute une Serie
     * @param : Request $req, Response $resp, array $args[]
     * Return Response $resp contenant la page complète
@@ -163,7 +124,8 @@
       //Création du Series
       $Series->id= Uuid::uuid4();
       $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-      $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+      $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+      $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
       $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
       $Series->save();
       $resp=$resp->withStatus(201);
@@ -202,10 +164,12 @@
         $modification=$this->conteneur->get('router')->pathFor('getSeriesPut',['id'=>$id]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         $logout=$this->conteneur->get('router')->pathFor('logout');
+        $compte=$this->conteneur->get('router')->pathFor('compteGet');
         return $this->conteneur->view->render($resp,'serie/modifierSerie.twig',['serie'=>$Series,
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'logout'=>$logout,
+                                                                                'compte'=>$compte,
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('index');
@@ -224,9 +188,11 @@
       $creation=$this->conteneur->get('router')->pathFor('getSeriesPost');
       $backoffice=$this->conteneur->get('router')->pathFor('index');
       $logout=$this->conteneur->get('router')->pathFor('logout');
+      $compte=$this->conteneur->get('router')->pathFor('compteGet');
       return $this->conteneur->view->render($resp,'serie/creationSerie.twig',['creation'=>$creation,
                                                                               'backoffice'=>$backoffice,
                                                                               'logout'=>$logout,
+                                                                              'compte'=>$compte,
                                                                               'style'=>$style]);
     }
 
@@ -243,7 +209,8 @@
       $Series = Series::find($id);
       if($Series){
         $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-        $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+        $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+        $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
         $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
         $Series->save();
         $redirect=$this->conteneur->get('router')->pathFor('index');
@@ -269,7 +236,8 @@
       //Création d'une Serie
       $Series->id= Uuid::uuid4();
       $Series->ville=filter_var($postVar['ville'],FILTER_SANITIZE_STRING);
-      $Series->map_refs=filter_var($postVar['map_refs'],FILTER_SANITIZE_STRING);
+      $Series->serie_lat=filter_var($postVar['serie_lat'],FILTER_SANITIZE_STRING);
+      $Series->serie_long=filter_var($postVar['serie_long'],FILTER_SANITIZE_STRING);
       $Series->dist=filter_var($postVar['dist'],FILTER_SANITIZE_STRING);
       $Series->save();
 
@@ -298,11 +266,13 @@
 
       $style='http://'.$_SERVER['HTTP_HOST']."/style";
       $backoffice=$this->conteneur->get('router')->pathFor('index');
+      $compte=$this->conteneur->get('router')->pathFor('compteGet');
       return $this->conteneur->view->render($resp,'serie/afficherSerie.twig',['photo'=>$photo,
-                                                                'tabPhotos'=>$tabPhotos,
-                                                                'compte'=>$compte,
-                                                                'logout'=>$logout,
-                                                                'backoffice'=>$backoffice,
-                                                                'style'=>$style]);
+                                                                              'tabPhotos'=>$tabPhotos,
+                                                                              'compte'=>$compte,
+                                                                              'logout'=>$logout,
+                                                                              'backoffice'=>$backoffice,
+                                                                              'compte'=>$compte,
+                                                                              'style'=>$style]);
     }
 }

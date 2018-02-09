@@ -81,8 +81,21 @@ table {
 }
 
 #app{
-  font-size:21px;
+  font-size:17px;
   font-family: 'Ubuntu', sans-serif;
+}
+
+/* TABLETTE */
+@media only screen and (min-width: 768px) {
+  #app{
+    font-size:21px;
+    font-family: 'Ubuntu', sans-serif;
+  }
+}
+
+/* BUREAU */
+@media only screen and (min-width: 1024px) {
+
 }
 
 </style>

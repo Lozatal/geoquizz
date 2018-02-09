@@ -6,6 +6,7 @@
   use \Psr\Http\Message\ResponseInterface as Response;
 
   use geoquizz\model\Photo as Photos;
+  use geoquizz\model\Serie as Serie;
 
   use geoquizz\utils\Writer as writer;
   use geoquizz\utils\Pagination as pagination;
@@ -16,78 +17,6 @@
     public $conteneur=null;
     public function __construct($conteneur){
       $this->conteneur=$conteneur;
-    }
-
-    /*
-    * Retourne la liste en json des Photos
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-
-    public function getPhotos(Request $req,Response $resp,array $args){
-      $size = $req->getQueryParam('size',10);
-      $page = $req->getQueryParam('page',1);
-
-      $q = Photos::select('id','description');
-
-      //Récupération du total d'élement de la recherche
-      $total = sizeof($q->get());
-
-      if($total!=0){
-        $returnPag=pagination::page($q,$size,$page,$total);
-        $listePhotos = $returnPag["request"]->get();
-
-        $tab = writer::addLink($listePhotos, 'Photos', 'photosGetID');
-        $json = writer::jsonFormatCollection("Photos",$tab,$total,$size,$returnPag["page"]);
-      }else{
-        $json = writer::jsonFormatCollection("Photos",[],0,0);
-      }
-
-      $resp=$resp->withHeader('Content-Type','application/json');
-      $resp->getBody()->write($json);
-      return $resp;
-    }
-
-    /*
-    * Retourne la description complète d'une photo en json
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function getPhotosID(Request $req,Response $resp,array $args){
-      $id=$args['id'];
-      $resp=$resp->withHeader('Content-Type','application/json');
-      $Photos = Photos::find($id);
-      if($Photos==null){//Si id introuvable
-        $json["erreur"]="Id trouvable";
-        $resp=$resp->withHeader('Content-Type','application/json')->withStatus(204);
-        $resp->getBody()->write(json_encode($json));
-      }else{
-        $json=writer::jsonFormatRessource("Photos",$Photos);
-        $resp=$resp->withHeader('Content-Type','application/json');
-        $resp->getBody()->write($json);
-      }
-      return $resp;
-    }
-
-    /*
-    * Supprime une photo par son ID
-    * @param : Request $req, Response $resp, array $args[]
-    * Return Response $resp contenant la page complète
-    */
-    public function deletePhotos(Request $req,Response $resp,array $args){
-      $id=$args['id'];
-      $postVar=$req->getParsedBody();
-      $Photos = Photos::find($id);
-      if($Photos){
-        $Photos->delete();
-        $resp=$resp->withStatus(200);
-        $resp->getBody()->write('Delete Complete');
-      }
-      else{
-        $resp=$resp->withStatus(404);
-        $resp->getBody()->write('not found');
-      }
-      return $resp;
     }
 
     /*
@@ -161,16 +90,21 @@
     public function getPhotoModification(Request $req,Response $resp,array $args){
       $id=$args['id'];
       $idSerie=$args['idSerie'];
+      $Serie=Serie::where('id','=',$idSerie)->select('serie_lat','serie_long')->first();
       $Photos = Photos::find($id);
       if($Photos){
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
         $modification=$this->conteneur->get('router')->pathFor('photosPut',['id'=>$id,'idSerie'=>$idSerie]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         $logout=$this->conteneur->get('router')->pathFor('logout');
+        $compte=$this->conteneur->get('router')->pathFor('compteGet');
         return $this->conteneur->view->render($resp,'photo/modifierPhoto.twig',['photo'=>$Photos,
                                                                                 'modification'=>$modification,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'logout'=>$logout,
+                                                                                'latSerie'=>$Serie['serie_lat'],
+                                                                                'longSerie'=>$Serie['serie_long'],
+                                                                                'compte'=>$compte,
                                                                                 'style'=>$style]);
       }else{
         $redirect=$this->conteneur->get('router')->pathFor('serieAfficherGet',['idSerie'=>$idSerie]);
@@ -186,14 +120,19 @@
       */
       public function getPhotoCreation(Request $req,Response $resp,array $args){
         $idSerie=$args['idSerie'];
+        $Serie=Serie::where('id','=',$idSerie)->select('serie_lat','serie_long')->first();
         $style='http://'.$_SERVER['HTTP_HOST']."/style";
         $creation=$this->conteneur->get('router')->pathFor('photosPost',['idSerie'=>$idSerie]);
         $backoffice=$this->conteneur->get('router')->pathFor('index');
         $logout=$this->conteneur->get('router')->pathFor('logout');
+        $compte=$this->conteneur->get('router')->pathFor('compteGet');
         return $this->conteneur->view->render($resp,'photo/creationPhoto.twig',['creation'=>$creation,
                                                                                 'backoffice'=>$backoffice,
                                                                                 'idSerie'=>$idSerie,
+                                                                                'latSerie'=>$Serie['serie_lat'],
+                                                                                'longSerie'=>$Serie['serie_long'],
                                                                                 'logout'=>$logout,
+                                                                                'compte'=>$compte,
                                                                                 'style'=>$style]);
       }
   }

@@ -2,10 +2,9 @@
 	<nav class="navbar">
 		<ul>
 			<li><img src="@/assets/logo_chico.png"/></li>
-    	<li><router-link to="/"><p>Accueil</p></router-link></li>
-    	<li><router-link to="/historique"><p>Historique</p></router-link></li>
-      <li v-if="afficherDeconnecter"><button id='quitter' class="button is-large is-danger" v-on:click="deleteToken">Quitter</button></li>
-      <li v-else></li>
+    	<li><router-link v-on:click.native="refreshDeco" to="/"><p>Accueil</p></router-link></li>
+    	<li><router-link v-on:click.native="refreshDeco" to="/historique"><p>Historique</p></router-link></li>
+      <li><button id='quitter' v-show="afficherDeconnecter" class="button is-danger" v-on:click="deleteToken"><p>Quitter</p></button></li>
     </ul>
 	</nav>
 </template>
@@ -20,17 +19,24 @@ export default {
   },
   methods : {
     deleteToken(){
+      this.afficherDeconnecter = false;
       window.bus.$emit('deleteToken');
+    },
+    refreshDeco(){
+      if(this.$store.state.token != null && this.$route.name === "partie"){
+        this.afficherDeconnecter = true;
+      }else{
+        this.afficherDeconnecter = false;
+      }
     }
   },
-  created(){
-    console.log(this.$store.state.token);
-    console.log(this.$route.name);
-    if(this.$store.state.token != null && this.$route.name === "partie"){
-      this.afficherDeconnecter = true;
-    }else{
-      this.afficherDeconnecter = false;
-    }
+  mounted(){
+    window.bus.$on('refreshDeco', () => {
+      console.log('windows on');
+      this.refreshDeco();
+    })
+
+    this.refreshDeco();
   }
 }
 </script>
@@ -39,7 +45,7 @@ export default {
 
 a{
 	display:flex;
-	width:40%;
+	width:100%;
 	height:100%;
 	margin:auto;
 	color: white;
@@ -85,27 +91,65 @@ li{
   justify-content: center; /* alignement vertical */
 }
 li:nth-child(1){
-  width: 10%;
+  width: 20%;
 }
 li:nth-child(2){
-  width: 40%;
+  width: 30%;
 }
 li:nth-child(3){
-  width: 40%;
+  width: 30%;
 }
 li:nth-child(4){
-  width: 10%;
+  width: 20%;
   display:flex;
 }
 img{
   text-align:left;
 }
 p{
-  font-size:2em;
+  font-size:1em;
   margin:auto;
 }
 #quitter{
   vertical-align: baseline;
   margin:auto;
 }
+button{
+  box-sizing: border-box;
+  width:100%;
+  height:100%;
+}
+
+/* TABLETTE */
+@media only screen and (min-width: 768px) {
+  p{
+    font-size:1.5em;
+  }
+}
+
+/* BUREAU */
+@media only screen and (min-width: 1024px) {
+
+  a{
+    width:40%;
+  }
+
+  p{
+    font-size:2em;
+  }
+  li:nth-child(1){
+  width: 10%;
+  }
+  li:nth-child(2){
+    width: 40%;
+  }
+  li:nth-child(3){
+    width: 40%;
+  }
+  li:nth-child(4){
+    width: 10%;
+    display:flex;
+  }
+}
+
 </style>

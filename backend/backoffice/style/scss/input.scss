@@ -9,6 +9,8 @@
 @import "../node_modules/bootstrap/scss/code";
 @import "../node_modules/bootstrap/scss/grid";
 
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
+
 //VARAIBLES
 
 $logo: 40px;
@@ -18,15 +20,17 @@ $color_nav_hover: #212f3c;
 //GENERAL
 
 .container{
-  margin-top: 80px;
+  margin-top: 70px;
 }
 
-.jumbotron{
+.jbt{
   border-radius: 5px;
   background-color: rgba(234, 236, 238, 0.8);
   padding: 30px;
-  display: block;
-  vertical-align: middle;
+}
+
+.flex{
+  display: flex;
 }
 
 .form-group{
@@ -46,7 +50,6 @@ $color_nav_hover: #212f3c;
 
 .centrar{
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
@@ -55,16 +58,20 @@ $color_nav_hover: #212f3c;
 }
 
 #map {
-  height: 500px;
-  width: 600px;
-  float: right;
-  margin: 20px;
-  display: block;
+  overflow:hidden;
+  position:relative;
+  height:300px;
+  width:100%;
+  margin-left: 10px;
 }
 
 h1{
-  text-align: center;
-  margin: 30px;
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+}
+h6{
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
 }
 
 td{
@@ -76,12 +83,15 @@ th{
   text-align: center;
 }
 
+span{
+  margin: 5px;
+}
+
 // MENU
 
 .navbar {
   overflow: hidden;
   background-color:  $color_nav;
-  position: fixed;
   top: 0;
   width: 100%;
   justify-content: space-between;
@@ -89,13 +99,12 @@ th{
 }
 
 .navbar a {
-  float: left;
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 5px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .navbar a:hover {

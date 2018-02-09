@@ -87,14 +87,29 @@
 
   //Series
 
-  //On récupère la liste des series
-  $app->get('/series[/]',
+  //On récupère la liste des series 'active' avec photos ainsi que le nombre de photos
+  $app->get('/seriesNbImage[/]',
     function(Request $req, Response $resp, $args){
       $ctrl=new Serie($this);
       return $ctrl->getSeriesEtImages($req,$resp,$args);
     }
   )->setName("getSeriesEtImages");
 
+  //On récupère la liste complète des séries
+  $app->get('/series[/]',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Serie($this);
+      return $ctrl->getSeriesSansPagination($resp,$args);
+    }
+  )->setName("getSeriesSansPagination");
+
+  //Afficher une serie par son ID
+  $app->get('/series/{id}',
+    function(Request $req, Response $resp, $args){
+      $ctrl=new Serie($this);
+      return $ctrl->getSeriesID($req,$resp,$args);
+    }
+  )->setName("getSeriesID");
 
   //Parties
 

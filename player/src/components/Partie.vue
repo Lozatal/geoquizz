@@ -67,6 +67,8 @@ export default {
             this.photosList = response.data.photos;
             this.$store.state.score=0;
             this.showPhoto();
+
+            window.bus.$emit('refreshDeco');
           }).catch((error) => {
               alert(error);
           });
