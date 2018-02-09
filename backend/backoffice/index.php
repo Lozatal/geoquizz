@@ -112,10 +112,10 @@
   )->setName("comptesCreationGet");
 
   $validators = [
-      'nom' => Validator::stringType()->alnum(),
-      'email' => Validator::email(),
-      'password' => Validator::stringType()->alnum(),
-      'password_rep' => Validator::stringType()->alnum()
+      'nom' => Validator::stringType()->alnum()->setname("Nom"),
+      'email' => Validator::email()->setname("Email"),
+      'password' => Validator::stringType()->alnum()->setname("Password"),
+      'password_rep' => Validator::stringType()->alnum()->setname("Password_verify")
   ];
 
   $app->post('/creerCompte',
@@ -141,8 +141,8 @@
   )->setName("comptesConnexionGet");
 
   $validators = [
-      'email' => Validator::email(),
-      'password' => Validator::StringType()->alnum()
+      'email' => Validator::email()->setname("Email"),
+      'password' => Validator::StringType()->alnum()->setname("Password")
   ];
 
   $app->post('/',
@@ -168,10 +168,11 @@
   )->setName("compteGet")->add('checkLogin');
 
   $validators = [
-      'nom' => Validator::stringType()->alnum(),
-      'email' => Validator::email(),
-      'password' => Validator::stringType()->alnum(),
-      'password_rep' => Validator::stringType()->alnum()
+      'nom' => Validator::stringType()->alnum()->setname("Nom"),
+      'email' => Validator::email()->setname("Email"),
+      'password' => Validator::stringType()->alnum()->setname("Password"),
+      'password_old' => Validator::stringType()->alnum()->setname("Password_old"),
+      'password_rep' => Validator::stringType()->alnum()->setname("Password_verify")
   ];
 
   // Page de modification du compte
@@ -217,10 +218,10 @@
   )->setName("photoCreationGet")->add('checkLogin');
 
   $validators = [
-      'description' => Validator::StringType(),
-      'url' => Validator::StringType(),
-      'position_long' => Validator::numeric()->floatVal(),
-      'position_lat' => Validator::numeric()->floatVal()
+      'description' => Validator::StringType()->setname("Description"),
+      'url' => Validator::StringType()->setname("Url"),
+      'position_long' => Validator::numeric()->floatVal()->setname("Longitude"),
+      'position_lat' =>Validator::numeric()->floatVal()->setname("Latitude")
   ];
 
   $app->post('/photos/{id}/{idSerie}',
@@ -246,10 +247,10 @@
   )->setName("photoModificationGet")->add('checkLogin');
 
   $validators = [
-      'description' => Validator::StringType(),
-      'url' => Validator::StringType(),
-      'position_long' => Validator::numeric()->floatVal(),
-      'position_lat' =>Validator::numeric()->floatVal()
+      'description' => Validator::StringType()->setname("Description"),
+      'url' => Validator::StringType()->setname("Url"),
+      'position_long' => Validator::numeric()->floatVal()->setname("Longitude"),
+      'position_lat' =>Validator::numeric()->floatVal()->setname("Latitude")
   ];
 
   $app->post('/photos/{idSerie}',
@@ -315,10 +316,10 @@ $app->get('/creerSerie',
 )->setName("serieCreationGet")->add('checkLogin');
 
 $validators = [
-    'ville' => Validator::StringType(),
-    'serie_lat' => Validator::numeric()->floatVal(),
-    'serie_long' => Validator::numeric()->floatVal(),
-    'dist' => Validator::numeric()
+    'ville' => Validator::StringType()->setname("Ville"),
+    'serie_lat' => Validator::numeric()->floatVal()->setname("Latitude"),
+    'serie_long' => Validator::numeric()->floatVal()->setname("Longitude"),
+    'dist' => Validator::numeric()->setname("Distance de marquage de point")
 ];
 // création de la série Twig
 $app->post('/creerSerie',
@@ -344,10 +345,10 @@ $app->get('/modifierSerie/{id}',
 )->setName("serieModificationGet")->add('checkLogin');
 
 $validators = [
-    'ville' => Validator::StringType(),
-    'serie_lat' => Validator::numeric()->floatVal(),
-    'serie_long' => Validator::numeric()->floatVal(),
-    'dist' => Validator::numeric()
+    'ville' => Validator::StringType()->setname("Ville"),
+    'serie_lat' => Validator::numeric()->floatVal()->setname("Latitude"),
+    'serie_long' => Validator::numeric()->floatVal()->setname("Longitude"),
+    'dist' => Validator::numeric()->setname("Distance de marquage de point")
 ];
 // Modification de la série Twig
 $app->post('/modifierSerie/{id}',
