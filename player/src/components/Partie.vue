@@ -4,7 +4,7 @@
       <Map></Map>
     </section>
     <section id="picScore">
-      <Picture id="pic" :imageSource="photoEnCours"></Picture>
+      <Picture id="pic" :image="photoEnCoursUrl"></Picture>
       <Score id="score"></Score>
       <Timer id="timer"></Timer>
       <button class="button is-link" v-on:click="showPhoto">Photo suivante</button>
@@ -26,10 +26,10 @@ export default {
       partie: '',
       serie : '',
       photos : [],
-      photosList : [],
+      photoEnCoursUrl : '',
       photoEnCours : '',
-      photoIndex: 0,
-      points: 0
+      points: 0,
+      nbImageTraite : 0
     }
   },
   components:{
@@ -40,18 +40,30 @@ export default {
   },
   methods: {
     showPhoto(){
-      if(this.photoIndex <= this.photosList.length-1){
-        this.photoEnCours = this.photosList[this.photoIndex].url;
-        this.$store.commit('setEarned', 0);
-        this.photoIndex ++;
+      //On récupère un chiffre random entre 0 le nombre d'images totale -1
+      let nombreImageTotal = this.photos.length;
+      // -1 car les tableaux commencent a 0
+      let index = Math.floor((Math.random() * nombreImageTotal) + 1) -1;
 
-        window.bus.$emit('showPhoto', this.photosList[this.photoIndex]);
+      //seulement si il y a des images de disponible
+      if(nombreImageTotal >= 0 && this.partie.nb_photos >= this.nbImageTraite){
+        console.log(this.photos[index]);
+        this.photoEnCoursUrl = '';
+        this.photoEnCours = this.photos[index];
+        this.photoEnCoursUrl = this.photoEnCours.url;
+
+        //On supprimer la photo de la liste
+        this.photos.splice(index, 1);
+        this.nbImageTraite++;
+
+        //On envoyé l'event a la photo
+        //window.bus.$emit('showPhoto', this.photoEnCours);
+
+        this.$store.commit('setEarned', 0);
 
         var _this = this;
         let seconds = 0;
         setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
-
-
       }else{
         console.log("fin de array");
       }
@@ -65,7 +77,6 @@ export default {
             this.partie = response.data;
             this.serie = response.data.serie;
             this.photos = response.data.photos;
-            this.photosList = response.data.photos;
             this.$store.state.score=0;
             this.showPhoto();
 
