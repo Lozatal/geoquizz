@@ -20,6 +20,15 @@
 
   <article class="container">
     <div class="jbt">
+      {% if exception != null %}
+        {% if exception is iterable %}
+          {% for excep in exception %}
+            <p>{{excep.0}}</p>
+          {% endfor %}
+        {% else %}
+          <p>{{exception}}</p>
+        {% endif %}
+      {% endif %}
       <h1>Créer une nouvelle série</h1>
       <div class="flex">
         <form class="form-horizontal" method="POST" action="{{creation}}">
@@ -36,7 +45,7 @@
              <input type="text" class="form-control" id="dist" placeholder="Distance en mètre" name="dist">
          </div>
          <div class="form-group">
-             <button type="submit" class="btn btn-default">Créer !</button>
+             <button type="submit">Créer !</button>
          </div>
        </form>
        <div id="map"></div>
