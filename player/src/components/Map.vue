@@ -60,6 +60,7 @@
         this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
         this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
         this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
+        this.$emit('markerSet');
       },
       validerResponse(){
         let newScore = this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
@@ -94,13 +95,13 @@
           lat:parseFloat(this.serie.serie_lat),
           lng:parseFloat(this.serie.serie_long)
         };
-      }) 
+      })
 
       window.bus.$on('showPhoto', (image) => {
         this.markers = [];
         this.imageLatitude = parseFloat(image.position_lat);
         this.imageLongitude = parseFloat(image.position_long);
-      }) 
+      })
     }
   }
 </script>
