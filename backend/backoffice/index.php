@@ -143,15 +143,15 @@
   )->setName("comptesConnexionGet");
 
   $validators = [
-      'email' => Validator::StringType(),
-      'password' => Validator::StringType()
+      'email' => Validator::email(),
+      'password' => Validator::StringType()->alnum()
   ];
 
   $app->post('/',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
+        return afficheError($resp, '/comptes/login', $errors);
       }else{
         $ctrl=new Comptes($this);
         return $ctrl->loginCompte($req,$resp,$args);
@@ -171,18 +171,25 @@
     }
   )->setName("compteGet")->add('checkLogin');
 
-  // Page de de déconnexion
+  $validators = [
+      'nom' => Validator::stringType()->alnum(),
+      'email' => Validator::email(),
+      'password' => Validator::stringType()->alnum(),
+      'password_rep' => Validator::stringType()->alnum()
+  ];
+
+  // Page de modification du compte
   $app->post('/compte',
     function(Request $req, Response $resp, $args){
       if($req->getAttribute('has_errors')){
         $errors = $req->getAttribute('errors');
-        return afficheError($resp, '/parties/nouvelle', $errors);
+        return afficheError($resp, '/comptes/modification', $errors);
       }else{
         $ctrl=new Comptes($this);
         return $ctrl->putCompte($req,$resp,$args);
       }
     }
-  )->setName("modifierCompte")->add('checkLogin');
+  )->setName("modifierCompte")->add(new Validation($validators))->add('checkLogin');
 
   // Page de de déconnexion
   $app->get('/logout',
