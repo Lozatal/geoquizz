@@ -205,7 +205,7 @@
   */
 
   /**
-  * @api {get} /supprimerPhoto/{id}/{idSerie} Affiche la page de modification d'une photo
+  * @api {get} /supprimerPhoto/{id}/{idSerie} Supprime une photo
   * @apiGroup Photos
   * @apiName getPhotoSuppresion
   * @apiVersion 0.1.0
@@ -251,14 +251,14 @@
   * @apiVersion 0.1.0
   *
   * @apiDescription Accès à toutes les ressources de type Serie :
-  * permet d'accéder à la représentation des ressources photo permettant la création d'une photo.
+  * permet d'accéder à la représentation des ressources Serie permettant la création d'une Serie.
   * Retourne une liste de lien pour twig.
   *
   * @apisuccess (Succès : 200) OK Ressources trouvées
   */
 
   /**
-  * @api {post} /creerSerie Vérification et modification d'une photo
+  * @api {post} /creerSerie Vérification et création d'une série
   * @apiGroup Series
   * @apiName getSeriesPost
   * @apiVersion 0.1.0
@@ -268,75 +268,63 @@
   *
   * @apiParam {Varchar} text Description
   * @apiParam {Varchar} text Url
-  * @apiParam {Decimal} text Longitude
-  * @apiParam {Decimal} text Latitude
+  * @apiParam {Decimal} text serie_long
+  * @apiParam {Decimal} text serie_lat
   *
-  * @apiSuccess (Réponse : 200) Redirection vers getSerieAfficherPhotos
+  * @apiSuccess (Réponse : 200) Redirection vers getIndex
   *
-  * @apiError (Réponse : 200) Redirection vers getPhotoModification
+  * @apiError (Réponse : 200) Redirection vers getSerieCreation
   *
   * @apiErrorExample {text} exemple de réponse en cas d'erreur
   *			Longitude : must contain only letters digits (0-9)
   *			Latitude :must contain only digits (0-9)
   */
 
-  $validators = [
-  'ville' => Validator::StringType()->setname("Ville"),
-  'serie_lat' => Validator::numeric()->floatVal()->setname("Latitude"),
-  'serie_long' => Validator::numeric()->floatVal()->setname("Longitude"),
-  'dist' => Validator::numeric()->setname("Distance de marquage de point")
-  ];
-  // création de la série Twig
-  $app->post('/creerSerie',
-  function(Request $req, Response $resp, $args){
-  if($req->getAttribute('has_errors')){
-  $args['exception'] = $req->getAttribute('errors');
-  }
-  $ctrl=new Series($this);
-  return $ctrl->getSeriesPost($req,$resp,$args);
-  }
-  )->setName("getSeriesPost")->add(new Validation($validators))->add('checkLogin');
+  /**
+  * @api {get} /modifierSerie/{id} Affiche la page de modification d'une série
+  * @apiGroup Series
+  * @apiName getSerieModification
+  * @apiVersion 0.1.0
+  *
+  * @apiDescription Accès à toutes les ressources de type Serie :
+  * permet d'accéder à la représentation des ressources Serie permettant la modification d'une serie.
+  * Retourne une liste de lien pour twig.
+  *
+  * @apisuccess (Succès : 200) OK Ressources trouvées
+  */
 
-  //======================================================
-  //            Modification d'une série
-  //======================================================
+  /**
+  * @api {post} /modifierSerie/{id} Vérification et modification d'une série
+  * @apiGroup Series
+  * @apiName getSeriesPut
+  * @apiVersion 0.1.0
+  *
+  * @apiDescription Crée une ressource de type Serie:
+  * permet de modifier une ressource Serie.
+  *
+  * @apiParam {Varchar} text Description
+  * @apiParam {Varchar} text Url
+  * @apiParam {Decimal} text serie_long
+  * @apiParam {Decimal} text serie_lat
+  *
+  * @apiSuccess (Réponse : 200) Redirection vers getIndex
+  *
+  * @apiError (Réponse : 200) Redirection vers getSerieModification
+  *
+  * @apiErrorExample {text} exemple de réponse en cas d'erreur
+  *			Longitude : must contain only letters digits (0-9)
+  *			Latitude :must contain only digits (0-9)
+  */
 
-  // Page de modification d'une série
-  $app->get('/modifierSerie/{id}',
-  function(Request $req, Response $resp, $args){
-  $ctrl=new Series($this);
-  return $ctrl->getSerieModification($req,$resp,$args);
-  }
-  )->setName("serieModificationGet")->add('checkLogin');
-
-  $validators = [
-  'ville' => Validator::StringType()->setname("Ville"),
-  'serie_lat' => Validator::numeric()->floatVal()->setname("Latitude"),
-  'serie_long' => Validator::numeric()->floatVal()->setname("Longitude"),
-  'dist' => Validator::numeric()->setname("Distance de marquage de point")
-  ];
-  // Modification de la série Twig
-  $app->post('/modifierSerie/{id}',
-  function(Request $req, Response $resp, $args){
-  if($req->getAttribute('has_errors')){
-  $args['exception'] = $req->getAttribute('errors');
-  }
-  $ctrl=new Series($this);
-  return $ctrl->getSeriesPut($req,$resp,$args);
-  }
-  )->setName("getSeriesPut")->add(new Validation($validators))->add('checkLogin');
-
-  //======================================================
-  //            Suppression d'une série
-  //======================================================
-
-  // Page de suppression d'une série
-  $app->get('/supprimerSerie/{id}',
-  function(Request $req, Response $resp, $args){
-  $ctrl=new Series($this);
-  return $ctrl->getSerieSuppression($req,$resp,$args);
-  }
-  )->setName("serieSuppressionGet")->add('checkLogin');
-
-  $app->run();
+  /**
+  * @api {get} /supprimerSerie/{id} Supprime une série
+  * @apiGroup Series
+  * @apiName getSerieSuppression
+  * @apiVersion 0.1.0
+  *
+  * @apiDescription Suppression d'une ressource de type Photo:
+  *
+  * @apiSuccess (Réponse : 200) Redirection vers getIndex
+  *
+  */
   ?>
