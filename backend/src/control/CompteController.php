@@ -51,9 +51,10 @@
       $email=filter_var($postVar['email'],FILTER_SANITIZE_STRING);
       $password=filter_var($postVar['password'],FILTER_SANITIZE_STRING);
       $password2=filter_var($postVar['password_rep'],FILTER_SANITIZE_STRING);
+      $pass_old=filter_var($postVar['password_old'],FILTER_SANITIZE_STRING);
 
       $verifier= new \geoquizz\utils\GeoquizzAuthentification();
-      $verifier->modifyUser($nom, $email, $password, $password2);
+      $verifier->modifyUser($nom, $email, $password, $password2, $pass_old);
 
       $redirect=$this->conteneur->get('router')->pathFor('compteGet');
       $resp=$resp->withStatus(301)->withHeader('Location', $redirect);

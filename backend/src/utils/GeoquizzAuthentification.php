@@ -98,7 +98,7 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
      *
      */
 
-    public function modifyUser($nom, $email, $pass, $pass_verif) {
+    public function modifyUser($nom, $email, $pass, $pass_verif, $pass_old) {
 
         $requete = Compte::where('email', '=', $email);
         $usertest = $requete->first();
@@ -106,23 +106,20 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
         if(!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
             throw new \geoquizz\utils\AuthentificationException('Mauvais format d\'adresse email');
-            echo '2';
         }
         elseif($pass != $pass_verif)
         {
             throw new \geoquizz\utils\AuthentificationException('Les deux mots de passe ne correspondent pas');
-            echo '1';
         }
-        elseif(!$usertest){
-          throw new \geoquizz\utils\AuthentificationException("L'utilisateur n'existe pas");
-          echo '3';
-
-        }else{
+        elseif($this->verifyPassword($pass_old, $usertest->password)){
             $user = $usertest;
             $user->nom = $nom;
             $user->email = $email;
             $user->password = $this->hashPassword($pass);
             $user->save();
+
+        }else{
+            throw new \geoquizz\utils\AuthentificationException("Mauvais ancien mot de passe");
         }
     }
 
