@@ -151,7 +151,7 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
 
         if($usertest==null)
         {
-            throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
+            throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
         }
         else
         {
@@ -161,7 +161,7 @@ class GeoquizzAuthentification extends \geoquizz\utils\Authentification {
             }
             else
             {
-                throw new \mf\auth\exception\AuthentificationException('Mauvaise combinaison email/password');
+                throw new \geoquizz\utils\AuthentificationException('Mauvaise combinaison email/password');
             }
         }
 
