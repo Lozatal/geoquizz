@@ -23,8 +23,8 @@ function initMap() {
     addMarker(event.latLng);
     let lat = event.latLng.lat();
     let lng = event.latLng.lng();
-    document.getElementById("position_long").value = lat;
-    document.getElementById("position_lat").value = lng;
+    document.getElementById("position_lat").value = lat;
+    document.getElementById("position_long").value = lng;
     PremierMarker=false;
   });
 }

@@ -3,17 +3,17 @@ var markers = [];
 
 function initMap() {
 
-  let longitude = parseFloat(document.getElementById("long_serie").value);
-  let latitude = parseFloat(document.getElementById("lat_serie").value);
+  let centre = {lat: 47.081662, lng: 2.5556267};
 
-  let longitude_photo = parseFloat(document.getElementById("position_long").value);
-  let latitude_photo = parseFloat(document.getElementById("position_lat").value);
+  let longitude = parseFloat(document.getElementById("serie_long").value);
+  let latitude = parseFloat(document.getElementById("serie_lat").value);
 
-  let centre = {lat: latitude, lng: longitude};
-  let photo = {lat: latitude_photo, lng: longitude_photo};
+  let serie = {lat: latitude, lng: longitude};
+
+  console.log(serie);
 
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
+    zoom: 6,
     center: centre,
     mapTypeId: 'terrain'
   });
@@ -24,12 +24,12 @@ function initMap() {
     addMarker(event.latLng);
     let lat = event.latLng.lat();
     let lng = event.latLng.lng();
-    document.getElementById("position_lat").value = lat;
-    document.getElementById("position_long").value = lng;
+    document.getElementById("serie_long").value = lng;
+    document.getElementById("serie_lat").value = lat;
     PremierMarker=false;
   });
 
-  addMarker(photo);
+  addMarker(serie);
 }
 
 // Adds a marker to the map and push to the array.

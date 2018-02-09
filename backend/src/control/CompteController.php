@@ -44,6 +44,23 @@
       return $resp;
     }
 
+    public function putCompte(Request $req, Response $resp, array $args){
+      $postVar=$req->getParsedBody();
+
+      $nom=filter_var($postVar['nom'],FILTER_SANITIZE_STRING);
+      $email=filter_var($postVar['email'],FILTER_SANITIZE_STRING);
+      $password=filter_var($postVar['password'],FILTER_SANITIZE_STRING);
+      $password2=filter_var($postVar['password_rep'],FILTER_SANITIZE_STRING);
+
+      $verifier= new \geoquizz\utils\GeoquizzAuthentification();
+      $verifier->modifyUser($nom, $email, $password, $password2);
+
+      $redirect=$this->conteneur->get('router')->pathFor('compteGet');
+      $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+
+      return $resp;
+    }
+
     public function loginCompte(Request $req, Response $resp, array $args){
       $postVar=$req->getParsedBody();
 
@@ -99,14 +116,24 @@
     }
 
     public function getComptes(Request $req,Response $resp,array $args){
-      $id=$_SESSION['user_login'];
-      $compte = Compte::select('nom','email')->find($id);
-      $style='http://'.$_SERVER['HTTP_HOST']."/style";
-      $backoffice=$this->conteneur->get('router')->pathFor('index');
-      $logout=$this->conteneur->get('router')->pathFor('logout');
-      return $this->conteneur->view->render($resp,'compte/compte.twig',['style'=>$style,
-                                                                        'backoffice'=>$backoffice,
-                                                                        'logout'=>$logout,
-                                                                        'compte'=>$compte]);
+      $email=$_SESSION['user_login'];
+      $compteGet = Compte::where("email","=",$email)->get();
+      if($compteGet){
+        $style='http://'.$_SERVER['HTTP_HOST']."/style";
+        $backoffice=$this->conteneur->get('router')->pathFor('index');
+        $logout=$this->conteneur->get('router')->pathFor('logout');
+        $compte=$this->conteneur->get('router')->pathFor('compteGet');
+        $modifier=$this->conteneur->get('router')->pathFor('modifierCompte');
+        return $this->conteneur->view->render($resp,'compte/compte.twig',['style'=>$style,
+                                                                          'backoffice'=>$backoffice,
+                                                                          'logout'=>$logout,
+                                                                          'compteGet'=>$compteGet,
+                                                                          'modifier'=>$modifier,
+                                                                          'compte'=>$compte]);
+      }else{
+        $redirect=$this->conteneur->get('router')->pathFor('index');
+        $resp=$resp->withStatus(301)->withHeader('Location', $redirect);
+        return $resp;
+      }
     }
   }
