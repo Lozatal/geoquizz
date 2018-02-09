@@ -95,22 +95,32 @@ export default {
 </script>
 
 <style scoped>
+
   h1{color:green;}
     /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
     #partie{
       display:flex;
+      flex-wrap: wrap;
+      margin-top: 1em;
       width:100%;
     }
     #map {
+      order: 2;
+      margin: auto;
+      width: 80%;
       height: 100%;
-      width: 50%;
+      max-height: 700px;
     }
     #picScore {
-      height: 700px;
-      width: 50%;
+      order: 1;
+      margin: auto;
+      width: 80%;
       display:flex;
       flex-wrap:wrap;
+      height: 100%;
+      max-height: 700px;
+      box-sizing: border-box;
     }
     #pic{
       margin:auto;
@@ -133,6 +143,28 @@ export default {
     }
     button{
       margin:auto;
+    }
+
+    /* bureau */
+    @media screen and (min-width: 1024px) {
+      #partie{
+        display:flex;
+        flex-wrap: wrap;
+        margin-top: 1em;
+        width:100%;
+      }
+      #map{
+        order: 1;
+        width: 45%;
+        margin: auto;
+        margin-left: 3.333333%;
+      }
+      #picScore{
+        order: 2;
+        width: 45%;
+        margin: auto;
+        margin-left: 3.333333%;
+      }
     }
 
 </style>

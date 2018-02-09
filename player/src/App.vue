@@ -61,8 +61,13 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
+html{
+  height: 100%;
+}
 body {
   line-height: 1;
+  background-image: url('img/seigaiha.png');
+  height: 100%;
 }
 ol, ul {
   list-style: none;

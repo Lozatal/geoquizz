@@ -93,19 +93,29 @@
           lat:parseFloat(this.serie.serie_lat),
           lng:parseFloat(this.serie.serie_long)
         };
-      }) 
+      })
 
       window.bus.$on('showPhoto', (image) => {
         this.imageLatitude = parseFloat(image.position_lat);
         this.imageLongitude = parseFloat(image.position_long);
-      }) 
+      })
     }
   }
 </script>
 
 <style scoped>
+div{
+  max-width: 700px;
+  margin: auto;
+  border-radius: 5px;
+  height: 100%;
+  max-height: 700px;
+  box-sizing: border-box;
+}
 #map{
   width:100%;
-  height:900px;
+  height: 70vh;
+  max-height: 700px;
+  border: 5px solid hsl(217, 71%, 53%);
 }
 </style>

@@ -29,4 +29,19 @@ export default {
 </script>
 
 <style scoped>
+div{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+p{
+  width: 25%;
+  margin-left: 6.25%;
+  text-align: center;
+}
+h3{
+  width: 25%;
+  text-align: center;
+  margin-left: 6.25%;
+}
 </style>
