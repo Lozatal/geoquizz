@@ -1,7 +1,7 @@
 <template>
   <div id="partie">
     <section id="map">
-      <Map></Map>
+      <Map v-on:markerSet="stopTimer"></Map>
     </section>
     <section id="picScore">
       <Picture id="pic" :image="photoEnCoursUrl"></Picture>
@@ -29,7 +29,8 @@ export default {
       photoEnCoursUrl : '',
       photoEnCours : '',
       points: 0,
-      nbImageTraite : 0
+      nbImageTraite : 0,
+      myTimer: ''
     }
   },
   components:{
@@ -47,7 +48,6 @@ export default {
 
       //seulement si il y a des images de disponible
       if(nombreImageTotal >= 0 && this.partie.nb_photos >= this.nbImageTraite){
-        console.log(this.photos[index]);
         this.photoEnCoursUrl = '';
         this.photoEnCours = this.photos[index];
         this.photoEnCoursUrl = this.photoEnCours.url;
@@ -56,17 +56,20 @@ export default {
         this.photos.splice(index, 1);
         this.nbImageTraite++;
 
-        //On envoyé l'event a la photo
-        //window.bus.$emit('showPhoto', this.photoEnCours);
+        //On envoye l'event a la map
+        window.bus.$emit('showPhoto', this.photoEnCours);
 
         this.$store.commit('setEarned', 0);
 
         var _this = this;
         let seconds = 0;
-        setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
+        this.myTimer = setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
       }else{
         console.log("fin de array");
       }
+    },
+    stopTimer(){
+      clearInterval(this.myTimer);
     },
     updateScore(tiempo){
       this.$store.commit('setTime', tiempo)

@@ -1166,7 +1166,7 @@ body {
 
 .jbt {
   border-radius: 5px;
-  background-color: rgba(234, 236, 238, 0.5);
+  background-color: rgba(234, 236, 238, 0.8);
   padding: 5px; }
 
 .form-group {
@@ -1199,20 +1199,32 @@ body {
 .cont {
   width: 100%;
   display: flex;
-  box-sizing: border-box;
   text-align: center;
-  overflow-x: auto; }
+  flex-wrap: wrap;
+  align-content: center; }
+
+.visor {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  align-self: center; }
 
 .c-x {
-  padding: 5px;
+  width: 100%;
   background-color: rgba(234, 236, 238, 0.8);
   margin: 10px;
   border-radius: 5px;
   font-size: 25px; }
 
-.c-x > img {
-  width: 300px;
-  position: relative; }
+.c-x > .visor > img {
+  width: 100%; }
+
+.x {
+  width: 100%;
+  background-color: #1abc9c;
+  color: beige;
+  font-size: 20px;
+  border-radius: 5px, 5px; }
 
 h1, h6 {
   font-family: 'Poiret One', cursive;
@@ -1260,7 +1272,10 @@ span {
     margin-right: 10px; }
 
   .jbt {
-    padding: 20px; } }
+    padding: 20px; }
+
+  .c-x {
+    width: 30%; } }
 .navbar {
   overflow: hidden;
   background-color: #34495e;

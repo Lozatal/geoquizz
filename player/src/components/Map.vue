@@ -9,11 +9,11 @@
     :draggable="false"
   >
     <gmap-marker
-      v-for="marker in markers"
+      v-for="(marker, idx) in markers"
       :position="marker.position"
       :clickable="true"
       :draggable="true"
-      :key="marker"
+      :key="idx"
       @click="center=marker.position"
     ></gmap-marker>
   </gmap-map>
@@ -49,16 +49,21 @@
     },
     methods: {
       setMarker(event){
+        this.markers = [];
         let newMarker = {
           position: {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
+            lat: parseFloat(event.latLng.lat()),
+            lng: parseFloat(event.latLng.lng())
             }
         };
+        
         this.markers.push(newMarker);
         this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
+
         this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
+        
         this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
+        this.$emit('markerSet');
       },
       validerResponse(){
         let newScore = this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
@@ -96,6 +101,7 @@
       })
 
       window.bus.$on('showPhoto', (image) => {
+        this.markers = [];
         this.imageLatitude = parseFloat(image.position_lat);
         this.imageLongitude = parseFloat(image.position_long);
       })
