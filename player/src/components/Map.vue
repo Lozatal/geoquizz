@@ -44,26 +44,32 @@
         realPosition: {},
         userPosition: {},
         imageLatitude: 0,
-        imageLongitude : 0
+        imageLongitude : 0,
+        utilisateurAChoisit : false
       }
     },
     methods: {
       setMarker(event){
-        this.markers = [];
-        let newMarker = {
-          position: {
-            lat: parseFloat(event.latLng.lat()),
-            lng: parseFloat(event.latLng.lng())
-            }
-        };
-        
-        this.markers.push(newMarker);
-        this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
+        if(this.utilisateurAChoisit == false){
+          console.log('erf');
+          console.log(this.utilisateurAChoisit);
+          this.utilisateurAChoisit = true;
+          this.markers = [];
+          let newMarker = {
+            position: {
+              lat: parseFloat(event.latLng.lat()),
+              lng: parseFloat(event.latLng.lng())
+              }
+          };
+          
+          this.markers.push(newMarker);
+          this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
 
-        this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
-        
-        this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
-        this.$emit('markerSet');
+          this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
+          
+          this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
+          this.$emit('markerSet');
+        }
       },
       validerResponse(){
         let newScore = this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
@@ -102,6 +108,7 @@
 
       window.bus.$on('showPhoto', (image) => {
         this.markers = [];
+        this.utilisateurAChoisit = false;
         this.imageLatitude = parseFloat(image.position_lat);
         this.imageLongitude = parseFloat(image.position_long);
       })
