@@ -1,7 +1,7 @@
 <template>
   <div id="partie">
     <section id="map">
-      <Map :imageLatitude="imageLatitude" :imageLongituede="imageLongituede"></Map>
+      <Map></Map>
     </section>
     <section id="picScore">
       <Picture id="pic" :imageSource="photoEnCours"></Picture>
@@ -29,9 +29,7 @@ export default {
       photosList : [],
       photoEnCours : '',
       photoIndex: 0,
-      points: 0,
-      imageLatitude: 0,
-      imageLongituede: 0
+      points: 0
     }
   },
   components:{
@@ -44,8 +42,6 @@ export default {
     showPhoto(){
       if(this.photoIndex <= this.photosList.length-1){
         this.photoEnCours = this.photosList[this.photoIndex].url;
-        this.imageLatitude = this.photosList[this.photoIndex].latitude;
-        this.imageLongituede = this.photosList[this.photoIndex].longitude;
         this.$store.commit('setEarned', 0);
         this.photoIndex ++;
 
