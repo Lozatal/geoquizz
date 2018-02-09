@@ -1,7 +1,7 @@
 <template>
   <div id="partie">
     <section id="map">
-      <Map :imageLatitude="imageLatitude" :imageLongituede="imageLongituede" :serieDist="serieDist"></Map>
+      <Map :imageLatitude="imageLatitude" :imageLongituede="imageLongituede"></Map>
     </section>
     <section id="picScore">
       <Picture id="pic" :imageSource="photoEnCours"></Picture>
@@ -31,8 +31,7 @@ export default {
       photoIndex: 0,
       points: 0,
       imageLatitude: 0,
-      imageLongituede: 0,
-      serieDist: 0,
+      imageLongituede: 0
     }
   },
   components:{
@@ -67,11 +66,12 @@ export default {
     window.axios.get('parties/' + this.$route.params.id).then((response) => {
             this.partie = response.data;
             this.serie = response.data.serie;
-            this.serieDist = response.data.serie.dist;
             this.photos = response.data.photos;
             this.photosList = response.data.photos;
             this.$store.state.score=0;
             this.showPhoto();
+
+            window.bus.$emit('initMap', this.serie);
 
             window.bus.$emit('refreshDeco');
           }).catch((error) => {
