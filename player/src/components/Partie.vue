@@ -49,6 +49,8 @@ export default {
         this.$store.commit('setEarned', 0);
         this.photoIndex ++;
 
+        window.bus.$emit('showPhoto', this.photosList[this.photoIndex]);
+
         var _this = this;
         let seconds = 0;
         setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
