@@ -35,14 +35,16 @@
 
   export default {
     name: 'Map',
-    props: ['imageLatitude', 'imageLongituede' , 'points'],
+    props: ['points'],
     data () {
       return {
         center: {lat: 0, lng: 0},
         markers: [],
         map: '',
         realPosition: {},
-        userPosition: {}
+        userPosition: {},
+        imageLatitude: 0,
+        imageLongitude : 0
       }
     },
     methods: {
@@ -54,7 +56,7 @@
             }
         };
         this.markers.push(newMarker);
-        this.realPosition = {lat:this.imageLatitude, lng:this.imageLongituede};
+        this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
         this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
         this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
       },
@@ -91,6 +93,11 @@
           lat:parseFloat(this.serie.serie_lat),
           lng:parseFloat(this.serie.serie_long)
         };
+      }) 
+
+      window.bus.$on('showPhoto', (image) => {
+        this.imageLatitude = parseFloat(image.position_lat);
+        this.imageLongitude = parseFloat(image.position_long);
       }) 
     }
   }
