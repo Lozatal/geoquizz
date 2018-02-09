@@ -97,7 +97,7 @@ export default {
 	width:100%;
 	overflow: auto;
     white-space: nowrap;
-
+    margin:auto;
 }
 h1{
 	font-size:2em;

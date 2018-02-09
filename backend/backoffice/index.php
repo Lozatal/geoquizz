@@ -112,10 +112,10 @@
   )->setName("comptesCreationGet");
 
   $validators = [
-      'nom' => Validator::StringType(),
-      'email' => Validator::StringType(),
-      'password' => Validator::StringType()->alnum(),
-      'password_rep' => Validator::StringType()->alnum(),
+      'nom' => Validator::stringType()->alnum(),
+      'email' => Validator::email(),
+      'password' => Validator::stringType()->alnum(),
+      'password_rep' => Validator::stringType()->alnum()
   ];
 
   $app->post('/creerCompte',
