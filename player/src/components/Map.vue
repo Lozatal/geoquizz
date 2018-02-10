@@ -61,7 +61,7 @@
               lng: parseFloat(event.latLng.lng())
               }
           };
-          
+
           this.markers.push(newMarker);
           this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
           this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
