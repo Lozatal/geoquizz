@@ -99,14 +99,12 @@
         }
 
         //Puis on regarde en combien de temps l'utilisateur a choisit
-        if (score > 0) {
-          if(this.timer <5){
-            score = score * 4;
-          }else if(this.timer <10){
-            score = score * 2;
-          }else if(this.timer >20){
-            score = 0;
-          }
+        if(this.timer >15){
+          score = score * 4;
+        }else if(this.timer >10){
+          score = score * 2;
+        }else if(this.timer == 0){
+          score = 0;
         }
         return score;
       }
