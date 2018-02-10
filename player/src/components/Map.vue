@@ -75,8 +75,7 @@
         this.$store.commit('setEarned', newScore);
 
         //On va vérifier si le nombre d'image max n'est pas atteint
-        console.log('checktermine emit');
-        this.$emit('checkTermine');
+        this.$root.$emit('checkTermine');
 
       },
       getDistance(realPosition, userPosition) {

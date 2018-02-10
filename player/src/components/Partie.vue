@@ -109,13 +109,11 @@ export default {
           }).catch((error) => {
               console.log(error);
           });
-  },
-  events: {
-    //Evenement pour vérifier si la partie n'est pas terminé
-    checkTermine(){
-      console.log('checktermine début');
+
+    //On va vérifier a chaque fin d'image si la partie est terminé pour changé le bouton
+    this.$root.$on('checkTermine', () => {
       this.checkTermine();
-    }
+    })
   }
 }
 </script>
