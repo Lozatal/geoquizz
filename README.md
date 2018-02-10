@@ -1,11 +1,11 @@
 ﻿# GéoQuizz
 Quizz où on doit placer des photos sur une carte
 
-Fichier SQL contenant la base de données : geoquizz\backend\sql\geoquizz_base_table_data.sql
+Fichier SQL contenant la base de données : backend\sql\geoquizz_base_table_data.sql
 
 DOCS:
-Backoffice : geoquizz\doc\backoffice\doc\index.html
-Player: geoquizz\doc\player\doc\index.html
+Backoffice : doc\backoffice\doc\index.html
+Player: doc\player\doc\index.html
 
 Les commandes ci-dessous sont à lancé dans leurs dossiers respectifs.
 
