@@ -17,6 +17,9 @@ export default new Vuex.Store({
 		setScore(state,score) {
 			state.score += score;
 		},
+		resetScore(state,score) {
+			state.score = 0;
+		},
 		setEarned(state,earned) {
 			state.earned = earned;
 		},

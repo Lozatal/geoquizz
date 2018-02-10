@@ -21,9 +21,9 @@ export default {
   },
   mounted(){
 
-
+    //sert a récupérer le temps émis
     window.bus.$on('responseEmit', () => {
-      console.log('timer responseEmit recus');
+      window.bus.$emit('recupTimer', this.timeSpent);
     })
   }
 }

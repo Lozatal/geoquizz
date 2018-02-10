@@ -18,9 +18,9 @@ export default {
 </script>
 
 <style scoped>
-
   div{
-    height:700px;
+    height:90%;
+    display: flex;
   }
   img{
     height:100%;

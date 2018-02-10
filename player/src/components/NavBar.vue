@@ -32,7 +32,6 @@ export default {
   },
   mounted(){
     window.bus.$on('refreshDeco', () => {
-      console.log('windows on');
       this.refreshDeco();
     })
 

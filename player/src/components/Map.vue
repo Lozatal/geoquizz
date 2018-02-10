@@ -17,7 +17,6 @@
       @click="center=marker.position"
     ></gmap-marker>
   </gmap-map>
-  <button class="button is-link" v-on:click="validerResponse">Valider la sélection</button>
 </div>
 </template>
 
@@ -44,32 +43,36 @@
         realPosition: {},
         userPosition: {},
         imageLatitude: 0,
-        imageLongitude : 0
+        imageLongitude : 0,
+        utilisateurAChoisit : false,
+        timer: 0
       }
     },
     methods: {
+
+      //Sert a créer le marker, on préviens le parent que le résultat a été donné ce qui enclèche d'autres evenements
       setMarker(event){
-        this.markers = [];
-        let newMarker = {
-          position: {
-            lat: parseFloat(event.latLng.lat()),
-            lng: parseFloat(event.latLng.lng())
-            }
-        };
+        if(this.utilisateurAChoisit == false){
+          this.utilisateurAChoisit = true;
+          this.markers = [];
+          let newMarker = {
+            position: {
+              lat: parseFloat(event.latLng.lat()),
+              lng: parseFloat(event.latLng.lng())
+              }
+          };
 
-        this.markers.push(newMarker);
-        this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
-
-        this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
-
-        this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
-        this.$emit('markerSet');
+          this.markers.push(newMarker);
+          this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
+          this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
+          this.$emit('markerSet');
+          window.bus.$emit('responseEmit');
+        }
       },
       validerResponse(){
         let newScore = this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
         this.$store.commit('setScore', newScore);
         this.$store.commit('setEarned', newScore);
-        window.bus.$emit('responseEmit');
       },
       getDistance(realPosition, userPosition) {
         var distance = google.maps.geometry.spherical.computeDistanceBetween(
@@ -81,18 +84,31 @@
         let userDistance = parseFloat(distance);
         let serieDistance = parseFloat(this.serie.dist);
         let score=0;
-        alert(this.$store.state.time);
+
+        //On regarde le score de base en fonction du la justesse de la distance
         if(userDistance <= serieDistance){
           score=5;
         }else if(userDistance <= (serieDistance * 2)){
           score=3;
-        }else{
+        }else if(userDistance <= (serieDistance * 3)){
           score=1;
+        }
+
+        //Puis on regarde en combien de temps l'utilisateur a choisit
+        if (score > 0) {
+          if(this.timer <5){
+            score = score * 4;
+          }else if(this.timer <10){
+            score = score * 2;
+          }else if(this.timer >20){
+            score = 0;
+          }
         }
         return score;
       }
     },
     mounted(){
+      //On va initier la carte a l'emplacement de la série
       window.bus.$on('initMap', (serieOrigine) => {
         this.serie = serieOrigine;
         this.center = {
@@ -101,18 +117,36 @@
         };
       })
 
+      //A chaque changement de photos, on change les informations sur les images et on reset le/les markers
       window.bus.$on('showPhoto', (image) => {
         this.markers = [];
+        this.utilisateurAChoisit = false;
         this.imageLatitude = parseFloat(image.position_lat);
         this.imageLongitude = parseFloat(image.position_long);
+      })
+
+      //dernière étape, on va calculer le score et l'envoyer a la partie
+      window.bus.$on('recupTimer', (timer) => {
+        this.timer = timer;
+        this.validerResponse();
       })
     }
   }
 </script>
 
 <style scoped>
+div{
+  max-width: 700px;
+  margin: auto;
+  border-radius: 5px;
+  height: 100%;
+  max-height: 700px;
+  box-sizing: border-box;
+}
 #map{
   width:100%;
-  height:900px;
+  height: 70vh;
+  max-height: 700px;
+  border: 5px solid hsl(217, 71%, 53%);
 }
 </style>

@@ -29,7 +29,7 @@ export default {
       photoEnCoursUrl : '',
       photoEnCours : '',
       points: 0,
-      nbImageTraite : 0,
+      nbImageTraite : 1,
       myTimer: ''
     }
   },
@@ -41,18 +41,21 @@ export default {
   },
   methods: {
     showPhoto(){
+
+      this.stopTimer();
+
       //On récupère un chiffre random entre 0 le nombre d'images totale -1
       let nombreImageTotal = this.photos.length;
       // -1 car les tableaux commencent a 0
       let index = Math.floor((Math.random() * nombreImageTotal) + 1) -1;
 
-      //seulement si il y a des images de disponible
+      //seulement si il y a des images de disponible ou que l'on a pas atteint la limite
       if(nombreImageTotal >= 0 && this.partie.nb_photos >= this.nbImageTraite){
         this.photoEnCoursUrl = '';
         this.photoEnCours = this.photos[index];
         this.photoEnCoursUrl = this.photoEnCours.url;
 
-        //On supprimer la photo de la liste
+        //On supprime la photo de la liste
         this.photos.splice(index, 1);
         this.nbImageTraite++;
 
@@ -87,6 +90,12 @@ export default {
     }
   },
   mounted(){
+
+    //reset des variables
+    this.$store.commit('resetScore');
+    this.$store.commit('setEarned', 0);
+
+    //On récupère les informations de la partie
     window.axios.get('parties/' + this.$route.params.id).then((response) => {
             this.partie = response.data;
             this.serie = response.data.serie;
@@ -98,33 +107,39 @@ export default {
 
             window.bus.$emit('refreshDeco');
           }).catch((error) => {
-              alert(error);
+              console.log(error);
           });
-
-    window.bus.$on('responseEmit', () => {
-      console.log('partie responseEmit recus');
-    })
   }
 }
 </script>
 
 <style scoped>
+
   h1{color:green;}
     /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
     #partie{
       display:flex;
+      flex-wrap: wrap;
+      margin-top: 1em;
       width:100%;
     }
     #map {
+      order: 2;
+      margin: auto;
+      width: 80%;
       height: 100%;
-      width: 50%;
+      max-height: 700px;
     }
     #picScore {
-      height: 700px;
-      width: 50%;
+      order: 1;
+      margin: auto;
+      width: 80%;
       display:flex;
       flex-wrap:wrap;
+      height: 100%;
+      max-height: 700px;
+      box-sizing: border-box;
     }
     #pic{
       margin:auto;
@@ -147,6 +162,28 @@ export default {
     }
     button{
       margin:auto;
+    }
+
+    /* bureau */
+    @media screen and (min-width: 1024px) {
+      #partie{
+        display:flex;
+        flex-wrap: wrap;
+        margin-top: 1em;
+        width:100%;
+      }
+      #map{
+        order: 1;
+        width: 45%;
+        margin: auto;
+        margin-left: 3.333333%;
+      }
+      #picScore{
+        order: 2;
+        width: 45%;
+        margin: auto;
+        margin-left: 3.333333%;
+      }
     }
 
 </style>
