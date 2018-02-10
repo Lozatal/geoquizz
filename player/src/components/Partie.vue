@@ -170,6 +170,11 @@ export default {
       max-height: 700px;
       box-sizing: border-box;
     }
+    #picScore div:last-child{
+      margin: auto;
+      margin-top: 1em;
+      text-align: center;
+    }
     #pic{
       margin:auto;
       width:100%;

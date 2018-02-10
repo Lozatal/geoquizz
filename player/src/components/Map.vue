@@ -140,17 +140,35 @@
 
 <style scoped>
 div{
-  max-width: 700px;
+  max-width: 800px;
   margin: auto;
   border-radius: 5px;
   height: 100%;
-  max-height: 700px;
+  max-height: 800px;
   box-sizing: border-box;
 }
 #map{
   width:100%;
-  height: 70vh;
-  max-height: 700px;
+  height: 50vh;
+  max-height: 800px;
   border: 5px solid hsl(217, 71%, 53%);
+}
+
+/* bureau */
+@media screen and (min-width: 1024px) {
+  div{
+    max-width: 800px;
+    margin: auto;
+    border-radius: 5px;
+    height: 100%;
+    max-height: 800px;
+    box-sizing: border-box;
+  }
+  #map{
+    width:100%;
+    height: 90vh;
+    max-height: 800px;
+    border: 5px solid hsl(217, 71%, 53%);
+  }
 }
 </style>

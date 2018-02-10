@@ -19,12 +19,26 @@ export default {
 
 <style scoped>
   div{
-    height:80%;
+    height:70vh;
     display: flex;
   }
   img{
     height:100%;
+    max-height: 650px;
     margin:auto;
     box-sizing:border-box;
+  }
+  /* bureau */
+  @media screen and (min-width: 1024px) {
+    div{
+      height:50vh;
+      display: flex;
+    }
+    img{
+      height:100%;
+      max-height: 650px;
+      margin:auto;
+      box-sizing:border-box;
+    }
   }
 </style>

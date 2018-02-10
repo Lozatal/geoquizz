@@ -62,11 +62,11 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 html{
-  height: 100%;
+  height: 100vh;
+  min-height: 100%;
 }
 body {
   line-height: 1;
-  background-image: url('assets/seigaiha.png');
   height: 100%;
 }
 ol, ul {
@@ -100,7 +100,11 @@ table {
 
 /* BUREAU */
 @media only screen and (min-width: 1024px) {
-
+  body {
+    line-height: 1;
+    background-image: url('assets/seigaiha.png');
+    height: 100%;
+  }
 }
 
 </style>
