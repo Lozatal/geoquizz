@@ -10,16 +10,16 @@ Les commandes ci-dessous sont à lancé dans leurs dossiers respectifs.
 ### Build Setup
 
 ``` bash
-#### install dependencies
+## install dependencies
 npm install
 
-#### serve with hot reload at localhost:8080
+## serve with hot reload at localhost:8080
 npm run dev
 
-#### build for production with minification
+## build for production with minification
 npm run build
 
-#### build for production and view the bundle analyzer report
+## build for production and view the bundle analyzer report
 npm run build --report
 ```
 
@@ -30,8 +30,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### Build Setup
 
 ``` bash
-#### install dependencies
+## install dependencies
 docker-compose up
 
-#### run container
+## run container
 docker-compose start
