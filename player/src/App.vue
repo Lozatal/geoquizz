@@ -24,7 +24,7 @@ export default {
 
     window.bus.$on('deleteToken', () => {
       this.$store.commit('setToken', false);
-      this.$router.push({path: '/'});
+      window.location.assign("/");
     })
   }
 }

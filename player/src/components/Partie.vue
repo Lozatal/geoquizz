@@ -106,7 +106,7 @@ export default {
 
           window.axios.defaults.params.token = '';
 
-          this.$router.push({ path: '/' });
+          window.location.assign("/");
       }).catch((error) => {
           console.log(error);
       });

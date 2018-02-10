@@ -2,7 +2,7 @@
 	<nav class="navbar">
 		<ul>
 			<li><img src="@/assets/logo_chico.png"/></li>
-    	<li><router-link v-on:click.native="refreshDeco" to="/"><p>Accueil</p></router-link></li>
+    	<li><a href="/" v-on:click.native="refreshDeco" to="/"><p>Accueil</p></a></li>
     	<li><router-link v-on:click.native="refreshDeco" to="/historique"><p>Historique</p></router-link></li>
       <li><button id='quitter' v-show="afficherDeconnecter" class="button is-danger" v-on:click="deleteToken"><p>Quitter</p></button></li>
     </ul>
