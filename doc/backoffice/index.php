@@ -5,7 +5,7 @@
   * Creation Date: 08/02/2018
   * description:Geoquizz Documentation de l'API Backoffice
   *
-  * @author: Daniel Bentz
+  * @author: Daniel Bentz & Ragonneau Valentin
   */
 
   /**
