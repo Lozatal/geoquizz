@@ -7,7 +7,11 @@
       <Picture id="pic" :image="photoEnCoursUrl"></Picture>
       <Score id="score"></Score>
       <Timer id="timer"></Timer>
-      <button class="button is-link" v-on:click="showPhoto">Photo suivante</button>
+      <button v-if="partieEnCours" class="button is-link" v-on:click="showPhoto">Photo suivante</button>
+      <div v-else>
+        <p>Partie terminée : </p>
+        <button class="button is-link" v-on:click="enregistrePartie">Enregistrer le résultat</button>
+      </div>
     </section>
   </div>
 </template>
@@ -30,7 +34,8 @@ export default {
       photoEnCours : '',
       points: 0,
       nbImageTraite : 1,
-      myTimer: ''
+      myTimer: '',
+      partieEnCours: true
     }
   },
   components:{
@@ -87,6 +92,24 @@ export default {
     },
     updateScore(tiempo){
       this.$store.commit('setTime', tiempo)
+    },
+    checkTermine(){
+      if(this.nbImageTraite >= this.partie.nb_photos){
+        this.partieEnCours = false;
+      }
+    },
+    enregistrePartie(){
+      window.axios.put('parties/' + this.$route.params.id, {
+          score : this.$store.state.score
+      }).then((response) => {
+          this.$store.commit('setToken', '');
+
+          window.axios.defaults.params.token = '';
+
+          this.$router.push({ path: '/' });
+      }).catch((error) => {
+          console.log(error);
+      });
     }
   },
   mounted(){
@@ -97,6 +120,7 @@ export default {
 
     //On récupère les informations de la partie
     window.axios.get('parties/' + this.$route.params.id).then((response) => {
+            this.partieEnCours = true;
             this.partie = response.data;
             this.serie = response.data.serie;
             this.photos = response.data.photos;
@@ -109,6 +133,11 @@ export default {
           }).catch((error) => {
               console.log(error);
           });
+
+    //On va vérifier a chaque fin d'image si la partie est terminé pour changé le bouton
+    this.$root.$on('checkTermine', () => {
+      this.checkTermine();
+    })
   }
 }
 </script>
