@@ -19,7 +19,7 @@ export default {
 
 <style scoped>
   div{
-    height:90%;
+    height:80%;
     display: flex;
   }
   img{
