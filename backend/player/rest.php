@@ -158,7 +158,7 @@
 
   //on va modifier le score d'une partie
   $validators= [
-      'score' => Validator::numeric()->positive()
+      'score' => Validator::numeric()->min(0)
   ];
 
   $app->put('/parties/{id}[/]',
