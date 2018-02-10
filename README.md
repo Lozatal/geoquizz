@@ -29,7 +29,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ### Build Setup
 
-''' bash
+``` bash
 #### install dependencies
 docker-compose up
 
