@@ -72,7 +72,6 @@ export default {
         var _this = this;
         let seconds = 20;
         this.myTimer = setInterval(function(){
-          console.log("RANDOM");
           if(seconds > 0){
             seconds--;
           }else{
