@@ -94,11 +94,22 @@ export default {
       this.$store.commit('setTime', tiempo)
     },
     checkTermine(){
-      console.log('checktermine arrivé');
       if(this.nbImageTraite >= this.partie.nb_photos){
-        console.log('inside if');
         this.partieEnCours = false;
       }
+    },
+    enregistrePartie(){
+      window.axios.put('parties/' + this.$route.params.id, {
+          score : this.$store.state.score
+      }).then((response) => {
+          this.$store.commit('setToken', '');
+
+          window.axios.defaults.params.token = '';
+
+          this.$router.push({ path: '/' });
+      }).catch((error) => {
+          console.log(error);
+      });
     }
   },
   mounted(){
