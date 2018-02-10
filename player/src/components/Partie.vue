@@ -62,14 +62,25 @@ export default {
         this.$store.commit('setEarned', 0);
 
         var _this = this;
-        let seconds = 0;
-        this.myTimer = setInterval(function(){ seconds++; _this.$store.commit('setTime', seconds);}, 1000);
+        let seconds = 20;
+        this.myTimer = setInterval(function(){
+          console.log("RANDOM");
+          if(seconds > 0){
+            seconds--;
+          }else{
+            _this.stopTimer();
+            _this._showPhoto();
+          }
+          _this.$store.commit('setTime', seconds);}, 1000);
       }else{
         console.log("fin de array");
       }
     },
     stopTimer(){
       clearInterval(this.myTimer);
+    },
+    _showPhoto(){
+      this.showPhoto();
     },
     updateScore(tiempo){
       this.$store.commit('setTime', tiempo)

@@ -56,12 +56,12 @@
             lng: parseFloat(event.latLng.lng())
             }
         };
-        
+
         this.markers.push(newMarker);
         this.realPosition = {lat:this.imageLatitude, lng:this.imageLongitude};
 
         this.userPosition = {lat: this.markers[this.markers.length-1].position.lat, lng: this.markers[this.markers.length-1].position.lng};
-        
+
         this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
         this.$emit('markerSet');
       },
@@ -81,6 +81,7 @@
         let userDistance = parseFloat(distance);
         let serieDistance = parseFloat(this.serie.dist);
         let score=0;
+        alert(this.$store.state.time);
         if(userDistance <= serieDistance){
           score=5;
         }else if(userDistance <= (serieDistance * 2)){
