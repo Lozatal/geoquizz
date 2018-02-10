@@ -26,13 +26,6 @@ export default {
 			this.ville = s.ville;
 		}
 	  });
-	  /*
-	window.axios.get('series/' + this.partie.id_serie ).then((response) => {
-  		this.serie = response.data;
-  		this.ville = this.serie.ville;
-	}).catch((error) => {
-	    alert(error);
-	});*/
   }
 }
 </script>
