@@ -73,6 +73,11 @@
         let newScore = this.evaluateDistance(this.getDistance(this.realPosition, this.userPosition));
         this.$store.commit('setScore', newScore);
         this.$store.commit('setEarned', newScore);
+
+        //On va vérifier si le nombre d'image max n'est pas atteint
+        console.log('checktermine emit');
+        this.$emit('checkTermine');
+
       },
       getDistance(realPosition, userPosition) {
         var distance = google.maps.geometry.spherical.computeDistanceBetween(

@@ -7,7 +7,11 @@
       <Picture id="pic" :image="photoEnCoursUrl"></Picture>
       <Score id="score"></Score>
       <Timer id="timer"></Timer>
-      <button class="button is-link" v-on:click="showPhoto">Photo suivante</button>
+      <button v-if="partieEnCours" class="button is-link" v-on:click="showPhoto">Photo suivante</button>
+      <div v-else>
+        <p>Partie terminée : </p>
+        <button class="button is-link" v-on:click="enregistrePartie">Enregistrer le résultat</button>
+      </div>
     </section>
   </div>
 </template>
@@ -30,7 +34,8 @@ export default {
       photoEnCours : '',
       points: 0,
       nbImageTraite : 1,
-      myTimer: ''
+      myTimer: '',
+      partieEnCours: true
     }
   },
   components:{
@@ -74,6 +79,13 @@ export default {
     },
     updateScore(tiempo){
       this.$store.commit('setTime', tiempo)
+    },
+    checkTermine(){
+      console.log('checktermine arrivé');
+      if(this.nbImageTraite >= this.partie.nb_photos){
+        console.log('inside if');
+        this.partieEnCours = false;
+      }
     }
   },
   mounted(){
@@ -84,6 +96,7 @@ export default {
 
     //On récupère les informations de la partie
     window.axios.get('parties/' + this.$route.params.id).then((response) => {
+            this.partieEnCours = true;
             this.partie = response.data;
             this.serie = response.data.serie;
             this.photos = response.data.photos;
@@ -96,6 +109,13 @@ export default {
           }).catch((error) => {
               console.log(error);
           });
+  },
+  events: {
+    //Evenement pour vérifier si la partie n'est pas terminé
+    checkTermine(){
+      console.log('checktermine début');
+      this.checkTermine();
+    }
   }
 }
 </script>
